@@ -4,5 +4,15 @@
   "package": "mods.betterwithpatches.mixins",
   "refmap": "mixins.betterwithpatches.refmap.json",
   "target": "@env(DEFAULT)",
-  "compatibilityLevel": "JAVA_8"
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "BlockDropsNewLeaf",
+    "BlockDropsOldLeaf",
+    "Saplings"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }

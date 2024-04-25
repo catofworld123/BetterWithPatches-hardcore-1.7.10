@@ -1,9 +1,12 @@
 package mods.betterwithpatches;
 
+import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import mods.betterwithpatches.block.BlockSteelAnvil;
 import mods.betterwithpatches.block.tile.TileEntitySteelAnvil;
 import mods.betterwithpatches.data.BWPCreativeTab;
+import mods.betterwithpatches.item.ItemShaft;
+import mods.betterwithpatches.item.PileOfDirt;
 import mods.betterwithpatches.item.tool.*;
 import mods.betterwithpatches.util.BWPConstants;
 import net.minecraft.block.Block;
@@ -20,7 +23,7 @@ public class BWPRegistry {
             DREDGE_HEAVY_ARMOR = EnumHelper.addArmorMaterial("dredgeHeavy", 38, new int[]{3, 8, 6, 3}, 17);
     public static Block steelAnvil;
     public static Item steelAxe, steelHoe, steelPickaxe, steelShovel, steelSword, steelHelmet, steelChestplate, steelLeggings, steelBoots,
-            dredgeHeavyHelmet, dredgeHeavyChestplate, dredgeHeavyLeggings, dredgeHeavyBoots;
+            dredgeHeavyHelmet, dredgeHeavyChestplate, dredgeHeavyLeggings, dredgeHeavyBoots, itemShaft, pileOfDirt;
 
     public static void init() {
         steelAnvil = GameRegistry.registerBlock(new BlockSteelAnvil(), ItemBlock.class, "steelAnvil");
@@ -39,6 +42,9 @@ public class BWPRegistry {
         dredgeHeavyChestplate = registerItem("dredgeHeavyChestplate", new ItemDredgeHeavyArmor(1));
         dredgeHeavyLeggings = registerItem("dredgeHeavyLeggings", new ItemDredgeHeavyArmor(2));
         dredgeHeavyBoots = registerItem("dredgeHeavyBoots", new ItemDredgeHeavyArmor(3));
+        itemShaft = registerItem("shaft", new ItemShaft());
+        pileOfDirt = registerItem("pileOfDirt", new PileOfDirt());
+
     }
 
     public static Item registerItem(String id, Item item) {
