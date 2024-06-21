@@ -1,4 +1,4 @@
-package mods.betterwithpatches.mixins;
+package mods.betterwithpatches.mixins.item;
 
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLeavesBase;

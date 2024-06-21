@@ -1,4 +1,5 @@
 package mods.betterwithpatches.mixins.dirtblock;
 
-public class DirtblockMixin {
-}
+import net.minecraft.world.World;
+
+

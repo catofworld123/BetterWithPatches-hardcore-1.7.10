@@ -1,6 +1,5 @@
 package mods.betterwithpatches;
 
-import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import mods.betterwithpatches.block.BlockSteelAnvil;
 import mods.betterwithpatches.block.tile.TileEntitySteelAnvil;

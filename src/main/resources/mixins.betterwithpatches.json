@@ -6,9 +6,10 @@
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "BlockDropsNewLeaf",
-    "BlockDropsOldLeaf",
-    "Saplings"
+    "item.BlockDropsNewLeaf",
+    "item.BlockDropsOldLeaf",
+    "item.Saplings",
+    "technerdystuff.idkBlockThingy"
   ],
   "client": [
   ],

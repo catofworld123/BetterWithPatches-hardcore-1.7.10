@@ -3,6 +3,7 @@ package mods.betterwithpatches.event;
 import betterwithmods.BWRegistry;
 import betterwithmods.event.LogHarvestEvent;
 import betterwithmods.event.TConHelper;
+import betterwithmods.items.ItemBark;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mods.betterwithpatches.Config;
@@ -14,7 +15,9 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.world.BlockEvent;
 
+import static mods.betterwithpatches.BWPRegistry.itemShaft;
 import static mods.betterwithpatches.util.BWPUtils.presentInOD;
+import static net.minecraft.init.Items.stick;
 
 public class LogHarvestEventReplacement extends LogHarvestEvent {
 
@@ -58,35 +61,12 @@ public class LogHarvestEventReplacement extends LogHarvestEvent {
                         craft.setInventorySlotContents(0, new ItemStack(block, 1, harvestMeta));
                         IRecipe recipe = findMatchingRecipe(craft, evt.world);
                         if (recipe != null && recipe.getCraftingResult(craft) != null) {
-                            ItemStack planks = recipe.getCraftingResult(craft);
-                            if (presentInOD(planks, "plankWood")) {
-                                Block drop = BWPUtils.getBlock(logStack.getItem());
-                                if (Config.hcWoodPlankLoss > 0) {
-                                    planks.stackSize = Math.max(0, fort ? planks.stackSize - Config.hcWoodPlankLoss + evt.world.rand.nextInt(fortune) : planks.stackSize - Config.hcWoodPlankLoss);
-                                    if (saw) planks.stackSize = planks.stackSize << 1;
-                                } else if (fort) {
-                                    planks.stackSize += evt.world.rand.nextInt(fortune);
-                                }
-                                if (HardcoreWoodInteractionExtensions.contains(drop, harvestMeta)) {
-                                    ItemStack[] overrides = HardcoreWoodInteractionExtensions.getBarkOverrides(drop, harvestMeta);
-                                    BWPUtils.copyInto(evt.drops, overrides);
-                                } else {
-                                    int barkStack = 1, sawdustStack = 1;
-                                    if (fort || saw) {
-                                        barkStack += evt.world.rand.nextInt(fortune);
-                                        sawdustStack += evt.world.rand.nextInt(fortune);
-                                    }
-                                    ItemStack bark = new ItemStack(BWRegistry.bark, barkStack);
-                                    bark.setTagCompound(HardcoreWoodInteractionExtensions.getBarkTagForLog(drop, harvestMeta));
-                                    evt.drops.add(bark);
-                                    ItemStack sawdust = new ItemStack(BWRegistry.material, sawdustStack, 22);
-                                    evt.drops.add(sawdust);
-                                }
+                            ItemStack sticks = new ItemStack(itemShaft);
+                                Block drop = BWPUtils.getBlock(itemShaft);
 
-                                evt.drops.add(planks);
+                                evt.drops.add(sticks);
                                 evt.drops.remove(logStack);
                                 break;
-                            }
                         }
                     }
                 }
