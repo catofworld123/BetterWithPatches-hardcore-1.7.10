@@ -1,5 +1,7 @@
 package mods.betterwithpatches.block;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mods.betterwithpatches.BWPRegistry;
 import mods.betterwithpatches.block.tile.TileEntityBlockTreeStage1;
 import mods.betterwithpatches.proxy.ClientProxy;
@@ -33,10 +35,21 @@ public class BlockTreeStage1 extends BlockContainer {
         return false;
     }
 
+
     @Override
     public int getRenderType() {
         return ClientProxy.renderBlockTreeStage1;
     }
+
+    @SideOnly(Side.CLIENT)
+    public boolean shouldSideBeRendered(IBlockAccess worldIn, int x, int y, int z, int side)
+    {
+        return true;
+    }
+
+
+
+
 
 
     @Override
@@ -46,7 +59,7 @@ public class BlockTreeStage1 extends BlockContainer {
 
     @Override
     protected String getTextureName() {
-        return BWPConstants.MODID + "fcBlockLogStrippedOak_side.png";
+        return "betterwithpatches:fcBlockLogStrippedOak_side";
     }
 
     @Override

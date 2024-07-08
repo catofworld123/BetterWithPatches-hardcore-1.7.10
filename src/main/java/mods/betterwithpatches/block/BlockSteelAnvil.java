@@ -2,6 +2,8 @@ package mods.betterwithpatches.block;
 
 import betterwithmods.BWRegistry;
 import betterwithmods.blocks.BlockAesthetic;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mods.betterwithpatches.BWPRegistry;
 import mods.betterwithpatches.block.tile.TileEntitySteelAnvil;
 import mods.betterwithpatches.proxy.ClientProxy;
@@ -34,6 +36,12 @@ public class BlockSteelAnvil extends BlockContainer {
     @Override
     public boolean isOpaqueCube() {
         return false;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public boolean shouldSideBeRendered(IBlockAccess worldIn, int x, int y, int z, int side)
+    {
+        return true;
     }
 
     @Override
