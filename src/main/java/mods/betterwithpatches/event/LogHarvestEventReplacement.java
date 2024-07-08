@@ -15,6 +15,7 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.world.BlockEvent;
 
+import static mods.betterwithpatches.BWPRegistry.blocktreestage1;
 import static mods.betterwithpatches.BWPRegistry.itemShaft;
 import static mods.betterwithpatches.util.BWPUtils.presentInOD;
 import static net.minecraft.init.Items.stick;
@@ -66,6 +67,7 @@ public class LogHarvestEventReplacement extends LogHarvestEvent {
 
                                 evt.drops.add(sticks);
                                 evt.drops.remove(logStack);
+                            evt.world.setBlock(evt.x, evt.y, evt.z, blocktreestage1);
                                 break;
                         }
                     }

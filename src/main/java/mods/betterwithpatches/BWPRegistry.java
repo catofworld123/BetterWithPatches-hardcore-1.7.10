@@ -2,6 +2,7 @@ package mods.betterwithpatches;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import mods.betterwithpatches.block.BlockSteelAnvil;
+import mods.betterwithpatches.block.BlockTreeStage1;
 import mods.betterwithpatches.block.tile.TileEntitySteelAnvil;
 import mods.betterwithpatches.data.BWPCreativeTab;
 import mods.betterwithpatches.item.ItemShaft;
@@ -21,12 +22,14 @@ public class BWPRegistry {
     public static final ItemArmor.ArmorMaterial SOULFORGED_ARMOR = EnumHelper.addArmorMaterial("soulforgedSteel", 40, new int[]{3, 8, 6, 3}, 25),
             DREDGE_HEAVY_ARMOR = EnumHelper.addArmorMaterial("dredgeHeavy", 38, new int[]{3, 8, 6, 3}, 17);
     public static Block steelAnvil;
+    public static Block blocktreestage1;
     public static Item steelAxe, steelHoe, steelPickaxe, steelShovel, steelSword, steelHelmet, steelChestplate, steelLeggings, steelBoots,
             dredgeHeavyHelmet, dredgeHeavyChestplate, dredgeHeavyLeggings, dredgeHeavyBoots, itemShaft, pileOfDirt;
 
     public static void init() {
         steelAnvil = GameRegistry.registerBlock(new BlockSteelAnvil(), ItemBlock.class, "steelAnvil");
         GameRegistry.registerTileEntity(TileEntitySteelAnvil.class, "bwm.steelAnvil");
+        blocktreestage1 = GameRegistry.registerBlock(new BlockTreeStage1(), ItemBlock.class, "blockTreeStage1");
 
         steelAxe = registerItem("steelAxe", new ItemSoulforgedAxe());
         steelHoe = registerItem("steelHoe", new ItemSoulforgedHoe());

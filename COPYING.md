@@ -10,6 +10,6 @@ as the name is changed.
            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION 
 
- 0. You just DO WHAT THE FUCK YOU WANT TO.
+ 0. You just DO WHAT THE FUCK YOU WANT TO. just give credits pls <3
 
 yog addendum 1: p.s.: warranty null when void

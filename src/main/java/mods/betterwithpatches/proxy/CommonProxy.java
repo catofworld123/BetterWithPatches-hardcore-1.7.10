@@ -30,7 +30,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import static mods.betterwithpatches.util.BWMaterials.*;
 import static mods.betterwithpatches.util.BWMaterials.getMaterial;
 
-public class CommonProxy implements Proxy {
+public abstract class CommonProxy implements Proxy {
     public static final boolean isMTPresent = Loader.isModLoaded("MineTweaker3");
 
     @Override
@@ -102,6 +102,7 @@ public class CommonProxy implements Proxy {
             MTHelper.addMineTweakerCompat();
         }
     }
+
 
     @Override
     public void postInit() {

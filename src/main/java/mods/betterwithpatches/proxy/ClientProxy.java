@@ -9,15 +9,18 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class ClientProxy extends CommonProxy {
     public static int renderAnvil;
+    public static int renderBlockTreeStage1;
 
     @Override
     public void preInit() {
         super.preInit();
     }
 
+
     @Override
     public void init() {
         super.init();
+
 
         renderAnvil = RenderingRegistry.getNextAvailableRenderId();
         RenderingRegistry.registerBlockHandler(renderAnvil, new RenderSteelAnvil());
@@ -27,6 +30,7 @@ public class ClientProxy extends CommonProxy {
                 MinecraftForge.EVENT_BUS.register(new HCMovement.HCMovementFOV());
         }
     }
+
 
     @Override
     public void postInit() {
@@ -38,4 +42,8 @@ public class ClientProxy extends CommonProxy {
         super.afterInit();
         HardcoreWoodInteractionExtensions.fillDisplayMap();
     }
+
+
+
+
 }

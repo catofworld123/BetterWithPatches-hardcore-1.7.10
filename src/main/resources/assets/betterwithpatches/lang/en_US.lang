@@ -4,6 +4,7 @@ text.bwp:bark=Bark
 text.bwp.hcFurnace=Cook Time: %s Seconds (%s Items)
 
 tile.bwm:steelAnvil.name=Soulforged Steel Anvil
+tile.bwm:blockTreeStage1.name=Debug Block 1
 
 item.bwm:material.SoulFlux.name=Soul Flux
 item.bwm:material.EnderSlag.name=Ender Slag
