@@ -3,6 +3,7 @@ package mods.betterwithpatches.proxy;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import mods.betterwithpatches.Config;
 import mods.betterwithpatches.client.RenderSteelAnvil;
+import mods.betterwithpatches.client.RenderBlockTreeStage1;
 import mods.betterwithpatches.craft.HardcoreWoodInteractionExtensions;
 import mods.betterwithpatches.features.HCMovement;
 import net.minecraftforge.common.MinecraftForge;
@@ -29,7 +30,18 @@ public class ClientProxy extends CommonProxy {
             if (Config.HCMovement && Config.removeSpeedPenaltyFOVChanges)
                 MinecraftForge.EVENT_BUS.register(new HCMovement.HCMovementFOV());
         }
+
+        renderBlockTreeStage1 = RenderingRegistry.getNextAvailableRenderId();
+        RenderingRegistry.registerBlockHandler(renderBlockTreeStage1, new RenderBlockTreeStage1());
+
+        if (Config.enablePenalties) {
+            if (Config.HCMovement && Config.removeSpeedPenaltyFOVChanges)
+                MinecraftForge.EVENT_BUS.register(new HCMovement.HCMovementFOV());
+        }
+
     }
+
+
 
 
     @Override

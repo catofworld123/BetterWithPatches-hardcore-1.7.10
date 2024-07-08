@@ -1,4 +1,4 @@
-package mods.betterwithpatches.client.menu;
+package mods.betterwithpatches.client;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import mods.betterwithpatches.proxy.ClientProxy;
