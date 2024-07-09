@@ -49,24 +49,6 @@ public class BlockTreeStage1 extends BlockContainer {
     public boolean isOpaqueCube() {
         return false;
     }
-
-
-
-
-    @Override
-    public void registerBlockIcons(IIconRegister reg) {
-        for (int i = 0; i < 6; i ++) {
-            this.icons[i] = reg.registerIcon("betterwithpatches:StrippedOak");
-        }
-    }
-
-
-    @Override
-    public IIcon getIcon(int side, int meta) {
-        return this.icons[side];
-    }
-
-
     @Override
     protected String getTextureName() {
         return "betterwithpatches:StrippedOak";
