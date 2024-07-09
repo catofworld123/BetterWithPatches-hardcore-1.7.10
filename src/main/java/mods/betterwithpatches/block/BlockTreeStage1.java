@@ -1,20 +1,35 @@
 package mods.betterwithpatches.block;
 
+import betterwithmods.BWRegistry;
+import betterwithmods.blocks.BlockAesthetic;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mods.betterwithpatches.BWPRegistry;
 import mods.betterwithpatches.block.tile.TileEntityBlockTreeStage1;
 import mods.betterwithpatches.proxy.ClientProxy;
 import mods.betterwithpatches.util.BWPConstants;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 
 public class BlockTreeStage1 extends BlockContainer {
+    public IIcon[] icons = new IIcon[6];
 
     public BlockTreeStage1() {
         super(Material.wood);
@@ -36,10 +51,35 @@ public class BlockTreeStage1 extends BlockContainer {
     }
 
 
+
+
+    @Override
+    public void registerBlockIcons(IIconRegister reg) {
+        for (int i = 0; i < 6; i ++) {
+            this.icons[i] = reg.registerIcon("betterwithpatches:StrippedOak");
+        }
+    }
+
+
+    @Override
+    public IIcon getIcon(int side, int meta) {
+        return this.icons[side];
+    }
+
+
+    @Override
+    protected String getTextureName() {
+        return "betterwithpatches:StrippedOak";
+    }
+
+
+
     @Override
     public int getRenderType() {
         return ClientProxy.renderBlockTreeStage1;
     }
+
+
 
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockAccess worldIn, int x, int y, int z, int side)
@@ -49,18 +89,11 @@ public class BlockTreeStage1 extends BlockContainer {
 
 
 
-
-
-
     @Override
     public boolean renderAsNormalBlock() {
         return false;
     }
 
-    @Override
-    protected String getTextureName() {
-        return "betterwithpatches:fcBlockLogStrippedOak_side";
-    }
 
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
@@ -68,4 +101,5 @@ public class BlockTreeStage1 extends BlockContainer {
             this.setBlockBounds(0.0F, 0.0F, 0.125F, 1.0F, 1.0F, 0.875F);
         }
 
-    }}
+    }
+}

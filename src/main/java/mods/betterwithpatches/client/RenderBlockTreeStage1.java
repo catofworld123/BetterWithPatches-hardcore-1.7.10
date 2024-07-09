@@ -46,7 +46,7 @@ public class RenderBlockTreeStage1 implements ISimpleBlockRenderingHandler {
 
     @Override
     public boolean shouldRender3DInInventory(int modelId) {
-        return false;
+        return true;
     }
 
     @Override
