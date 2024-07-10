@@ -19,7 +19,7 @@ public class BlockTreeStage1 extends BlockContainer {
         super(Material.wood);
         this.setBlockName("bwm:blockTreeStage1");
         this.setCreativeTab(BWPRegistry.bwpTab);
-        this.setHardness(1.9f);
+        this.setHardness(3.1f);
         this.setResistance(2f);
         this.setHarvestLevel("axe", 1);
         this.setStepSound(Block.soundTypeWood);
@@ -64,7 +64,7 @@ public class BlockTreeStage1 extends BlockContainer {
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
         {
-            this.setBlockBounds(0.0F, 0.0F, 0F, 1.0F, 1.0F, 1F);
+            this.setBlockBounds(0.0625F, 0F, 0.0625F, 0.9375F, 1F, 0.9375F);
         }
 
     }

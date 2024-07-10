@@ -6,6 +6,7 @@ import mods.betterwithpatches.block.BlockTreeStage1;
 import mods.betterwithpatches.block.tile.TileEntityBlockTreeStage1;
 import mods.betterwithpatches.block.tile.TileEntitySteelAnvil;
 import mods.betterwithpatches.data.BWPCreativeTab;
+import mods.betterwithpatches.item.ItemOakBark;
 import mods.betterwithpatches.item.ItemShaft;
 import mods.betterwithpatches.item.PileOfDirt;
 import mods.betterwithpatches.item.tool.*;
@@ -26,7 +27,7 @@ public class BWPRegistry {
     public static Block blocktreestage1;
 
 
-    public static Item steelAxe, steelHoe, steelPickaxe, steelShovel, steelSword, steelHelmet, steelChestplate, steelLeggings, steelBoots,
+    public static Item steelAxe, steelHoe, steelPickaxe, itemOakBark, steelShovel, steelSword, steelHelmet, steelChestplate, steelLeggings, steelBoots,
             dredgeHeavyHelmet, dredgeHeavyChestplate, dredgeHeavyLeggings, dredgeHeavyBoots, itemShaft, pileOfDirt;
 
     public static void init() {
@@ -50,6 +51,7 @@ public class BWPRegistry {
         dredgeHeavyBoots = registerItem("dredgeHeavyBoots", new ItemDredgeHeavyArmor(3));
         itemShaft = registerItem("shaft", new ItemShaft());
         pileOfDirt = registerItem("pileOfDirt", new PileOfDirt());
+        itemOakBark = registerItem("itemOakBark", new ItemOakBark());
 
     }
 

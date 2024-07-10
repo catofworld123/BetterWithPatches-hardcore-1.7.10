@@ -15,8 +15,7 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.world.BlockEvent;
 
-import static mods.betterwithpatches.BWPRegistry.blocktreestage1;
-import static mods.betterwithpatches.BWPRegistry.itemShaft;
+import static mods.betterwithpatches.BWPRegistry.*;
 import static mods.betterwithpatches.util.BWPUtils.presentInOD;
 import static net.minecraft.init.Items.stick;
 
@@ -62,8 +61,8 @@ public class LogHarvestEventReplacement extends LogHarvestEvent {
                         craft.setInventorySlotContents(0, new ItemStack(block, 1, harvestMeta));
                         IRecipe recipe = findMatchingRecipe(craft, evt.world);
                         if (recipe != null && recipe.getCraftingResult(craft) != null) {
-                            ItemStack sticks = new ItemStack(itemShaft);
-                                Block drop = BWPUtils.getBlock(itemShaft);
+                            ItemStack sticks = new ItemStack(itemOakBark);
+                                Block drop = BWPUtils.getBlock(itemOakBark);
 
                                 evt.drops.add(sticks);
                                 evt.drops.remove(logStack);
