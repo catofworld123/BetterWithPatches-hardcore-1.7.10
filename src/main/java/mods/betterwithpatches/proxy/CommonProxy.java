@@ -1,8 +1,10 @@
 package mods.betterwithpatches.proxy;
 
 import betterwithmods.event.TConHelper;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import mods.betterwithpatches.BWPRegistry;
@@ -10,6 +12,7 @@ import mods.betterwithpatches.Config;
 import mods.betterwithpatches.compat.minetweaker.util.MTHelper;
 import mods.betterwithpatches.compat.nei.NEIBWMConfig;
 import mods.betterwithpatches.craft.*;
+import mods.betterwithpatches.event.DebarkedToBroken1Event;
 import mods.betterwithpatches.event.PunitiveEvents;
 import mods.betterwithpatches.features.*;
 import mods.betterwithpatches.menu.BWPMenuHandler;
@@ -33,6 +36,8 @@ import static mods.betterwithpatches.util.BWMaterials.getMaterial;
 public abstract class CommonProxy implements Proxy {
     public static final boolean isMTPresent = Loader.isModLoaded("MineTweaker3");
 
+
+
     @Override
     public void preInit() {
         Config.tryInit();
@@ -53,6 +58,13 @@ public abstract class CommonProxy implements Proxy {
                 nei.sendIMC("SteelAnvilRecipeHandler", "bwm.anvil", "betterwithmods:steelAnvil", 1);
             }
         }
+
+
+        MinecraftForge.EVENT_BUS.register(new DebarkedToBroken1Event());
+
+
+
+
     }
 
     @Override
