@@ -1,12 +1,9 @@
 package mods.betterwithpatches;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import mods.betterwithpatches.block.BlockSteelAnvil;
-import mods.betterwithpatches.block.BlockTreeStage1;
-import mods.betterwithpatches.block.BlockTreeStage2;
-import mods.betterwithpatches.block.tile.TileEntityBlockTreeStage1;
-import mods.betterwithpatches.block.tile.TileEntityBlockTreeStage2;
-import mods.betterwithpatches.block.tile.TileEntitySteelAnvil;
+import mods.betterwithpatches.block.*;
+import mods.betterwithpatches.block.tile.*;
+import mods.betterwithpatches.craft.NewCrafts.BlockCraft;
 import mods.betterwithpatches.data.BWPCreativeTab;
 import mods.betterwithpatches.item.ItemOakBark;
 import mods.betterwithpatches.item.ItemShaft;
@@ -28,6 +25,9 @@ public class BWPRegistry {
     public static Block steelAnvil;
     public static Block blocktreestage1;
     public static Block blocktreestage2;
+    public static Block blocktreestage3;
+    public static Block blocktreestage4;
+    public static Block campfire;
 
 
     public static Item steelAxe, steelHoe, steelPickaxe, itemOakBark, steelShovel, steelSword, steelHelmet, steelChestplate, steelLeggings, steelBoots,
@@ -40,6 +40,12 @@ public class BWPRegistry {
         GameRegistry.registerTileEntity(TileEntityBlockTreeStage1.class, "bwm.blockTreeStage1");
         blocktreestage2 = GameRegistry.registerBlock(new BlockTreeStage2(), ItemBlock.class, "blockTreeStage2");
         GameRegistry.registerTileEntity(TileEntityBlockTreeStage2.class, "bwm.blockTreeStage2");
+        blocktreestage3 = GameRegistry.registerBlock(new BlockTreeStage3(), ItemBlock.class, "blockTreeStage3");
+        GameRegistry.registerTileEntity(TileEntityBlockTreeStage3.class, "bwm.blockTreeStage3");
+        blocktreestage4 = GameRegistry.registerBlock(new BlockTreeStage4(), ItemBlock.class, "blockTreeStage4");
+        GameRegistry.registerTileEntity(TileEntityBlockTreeStage4.class, "bwm.blockTreeStage4");
+        campfire = GameRegistry.registerBlock(new Campfire(), ItemBlock.class, "campfire");
+        GameRegistry.registerTileEntity(TileEntityCampfire.class, "bwm.campfire");
 
         steelAxe = registerItem("steelAxe", new ItemSoulforgedAxe());
         steelHoe = registerItem("steelHoe", new ItemSoulforgedHoe());
@@ -67,4 +73,5 @@ public class BWPRegistry {
         GameRegistry.registerItem(item, id);
         return item;
     }
+
 }

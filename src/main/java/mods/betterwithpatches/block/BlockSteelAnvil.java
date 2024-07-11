@@ -58,6 +58,7 @@ public class BlockSteelAnvil extends BlockContainer {
     public void registerBlockIcons(IIconRegister reg) {
     }
 
+
     @Override
     public IIcon getIcon(int side, int meta) {
         return ((BlockAesthetic) BWRegistry.aesthetic).icons[2];

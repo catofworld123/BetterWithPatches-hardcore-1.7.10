@@ -6,6 +6,9 @@ text.bwp.hcFurnace=Cook Time: %s Seconds (%s Items)
 tile.bwm:steelAnvil.name=Soulforged Steel Anvil
 tile.bwm:blockTreeStage1.name=Debarked Oak Log
 tile.bwm:blockTreeStage2.name=Lightly Damaged Oak Log
+tile.bwm:blockTreeStage3.name=Slightly Damaged Oak Log
+tile.bwm:blockTreeStage4.name=Badly Damaged Oak Log
+tile.bwm:campfire.name= Campfire
 
 item.bwm:material.SoulFlux.name=Soul Flux
 item.bwm:material.EnderSlag.name=Ender Slag

@@ -1,16 +1,16 @@
 [
   {
     "modid": "betterwithpatches",
-    "name": "BetterWithPatches",
-    "description": "doing silly things",
+    "name": "BetterWithPatches - Hardcore Edition",
+    "description": "Port of Better Than Wolves CE (fork of BetterWithPatches)",
     "version": "${modVersion}",
     "mcversion": "1.7.10",
-    "url": "https://www.curseforge.com/minecraft/mc-mods/audino",
+    "url": "uh not now",
     "updateUrl": "",
     "authorList": [
-      "Yoghurt4C"
+      "cat_of_world"
     ],
-    "credits": "BeetoGuy, FlowerChild",
+    "credits": "(special) Yoghurt4C,BeetoGuy, FlowerChild",
     "logoFile": "assets/betterwithpatches/icon.png",
     "screenshots": [],
     "dependencies": []

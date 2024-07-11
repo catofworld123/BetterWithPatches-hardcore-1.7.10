@@ -6,6 +6,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import mods.betterwithpatches.craft.NewCrafts.BlockCraft;
 import mods.betterwithpatches.proxy.CommonProxy;
 
 import static mods.betterwithpatches.util.BWPConstants.MODID;
@@ -15,6 +16,12 @@ import static mods.betterwithpatches.util.BWPConstants.MODNAME;
 public class BetterWithPatches {
     @SidedProxy(clientSide = "mods.betterwithpatches.proxy.ClientProxy", serverSide = "mods.betterwithpatches.proxy.CommonProxy")
     public static CommonProxy PROXY;
+
+    @Mod.EventHandler
+    public static void PreLoad(FMLPreInitializationEvent PreEvent){
+
+        BlockCraft.mainRegistry();
+    }
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent e) {

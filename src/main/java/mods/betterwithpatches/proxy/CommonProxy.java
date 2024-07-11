@@ -12,8 +12,7 @@ import mods.betterwithpatches.Config;
 import mods.betterwithpatches.compat.minetweaker.util.MTHelper;
 import mods.betterwithpatches.compat.nei.NEIBWMConfig;
 import mods.betterwithpatches.craft.*;
-import mods.betterwithpatches.event.DebarkedToBroken1Event;
-import mods.betterwithpatches.event.PunitiveEvents;
+import mods.betterwithpatches.event.*;
 import mods.betterwithpatches.features.*;
 import mods.betterwithpatches.menu.BWPMenuHandler;
 import mods.betterwithpatches.util.BWPConstants;
@@ -61,8 +60,9 @@ public abstract class CommonProxy implements Proxy {
 
 
         MinecraftForge.EVENT_BUS.register(new DebarkedToBroken1Event());
-
-
+        MinecraftForge.EVENT_BUS.register(new Broken1toBroken2Event());
+        MinecraftForge.EVENT_BUS.register(new Broken2toBroken3Event());
+        MinecraftForge.EVENT_BUS.register(new Break3Event());
 
 
     }
