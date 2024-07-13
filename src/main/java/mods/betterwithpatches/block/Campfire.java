@@ -1,7 +1,9 @@
 package mods.betterwithpatches.block;
 
 import betterwithmods.BWRegistry;
+
 import betterwithmods.blocks.BlockAesthetic;
+import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mods.betterwithpatches.BWPRegistry;
@@ -10,6 +12,7 @@ import mods.betterwithpatches.block.tile.TileEntityCampfire;
 import mods.betterwithpatches.proxy.ClientProxy;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraft.block.Block;
@@ -30,8 +33,10 @@ public class Campfire extends BlockContainer {
         this.setResistance(2f);
         this.setHarvestLevel("axe", 1);
         this.setStepSound(Block.soundTypeWood);
-    }
 
+
+
+    }
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
         return new TileEntityCampfire();
@@ -49,11 +54,11 @@ public class Campfire extends BlockContainer {
     public void registerBlockIcons(IIconRegister reg) {
         this.icons = new IIcon[7];
         this.icons[0] = reg.registerIcon("placeholder");
-        this.icons[1] = reg.registerIcon("placeholder");
-        this.icons[2] = reg.registerIcon("placeholder");
+        this.icons[1] = reg.registerIcon("betterwithpatches:BlockCampfire");
+        this.icons[2] = reg.registerIcon("betterwithpatches:BlockCampfireNoFire");
         this.icons[3] = reg.registerIcon("placeholder");
         this.icons[4] = reg.registerIcon("placeholder");
-        this.icons[5] = reg.registerIcon("betterwithpatches:BlockCampfireNoFire");
+        this.icons[5] = reg.registerIcon("placeholder");
         this.icons[6] = reg.registerIcon("placeholder");
     }
 
@@ -61,8 +66,16 @@ public class Campfire extends BlockContainer {
 
 
     @Override
-    public IIcon getIcon(int side, int meta) {
-        return this.icons[5];                           //to be changed
+    public IIcon getIcon(int side,int meta ) {
+
+            if (meta == 0) {
+                return this.icons[1];
+            }
+            if (meta == 2) {
+                return this.icons[2];
+            }
+            else return this.icons[0];
+
     }
 
 
@@ -72,10 +85,10 @@ public class Campfire extends BlockContainer {
         return ClientProxy.renderCampfire;
     }
 
-
-
-
-
+    @Override
+    public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX, float subY, float subZ) {
+        return true;
+    }
 
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockAccess worldIn, int x, int y, int z, int side)

@@ -33,6 +33,7 @@ public class BlockSteelAnvil extends BlockContainer {
         this.setStepSound(Block.soundTypeAnvil);
     }
 
+
     @Override
     public boolean isOpaqueCube() {
         return false;
