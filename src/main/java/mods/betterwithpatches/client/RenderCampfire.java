@@ -74,7 +74,7 @@ public class RenderCampfire implements ISimpleBlockRenderingHandler {
             renderer.drawCrossedSquares(((Campfire) BWPRegistry.campfire).icons[3], x, y, z, 0.5F);
             renderer.renderAllFaces = true;
             renderer.uvRotateTop = 0;
-        }                                           // meta 2 = lighted up; meta 3 = medium fire; meta 4 = big fire; meta 5 = cracklin; meta 6 = burned out
+        }                                           // meta 2 = lighted up; meta 3 = medium fire; meta 4 = big fire; meta 5 = crackling; meta 6 = burned out
 
         return true;
     }
