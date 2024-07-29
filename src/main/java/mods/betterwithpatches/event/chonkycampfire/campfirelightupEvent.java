@@ -24,6 +24,7 @@ public class campfirelightupEvent {
     @SubscribeEvent
     public void rightClickBlock(PlayerInteractEvent event){
 
+
         if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK ) {
             TileEntity tile = event.world.getTileEntity(event.x, event.y, event.z);
             ItemStack item = event.entityPlayer.getCurrentEquippedItem();
@@ -36,6 +37,7 @@ public class campfirelightupEvent {
                             System.out.println(a);
                                  if (a >= 3.0) {
                                  event.world.setBlockMetadataWithNotify(event.x, event.y, event.z, 2, 2);
+
                         }
 
             }

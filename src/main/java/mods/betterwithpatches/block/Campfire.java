@@ -1,16 +1,12 @@
 package mods.betterwithpatches.block;
 
-import betterwithmods.BWRegistry;
-
-import betterwithmods.blocks.BlockAesthetic;
-import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mods.betterwithpatches.BWPRegistry;
-import mods.betterwithpatches.block.tile.TileEntityBlockTreeStage1;
 import mods.betterwithpatches.block.tile.TileEntityCampfire;
 import mods.betterwithpatches.proxy.ClientProxy;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IIcon;
@@ -24,6 +20,7 @@ import net.minecraft.world.IBlockAccess;
 public class Campfire extends BlockContainer {
     @SideOnly(Side.CLIENT)
     public IIcon[] icons;
+
 
     public Campfire() {
         super(Material.wood);
@@ -56,15 +53,11 @@ public class Campfire extends BlockContainer {
         this.icons[0] = reg.registerIcon("placeholder");
         this.icons[1] = reg.registerIcon("betterwithpatches:BlockCampfire");
         this.icons[2] = reg.registerIcon("betterwithpatches:BlockCampfireNoFire");
-        this.icons[3] = reg.registerIcon("placeholder");
-        this.icons[4] = reg.registerIcon("placeholder");
+        this.icons[3] = reg.registerIcon("betterwithpatches:Fireworkaem");
+        this.icons[4] = reg.registerIcon("betterwithpatches:Fireworkaemv2");
         this.icons[5] = reg.registerIcon("placeholder");
         this.icons[6] = reg.registerIcon("placeholder");
     }
-
-
-
-
     @Override
     public IIcon getIcon(int side,int meta ) {
 
@@ -77,6 +70,7 @@ public class Campfire extends BlockContainer {
             else return this.icons[0];
 
     }
+
 
 
 
@@ -111,4 +105,5 @@ public class Campfire extends BlockContainer {
         }
 
     }
+
 }
