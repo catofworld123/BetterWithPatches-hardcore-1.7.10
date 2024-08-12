@@ -65,9 +65,12 @@ public class Campfire extends BlockContainer {
                 return this.icons[1];
             }
             if (meta == 2) {
-                return this.icons[2];
+                return this.icons[1];
             }
-            else return this.icons[0];
+            if (meta == 3) {
+            return this.icons[1];
+            }
+              else return this.icons[0];
 
     }
 

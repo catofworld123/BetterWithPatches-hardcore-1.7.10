@@ -74,7 +74,24 @@ public class RenderCampfire implements ISimpleBlockRenderingHandler {
             renderer.drawCrossedSquares(((Campfire) BWPRegistry.campfire).icons[3], x, y, z, 0.5F);
             renderer.renderAllFaces = true;
             renderer.uvRotateTop = 0;
-        }                                           // meta 2 = lighted up; meta 3 = medium fire; meta 4 = big fire; meta 5 = crackling; meta 6 = burned out
+        }
+        if (world.getBlockMetadata(x, y, z) == 3) {
+            renderer.setOverrideBlockTexture(((Campfire) BWPRegistry.campfire).icons[4]);
+            renderer.setRenderBounds(0.3125, 0, 0.3125, 0.312501, 0.250, 0.6875);
+            renderer.renderStandardBlock(block, x, y, z);
+            renderer.setRenderBounds(0.3125, 0, 0.3125, 0.6875, 0.250, 0.312501);
+            renderer.renderStandardBlock(block, x, y, z);
+            renderer.setRenderBounds(0.6875, 0, 0.3125, 0.687501, 0.250, 0.6875);
+            renderer.renderStandardBlock(block, x, y, z);
+            renderer.setRenderBounds(0.3125, 0, 0.6875, 0.6875, 0.250, 0.687501);
+            renderer.renderStandardBlock(block, x, y, z);
+            renderer.clearOverrideBlockTexture();
+
+            renderer.drawCrossedSquares(((Campfire) BWPRegistry.campfire).icons[4], x, y, z, 0.75F);
+            renderer.renderAllFaces = true;
+            renderer.uvRotateTop = 0;
+        }
+        //meta 0 = normal  meta 2 = lighted up; meta 3 = medium fire; meta 4 = big fire; meta 5 = crackling; meta 6 = burned out
 
         return true;
     }
