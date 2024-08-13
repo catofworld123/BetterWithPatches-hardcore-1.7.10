@@ -1,5 +1,6 @@
 package mods.betterwithpatches.event;
 
+import betterwithmods.BWMod;
 import betterwithmods.BWRegistry;
 import betterwithmods.event.LogHarvestEvent;
 import betterwithmods.event.TConHelper;
@@ -61,8 +62,8 @@ public class LogHarvestEventReplacement extends LogHarvestEvent {
                         craft.setInventorySlotContents(0, new ItemStack(block, 1, harvestMeta));
                         IRecipe recipe = findMatchingRecipe(craft, evt.world);
                         if (recipe != null && recipe.getCraftingResult(craft) != null) {
-                            ItemStack sticks = new ItemStack(itemOakBark);
-                                Block drop = BWPUtils.getBlock(itemOakBark);
+                            ItemStack sticks = new ItemStack(BWRegistry.bark);
+                                Block drop = BWPUtils.getBlock(BWRegistry.bark);
 
                                 evt.drops.add(sticks);
                                 evt.drops.remove(logStack);

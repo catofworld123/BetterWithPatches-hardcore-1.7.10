@@ -33,10 +33,11 @@ public class campfirelightupEvent {
                         if(tile instanceof TileEntityCampfire) {
                          if (item != null) {
                             if (item.getItem() instanceof ItemFlintAndSteel) {
+                                item.damageItem(2, event.entityPlayer);
                             double a = Math.random()*4;
-                            System.out.println(a);
                                  if (a >= 3.0) {
                                  event.world.setBlockMetadataWithNotify(event.x, event.y, event.z, 2, 2);
+
 
                         }
 

@@ -18,18 +18,23 @@ import net.minecraft.world.IBlockAccess;
 
 
 public class Campfire extends BlockContainer {
+    public final int fireLevel;
+
+
     @SideOnly(Side.CLIENT)
     public IIcon[] icons;
 
 
-    public Campfire() {
+    public Campfire(int iFireLevel) {
+
         super(Material.wood);
+        fireLevel = iFireLevel;
         this.setBlockName("bwm:campfire");
-        this.setCreativeTab(BWPRegistry.bwpTab);
         this.setHardness(1.5f);
         this.setResistance(2f);
         this.setHarvestLevel("axe", 1);
         this.setStepSound(Block.soundTypeWood);
+
 
 
 

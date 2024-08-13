@@ -9,11 +9,18 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import mods.betterwithpatches.craft.NewCrafts.BlockCraft;
 import mods.betterwithpatches.proxy.CommonProxy;
 
+import java.util.Map;
+
 import static mods.betterwithpatches.util.BWPConstants.MODID;
 import static mods.betterwithpatches.util.BWPConstants.MODNAME;
 
+
+
+
 @Mod(modid = MODID, name = MODNAME, version = "${version}", dependencies = "required-after:betterwithmods")
 public class BetterWithPatches {
+
+
     @SidedProxy(clientSide = "mods.betterwithpatches.proxy.ClientProxy", serverSide = "mods.betterwithpatches.proxy.CommonProxy")
     public static CommonProxy PROXY;
 
@@ -43,3 +50,4 @@ public class BetterWithPatches {
         PROXY.afterInit();
     }
 }
+
