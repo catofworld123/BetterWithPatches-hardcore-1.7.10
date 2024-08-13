@@ -16,15 +16,12 @@ public class Wetrytochangeitsstateslol {
         if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK ) {
             TileEntity tile = event.world.getTileEntity(event.x, event.y, event.z);
             ItemStack item = event.entityPlayer.getCurrentEquippedItem();
-            if (event.world.getBlockMetadata(event.x, event.y, event.z) == 0){
+            if (event.world.getBlockMetadata(event.x, event.y, event.z) >= 1 ){
                 if (!event.entityPlayer.isSneaking()){
                     if(tile instanceof TileEntityCampfire) {
                         if (item != null) {
                             if (item.getItem() instanceof ItemShaft) {
-
-                                    event.world.setBlockMetadataWithNotify(event.x, event.y, event.z, 2, 2);
-
-
+                                    event.world.setBlockMetadataWithNotify(event.x, event.y, event.z, 3, 2);
                             }
 
                         }

@@ -76,18 +76,18 @@ public class RenderCampfire implements ISimpleBlockRenderingHandler {
             renderer.uvRotateTop = 0;
         }
         if (world.getBlockMetadata(x, y, z) == 3) {
-            renderer.setOverrideBlockTexture(((Campfire) BWPRegistry.campfire).icons[4]);
-            renderer.setRenderBounds(0.3125, 0, 0.3125, 0.312501, 0.250, 0.6875);
+            renderer.setOverrideBlockTexture(((Campfire) BWPRegistry.campfire).icons[6]);
+            renderer.setRenderBounds(0.3125, 0, 0.3125, 0.312501, 0.500, 0.6875);
             renderer.renderStandardBlock(block, x, y, z);
-            renderer.setRenderBounds(0.3125, 0, 0.3125, 0.6875, 0.250, 0.312501);
+            renderer.setRenderBounds(0.3125, 0, 0.3125, 0.6875, 0.500, 0.312501);
             renderer.renderStandardBlock(block, x, y, z);
-            renderer.setRenderBounds(0.6875, 0, 0.3125, 0.687501, 0.250, 0.6875);
+            renderer.setRenderBounds(0.6875, 0, 0.3125, 0.687501, 0.500, 0.6875);
             renderer.renderStandardBlock(block, x, y, z);
-            renderer.setRenderBounds(0.3125, 0, 0.6875, 0.6875, 0.250, 0.687501);
+            renderer.setRenderBounds(0.3125, 0, 0.6875, 0.6875, 0.500, 0.687501);
             renderer.renderStandardBlock(block, x, y, z);
             renderer.clearOverrideBlockTexture();
 
-            renderer.drawCrossedSquares(((Campfire) BWPRegistry.campfire).icons[4], x, y, z, 0.75F);
+            renderer.drawCrossedSquares(((Campfire) BWPRegistry.campfire).icons[5], x, y, z, 0.5F);
             renderer.renderAllFaces = true;
             renderer.uvRotateTop = 0;
         }
