@@ -67,7 +67,7 @@ public class Campfire extends BlockContainer {
         this.icons[0] = reg.registerIcon("placeholder");
         this.icons[1] = reg.registerIcon("betterwithpatches:BlockCampfire");
         this.icons[2] = reg.registerIcon("betterwithpatches:BlockCampfireNoFire");
-        this.icons[3] = reg.registerIcon("placeholder");
+        this.icons[3] = reg.registerIcon("betterwithpatches:OakBark");
         this.icons[4] = reg.registerIcon("placeholder");
         this.icons[5] = reg.registerIcon("placeholder");
         this.icons[6] = reg.registerIcon("placeholder");
@@ -84,6 +84,29 @@ public class Campfire extends BlockContainer {
             if (meta == 3) {
             return this.icons[1];
             }
+              if (meta == 4) {
+            return this.icons[1];
+              }
+              if (meta == 5) {
+                    return this.icons[2];
+             }
+        if (meta == 6) {
+            return this.icons[1];
+        }
+        if (meta == 7) {
+            return this.icons[1];
+        }
+        if (meta == 8) {
+            return this.icons[1];
+        }
+        if (meta == 9) {
+            return this.icons[1];
+        }
+        if (meta == 10) {
+            return this.icons[2];
+        }
+
+
               else return this.icons[0];
 
     }
@@ -99,7 +122,7 @@ public class Campfire extends BlockContainer {
 
     public void randomDisplayTick( World world, int i, int j, int k, Random rand )
     {
-        if (world.getBlockMetadata(i, j, k) > 0 )
+        if (world.getBlockMetadata(i, j, k) > 1 && world.getBlockMetadata(i, j, k) < 5)
         {
             for (int iTempCount = 0; iTempCount < world.getBlockMetadata(i, j, k); iTempCount++ )
             {
@@ -108,6 +131,14 @@ public class Campfire extends BlockContainer {
                 double zPos = k + rand.nextFloat();
 
                 world.spawnParticle( "smoke", xPos, yPos, zPos, 0D, 0D, 0D );
+            }
+
+            if ( rand.nextInt(24) == 0 )
+            {
+                float fVolume = (world.getBlockMetadata(i,j,k) * 0.25F ) + rand.nextFloat();
+
+                world.playSound( i + 0.5D, j + 0.5D, k + 0.5D, "fire.fire",
+                        fVolume, rand.nextFloat() * 0.7F + 0.3F, false );
             }
 
             TileEntityCampfire tileEntity =
@@ -145,16 +176,177 @@ public class Campfire extends BlockContainer {
             world.spawnParticle( "smoke", xPos, yPos, zPos, 0D, 0D, 0D );
         }
 
-        if (fireLevel > 0 )
+
+
+
+
+
+        if (world.getBlockMetadata(i, j, k) == 5)
         {
+            for (int iTempCount = 0; iTempCount < world.getBlockMetadata(i, j, k) - 4; iTempCount++ )
+            {
+                double xPos = i + rand.nextFloat();
+                double yPos = j + 0.5F + ( rand.nextFloat() * 0.5F );
+                double zPos = k + rand.nextFloat();
+
+                world.spawnParticle( "smoke", xPos, yPos, zPos, 0D, 0D, 0D );
+            }
+
+
             if ( rand.nextInt(24) == 0 )
             {
-                float fVolume = (fireLevel * 0.25F ) + rand.nextFloat();
+                float fVolume = ((world.getBlockMetadata(i,j,k) -4) * 0.25F ) + rand.nextFloat();
 
                 world.playSound( i + 0.5D, j + 0.5D, k + 0.5D, "fire.fire",
                         fVolume, rand.nextFloat() * 0.7F + 0.3F, false );
             }
+
+            TileEntityCampfire tileEntity =
+                    (TileEntityCampfire) world.getTileEntity( i, j, k );
+
+            if ( tileEntity.getIsFoodBurning() )
+            {
+                for ( int iTempCount = 0; iTempCount < 1; ++iTempCount )
+                {
+                    double xPos = i + 0.375F + rand.nextFloat() * 0.25F;
+                    double yPos = j + 0.5F + rand.nextFloat() * 0.5F;
+                    double zPos = k + 0.375F + rand.nextFloat() * 0.25F;
+
+                    world.spawnParticle( "largesmoke", xPos, yPos, zPos, 0D, 0D, 0D );
+                }
+            }
+            else if ( tileEntity.getIsCooking() )
+            {
+                for ( int iTempCount = 0; iTempCount < 1; ++iTempCount )
+                {
+                    double xPos = i + 0.375F + rand.nextFloat() * 0.25F;
+                    double yPos = j + 0.5F + rand.nextFloat() * 0.5F;
+                    double zPos = k + 0.375F + rand.nextFloat() * 0.25F;
+
+                    world.spawnParticle( "fcwhitesmoke", xPos, yPos, zPos, 0D, 0D, 0D );
+                }
+            }
         }
+        else if (fireLevel == 1 || getFuelState(world, i, j, k) == CAMPFIRE_FUEL_STATE_SMOULDERING)
+        {
+            double xPos = (double)i + 0.375D + ( rand.nextDouble() * 0.25D );
+            double yPos = (double)j + 0.25D + ( rand.nextDouble() * 0.25D );
+            double zPos = (double)k + 0.375D + ( rand.nextDouble() * 0.25D );
+
+            world.spawnParticle( "smoke", xPos, yPos, zPos, 0D, 0D, 0D );
+        }
+
+        if (world.getBlockMetadata(i, j, k) > 6 && world.getBlockMetadata(i,j,k) < 10)
+        {
+            for (int iTempCount = 0; iTempCount < world.getBlockMetadata(i, j, k) - 6; iTempCount++ )
+            {
+                double xPos = i + rand.nextFloat();
+                double yPos = j + 0.5F + ( rand.nextFloat() * 0.5F );
+                double zPos = k + rand.nextFloat();
+
+                world.spawnParticle( "smoke", xPos, yPos, zPos, 0D, 0D, 0D );
+            }
+
+            if ( rand.nextInt(24) == 0 )
+            {
+                float fVolume = ((world.getBlockMetadata(i,j,k)-6) * 0.25F ) + rand.nextFloat();
+
+                world.playSound( i + 0.5D, j + 0.5D, k + 0.5D, "fire.fire",
+                        fVolume, rand.nextFloat() * 0.7F + 0.3F, false );
+            }
+
+            TileEntityCampfire tileEntity =
+                    (TileEntityCampfire) world.getTileEntity( i, j, k );
+
+            if ( tileEntity.getIsFoodBurning() )
+            {
+                for ( int iTempCount = 0; iTempCount < 1; ++iTempCount )
+                {
+                    double xPos = i + 0.375F + rand.nextFloat() * 0.25F;
+                    double yPos = j + 0.5F + rand.nextFloat() * 0.5F;
+                    double zPos = k + 0.375F + rand.nextFloat() * 0.25F;
+
+                    world.spawnParticle( "largesmoke", xPos, yPos, zPos, 0D, 0D, 0D );
+                }
+            }
+            else if ( tileEntity.getIsCooking() )
+            {
+                for ( int iTempCount = 0; iTempCount < 1; ++iTempCount )
+                {
+                    double xPos = i + 0.375F + rand.nextFloat() * 0.25F;
+                    double yPos = j + 0.5F + rand.nextFloat() * 0.5F;
+                    double zPos = k + 0.375F + rand.nextFloat() * 0.25F;
+
+                    world.spawnParticle( "fcwhitesmoke", xPos, yPos, zPos, 0D, 0D, 0D );
+                }
+            }
+        }
+        else if (fireLevel == 1 || getFuelState(world, i, j, k) == CAMPFIRE_FUEL_STATE_SMOULDERING)
+        {
+            double xPos = (double)i + 0.375D + ( rand.nextDouble() * 0.25D );
+            double yPos = (double)j + 0.25D + ( rand.nextDouble() * 0.25D );
+            double zPos = (double)k + 0.375D + ( rand.nextDouble() * 0.25D );
+
+            world.spawnParticle( "smoke", xPos, yPos, zPos, 0D, 0D, 0D );
+        }
+
+
+
+        if (world.getBlockMetadata(i, j, k) == 10)
+        {
+            for (int iTempCount = 0; iTempCount < world.getBlockMetadata(i, j, k) - 9; iTempCount++ )
+            {
+                double xPos = i + rand.nextFloat();
+                double yPos = j + 0.5F + ( rand.nextFloat() * 0.5F );
+                double zPos = k + rand.nextFloat();
+
+                world.spawnParticle( "smoke", xPos, yPos, zPos, 0D, 0D, 0D );
+            }
+
+            if ( rand.nextInt(24) == 0 )
+            {
+                float fVolume = ((world.getBlockMetadata(i,j,k)-9) * 0.25F ) + rand.nextFloat();
+
+                world.playSound( i + 0.5D, j + 0.5D, k + 0.5D, "fire.fire",
+                        fVolume, rand.nextFloat() * 0.7F + 0.3F, false );
+            }
+
+            TileEntityCampfire tileEntity =
+                    (TileEntityCampfire) world.getTileEntity( i, j, k );
+
+            if ( tileEntity.getIsFoodBurning() )
+            {
+                for ( int iTempCount = 0; iTempCount < 1; ++iTempCount )
+                {
+                    double xPos = i + 0.375F + rand.nextFloat() * 0.25F;
+                    double yPos = j + 0.5F + rand.nextFloat() * 0.5F;
+                    double zPos = k + 0.375F + rand.nextFloat() * 0.25F;
+
+                    world.spawnParticle( "largesmoke", xPos, yPos, zPos, 0D, 0D, 0D );
+                }
+            }
+            else if ( tileEntity.getIsCooking() )
+            {
+                for ( int iTempCount = 0; iTempCount < 1; ++iTempCount )
+                {
+                    double xPos = i + 0.375F + rand.nextFloat() * 0.25F;
+                    double yPos = j + 0.5F + rand.nextFloat() * 0.5F;
+                    double zPos = k + 0.375F + rand.nextFloat() * 0.25F;
+
+                    world.spawnParticle( "fcwhitesmoke", xPos, yPos, zPos, 0D, 0D, 0D );
+                }
+            }
+        }
+        else if (fireLevel == 1 || getFuelState(world, i, j, k) == CAMPFIRE_FUEL_STATE_SMOULDERING)
+        {
+            double xPos = (double)i + 0.375D + ( rand.nextDouble() * 0.25D );
+            double yPos = (double)j + 0.25D + ( rand.nextDouble() * 0.25D );
+            double zPos = (double)k + 0.375D + ( rand.nextDouble() * 0.25D );
+
+            world.spawnParticle( "smoke", xPos, yPos, zPos, 0D, 0D, 0D );
+        }
+
+
     }
 
 
