@@ -5,10 +5,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 import mods.betterwithpatches.BWPRegistry;
 import mods.betterwithpatches.block.tile.TileEntityCampfire;
 import mods.betterwithpatches.proxy.ClientProxy;
+import net.minecraft.block.BlockFire;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraft.block.Block;
@@ -16,6 +19,7 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 
+import javax.swing.*;
 import java.util.Random;
 
 
@@ -63,10 +67,10 @@ public class Campfire extends BlockContainer {
         this.icons[0] = reg.registerIcon("placeholder");
         this.icons[1] = reg.registerIcon("betterwithpatches:BlockCampfire");
         this.icons[2] = reg.registerIcon("betterwithpatches:BlockCampfireNoFire");
-        this.icons[3] = reg.registerIcon("betterwithpatches:Fireworkaem");
-        this.icons[4] = reg.registerIcon("betterwithpatches:Fireworkaemv2");
-        this.icons[5] = reg.registerIcon("betterwithpatches:MediumFireworkaem");
-        this.icons[6] = reg.registerIcon("betterwithpatches:MediumFireworkaemv2");
+        this.icons[3] = reg.registerIcon("placeholder");
+        this.icons[4] = reg.registerIcon("placeholder");
+        this.icons[5] = reg.registerIcon("placeholder");
+        this.icons[6] = reg.registerIcon("placeholder");
     }
     @Override
     public IIcon getIcon(int side,int meta ) {
@@ -97,7 +101,7 @@ public class Campfire extends BlockContainer {
     {
         if (world.getBlockMetadata(i, j, k) > 0 )
         {
-            for (int iTempCount = -1; iTempCount < fireLevel; iTempCount++ )
+            for (int iTempCount = 0; iTempCount < world.getBlockMetadata(i, j, k); iTempCount++ )
             {
                 double xPos = i + rand.nextFloat();
                 double yPos = j + 0.5F + ( rand.nextFloat() * 0.5F );
@@ -152,6 +156,13 @@ public class Campfire extends BlockContainer {
             }
         }
     }
+
+
+
+
+
+
+
 
 
 
