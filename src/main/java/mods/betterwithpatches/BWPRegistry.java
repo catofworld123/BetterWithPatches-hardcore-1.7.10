@@ -1,10 +1,8 @@
 package mods.betterwithpatches;
 
-import betterwithmods.BWMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import mods.betterwithpatches.block.*;
 import mods.betterwithpatches.block.tile.*;
-import mods.betterwithpatches.craft.NewCrafts.BlockCraft;
 import mods.betterwithpatches.data.BWPCreativeTab;
 import mods.betterwithpatches.item.ItemOakBark;
 import mods.betterwithpatches.item.ItemShaft;
@@ -31,7 +29,7 @@ public class BWPRegistry {
     public static Block campfire;
 
 
-    public static Item steelAxe, steelHoe, steelPickaxe, itemOakBark, steelShovel, steelSword, steelHelmet, steelChestplate, steelLeggings, steelBoots,
+    public static Item steelAxe, steelHoe, steelPickaxe, itemOakBark, steelShovel, steelSword, steelHelmet, steelChestplate, steelLeggings, steelBoots, itemPointyStick,
             dredgeHeavyHelmet, dredgeHeavyChestplate, dredgeHeavyLeggings, dredgeHeavyBoots, itemShaft, pileOfDirt;
 
 
@@ -49,7 +47,6 @@ public class BWPRegistry {
         GameRegistry.registerTileEntity(TileEntityBlockTreeStage4.class, "bwm.blockTreeStage4");
 
         campfire = GameRegistry.registerBlock(new Campfire(0).setCreativeTab((BWPRegistry.bwpTab)), ItemBlock.class, "campfire");
-
         GameRegistry.registerTileEntity(TileEntityCampfire.class, "bwm.campfire");
 
         steelAxe = registerItem("steelAxe", new ItemSoulforgedAxe());
@@ -68,6 +65,7 @@ public class BWPRegistry {
         itemShaft = registerItem("shaft", new ItemShaft());
         pileOfDirt = registerItem("pileOfDirt", new PileOfDirt());
         itemOakBark = registerItem("itemOakBark", new ItemOakBark());
+        itemPointyStick = registerItem("ItemPointyStick", new ItemPointyStick());
 
     }
 

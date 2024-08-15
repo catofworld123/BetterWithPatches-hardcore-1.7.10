@@ -6,10 +6,8 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import mods.betterwithpatches.craft.NewCrafts.BlockCraft;
+import mods.betterwithpatches.craft.NewCrafts.CraftingTableStuff;
 import mods.betterwithpatches.proxy.CommonProxy;
-
-import java.util.Map;
 
 import static mods.betterwithpatches.util.BWPConstants.MODID;
 import static mods.betterwithpatches.util.BWPConstants.MODNAME;
@@ -27,7 +25,7 @@ public class BetterWithPatches {
     @Mod.EventHandler
     public static void PreLoad(FMLPreInitializationEvent PreEvent){
 
-        BlockCraft.mainRegistry();
+        CraftingTableStuff.mainRegistry();
     }
 
     @Mod.EventHandler

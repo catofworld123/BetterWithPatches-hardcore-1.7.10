@@ -1,13 +1,13 @@
 package mods.betterwithpatches.craft.NewCrafts;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import mods.betterwithpatches.item.tool.ItemPointyStick;
 import net.minecraft.item.ItemStack;
 
-import static mods.betterwithpatches.BWPRegistry.campfire;
-import static mods.betterwithpatches.BWPRegistry.itemShaft;
+import static mods.betterwithpatches.BWPRegistry.*;
 
 
-public class BlockCraft {
+public class CraftingTableStuff {
 
     public static void mainRegistry(){
         addCraftingRec();
@@ -24,6 +24,8 @@ public class BlockCraft {
         GameRegistry.addRecipe(new ItemStack(campfire), new Object[]{"   ",
                                                                      " SS",
                                                                       " SS", 'S', itemShaft});
+
+        GameRegistry.addShapelessRecipe(new ItemStack(itemPointyStick), new Object[]{new ItemStack(itemShaft)});
 
     }
 }

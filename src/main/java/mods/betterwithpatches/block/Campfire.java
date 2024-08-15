@@ -193,13 +193,7 @@ public class Campfire extends BlockContainer {
             }
 
 
-            if ( rand.nextInt(24) == 0 )
-            {
-                float fVolume = ((world.getBlockMetadata(i,j,k) -4) * 0.25F ) + rand.nextFloat();
 
-                world.playSound( i + 0.5D, j + 0.5D, k + 0.5D, "fire.fire",
-                        fVolume, rand.nextFloat() * 0.7F + 0.3F, false );
-            }
 
             TileEntityCampfire tileEntity =
                     (TileEntityCampfire) world.getTileEntity( i, j, k );
@@ -303,13 +297,7 @@ public class Campfire extends BlockContainer {
                 world.spawnParticle( "smoke", xPos, yPos, zPos, 0D, 0D, 0D );
             }
 
-            if ( rand.nextInt(24) == 0 )
-            {
-                float fVolume = ((world.getBlockMetadata(i,j,k)-9) * 0.25F ) + rand.nextFloat();
 
-                world.playSound( i + 0.5D, j + 0.5D, k + 0.5D, "fire.fire",
-                        fVolume, rand.nextFloat() * 0.7F + 0.3F, false );
-            }
 
             TileEntityCampfire tileEntity =
                     (TileEntityCampfire) world.getTileEntity( i, j, k );

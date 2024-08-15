@@ -37,6 +37,8 @@ public class campfirelightupEvent {
                             double a = Math.random()*4;
                                  if (a >= 3.0) {
                                  event.world.setBlockMetadataWithNotify(event.x, event.y, event.z, 2, 2);
+                                 event.world.playSoundEffect( event.x + 0.5D, event.y + 0.5D, event.z + 0.5D,
+                                         "mob.ghast.fireball", 1F, event.world.rand.nextFloat() * 0.4F + 0.8F );
 
 
                         }
