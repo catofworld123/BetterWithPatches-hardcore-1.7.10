@@ -111,7 +111,7 @@ public class Campfire extends BlockContainer {
 
     }
 
-    public int getFuelState(IBlockAccess blockAccess, int x, int y, int z)
+    public static int getFuelState(IBlockAccess blockAccess, int x, int y, int z)
     {
         return getFuelState(blockAccess.getBlockMetadata(x, y, z));
     }
