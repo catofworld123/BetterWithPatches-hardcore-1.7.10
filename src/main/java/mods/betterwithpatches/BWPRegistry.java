@@ -1,5 +1,6 @@
 package mods.betterwithpatches;
 
+import betterwithmods.BWMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import mods.betterwithpatches.block.*;
 import mods.betterwithpatches.block.tile.*;
@@ -28,6 +29,11 @@ public class BWPRegistry {
     public static Block blocktreestage4;
     public static Block campfire;
 
+    public static CampfireBlock unlitCampfire;
+    public static CampfireBlock smallCampfire;
+    public static CampfireBlock mediumCampfire;
+    public static CampfireBlock largeCampfire;
+
 
     public static Item steelAxe, steelHoe, steelPickaxe, itemOakBark, steelShovel, steelSword, steelHelmet, steelChestplate, steelLeggings, steelBoots, itemPointyStick,
             dredgeHeavyHelmet, dredgeHeavyChestplate, dredgeHeavyLeggings, dredgeHeavyBoots, itemShaft, pileOfDirt;
@@ -48,6 +54,13 @@ public class BWPRegistry {
 
         campfire = GameRegistry.registerBlock(new Campfire(0).setCreativeTab((BWPRegistry.bwpTab)), ItemBlock.class, "campfire");
         GameRegistry.registerTileEntity(TileEntityCampfire.class, "bwm.campfire");
+
+
+        unlitCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 0).setCreativeTab((BWPRegistry.bwpTab)), ItemBlock.class, "unlitcampfire");
+        smallCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 1).setLightLevel(0.25F), ItemBlock.class, "Campfirewithsmallfire");
+        mediumCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 2).setLightLevel(0.5F), ItemBlock.class, "Campfirewithmediumfire");
+        largeCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 3).setLightLevel(0.875F), ItemBlock.class, "Campfirewithbigfire");
+        GameRegistry.registerTileEntity(CampfireTileEntity.class, "bwm.fcBlockCampfire");
 
         steelAxe = registerItem("steelAxe", new ItemSoulforgedAxe());
         steelHoe = registerItem("steelHoe", new ItemSoulforgedHoe());

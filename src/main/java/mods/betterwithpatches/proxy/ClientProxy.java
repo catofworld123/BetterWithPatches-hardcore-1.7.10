@@ -14,6 +14,7 @@ public class ClientProxy extends CommonProxy {
     public static int renderBlockTreeStage3;
     public static int renderBlockTreeStage4;
     public static int renderCampfire;
+    public static int renderBlockCampfire;
 
     @Override
     public void preInit() {
@@ -44,6 +45,8 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerBlockHandler(renderBlockTreeStage4, new RenderBlockTreeStage4());
         renderCampfire = RenderingRegistry.getNextAvailableRenderId();
         RenderingRegistry.registerBlockHandler(renderCampfire, new RenderCampfire());
+        renderBlockCampfire = RenderingRegistry.getNextAvailableRenderId();
+        RenderingRegistry.registerBlockHandler(renderBlockCampfire, new RenderBlockCampfire());
 
         if (Config.enablePenalties) {
             if (Config.HCMovement && Config.removeSpeedPenaltyFOVChanges)

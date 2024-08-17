@@ -72,6 +72,7 @@ public class Campfire extends BlockContainer {
         this.icons[5] = reg.registerIcon("placeholder");
         this.icons[6] = reg.registerIcon("placeholder");
     }
+
     @Override
     public IIcon getIcon(int side,int meta ) {
 
@@ -111,14 +112,7 @@ public class Campfire extends BlockContainer {
 
     }
 
-    public static int getFuelState(IBlockAccess blockAccess, int x, int y, int z)
-    {
-        return getFuelState(blockAccess.getBlockMetadata(x, y, z));
-    }
-    public static int getFuelState(int iMetadata)
-    {
-        return ( iMetadata & 12 ) >> 2;
-    }
+
 
     public void randomDisplayTick( World world, int i, int j, int k, Random rand )
     {
@@ -141,33 +135,12 @@ public class Campfire extends BlockContainer {
                         fVolume, rand.nextFloat() * 0.7F + 0.3F, false );
             }
 
-            TileEntityCampfire tileEntity =
-                    (TileEntityCampfire) world.getTileEntity( i, j, k );
+            TileEntityCampfire tileEntity = (TileEntityCampfire) world.getTileEntity( i, j, k );
 
-            if ( tileEntity.getIsFoodBurning() )
-            {
-                for ( int iTempCount = 0; iTempCount < 1; ++iTempCount )
-                {
-                    double xPos = i + 0.375F + rand.nextFloat() * 0.25F;
-                    double yPos = j + 0.5F + rand.nextFloat() * 0.5F;
-                    double zPos = k + 0.375F + rand.nextFloat() * 0.25F;
 
-                    world.spawnParticle( "largesmoke", xPos, yPos, zPos, 0D, 0D, 0D );
-                }
-            }
-            else if ( tileEntity.getIsCooking() )
-            {
-                for ( int iTempCount = 0; iTempCount < 1; ++iTempCount )
-                {
-                    double xPos = i + 0.375F + rand.nextFloat() * 0.25F;
-                    double yPos = j + 0.5F + rand.nextFloat() * 0.5F;
-                    double zPos = k + 0.375F + rand.nextFloat() * 0.25F;
 
-                    world.spawnParticle( "fcwhitesmoke", xPos, yPos, zPos, 0D, 0D, 0D );
-                }
-            }
         }
-        else if (fireLevel == 1 || getFuelState(world, i, j, k) == CAMPFIRE_FUEL_STATE_SMOULDERING)
+        else if (world.getBlockMetadata(i,j,k) == 5 || getFuelState(world, i, j, k) == CAMPFIRE_FUEL_STATE_SMOULDERING || world.getBlockMetadata(i,j,k) == 10)
         {
             double xPos = (double)i + 0.375D + ( rand.nextDouble() * 0.25D );
             double yPos = (double)j + 0.25D + ( rand.nextDouble() * 0.25D );
@@ -198,30 +171,9 @@ public class Campfire extends BlockContainer {
             TileEntityCampfire tileEntity =
                     (TileEntityCampfire) world.getTileEntity( i, j, k );
 
-            if ( tileEntity.getIsFoodBurning() )
-            {
-                for ( int iTempCount = 0; iTempCount < 1; ++iTempCount )
-                {
-                    double xPos = i + 0.375F + rand.nextFloat() * 0.25F;
-                    double yPos = j + 0.5F + rand.nextFloat() * 0.5F;
-                    double zPos = k + 0.375F + rand.nextFloat() * 0.25F;
 
-                    world.spawnParticle( "largesmoke", xPos, yPos, zPos, 0D, 0D, 0D );
-                }
-            }
-            else if ( tileEntity.getIsCooking() )
-            {
-                for ( int iTempCount = 0; iTempCount < 1; ++iTempCount )
-                {
-                    double xPos = i + 0.375F + rand.nextFloat() * 0.25F;
-                    double yPos = j + 0.5F + rand.nextFloat() * 0.5F;
-                    double zPos = k + 0.375F + rand.nextFloat() * 0.25F;
-
-                    world.spawnParticle( "fcwhitesmoke", xPos, yPos, zPos, 0D, 0D, 0D );
-                }
-            }
         }
-        else if (fireLevel == 1 || getFuelState(world, i, j, k) == CAMPFIRE_FUEL_STATE_SMOULDERING)
+        else if (world.getBlockMetadata(i,j,k) == 5 || getFuelState(world, i, j, k) == CAMPFIRE_FUEL_STATE_SMOULDERING || world.getBlockMetadata(i,j,k) == 10)
         {
             double xPos = (double)i + 0.375D + ( rand.nextDouble() * 0.25D );
             double yPos = (double)j + 0.25D + ( rand.nextDouble() * 0.25D );
@@ -252,30 +204,9 @@ public class Campfire extends BlockContainer {
             TileEntityCampfire tileEntity =
                     (TileEntityCampfire) world.getTileEntity( i, j, k );
 
-            if ( tileEntity.getIsFoodBurning() )
-            {
-                for ( int iTempCount = 0; iTempCount < 1; ++iTempCount )
-                {
-                    double xPos = i + 0.375F + rand.nextFloat() * 0.25F;
-                    double yPos = j + 0.5F + rand.nextFloat() * 0.5F;
-                    double zPos = k + 0.375F + rand.nextFloat() * 0.25F;
 
-                    world.spawnParticle( "largesmoke", xPos, yPos, zPos, 0D, 0D, 0D );
-                }
-            }
-            else if ( tileEntity.getIsCooking() )
-            {
-                for ( int iTempCount = 0; iTempCount < 1; ++iTempCount )
-                {
-                    double xPos = i + 0.375F + rand.nextFloat() * 0.25F;
-                    double yPos = j + 0.5F + rand.nextFloat() * 0.5F;
-                    double zPos = k + 0.375F + rand.nextFloat() * 0.25F;
-
-                    world.spawnParticle( "fcwhitesmoke", xPos, yPos, zPos, 0D, 0D, 0D );
-                }
-            }
         }
-        else if (fireLevel == 1 || getFuelState(world, i, j, k) == CAMPFIRE_FUEL_STATE_SMOULDERING)
+        else if (world.getBlockMetadata(i,j,k) == 5 || getFuelState(world, i, j, k) == CAMPFIRE_FUEL_STATE_SMOULDERING || world.getBlockMetadata(i,j,k) == 10)
         {
             double xPos = (double)i + 0.375D + ( rand.nextDouble() * 0.25D );
             double yPos = (double)j + 0.25D + ( rand.nextDouble() * 0.25D );
@@ -302,30 +233,9 @@ public class Campfire extends BlockContainer {
             TileEntityCampfire tileEntity =
                     (TileEntityCampfire) world.getTileEntity( i, j, k );
 
-            if ( tileEntity.getIsFoodBurning() )
-            {
-                for ( int iTempCount = 0; iTempCount < 1; ++iTempCount )
-                {
-                    double xPos = i + 0.375F + rand.nextFloat() * 0.25F;
-                    double yPos = j + 0.5F + rand.nextFloat() * 0.5F;
-                    double zPos = k + 0.375F + rand.nextFloat() * 0.25F;
 
-                    world.spawnParticle( "largesmoke", xPos, yPos, zPos, 0D, 0D, 0D );
-                }
-            }
-            else if ( tileEntity.getIsCooking() )
-            {
-                for ( int iTempCount = 0; iTempCount < 1; ++iTempCount )
-                {
-                    double xPos = i + 0.375F + rand.nextFloat() * 0.25F;
-                    double yPos = j + 0.5F + rand.nextFloat() * 0.5F;
-                    double zPos = k + 0.375F + rand.nextFloat() * 0.25F;
-
-                    world.spawnParticle( "fcwhitesmoke", xPos, yPos, zPos, 0D, 0D, 0D );
-                }
-            }
         }
-        else if (fireLevel == 1 || getFuelState(world, i, j, k) == CAMPFIRE_FUEL_STATE_SMOULDERING)
+        else if (world.getBlockMetadata(i,j,k) == 5 || getFuelState(world, i, j, k) == CAMPFIRE_FUEL_STATE_SMOULDERING || world.getBlockMetadata(i,j,k) == 10)
         {
             double xPos = (double)i + 0.375D + ( rand.nextDouble() * 0.25D );
             double yPos = (double)j + 0.25D + ( rand.nextDouble() * 0.25D );
@@ -336,41 +246,31 @@ public class Campfire extends BlockContainer {
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
+    public static int getFuelState(IBlockAccess blockAccess, int x, int y, int z)
+    {
+        return getFuelState(blockAccess.getBlockMetadata(x, y, z));
+    }
+    public static int getFuelState(int iMetadata)
+    {
+        return ( iMetadata & 12 ) >> 2;
+    }
     @Override
     public int getRenderType() {
         return ClientProxy.renderCampfire;
     }
-
     @Override
     public boolean onBlockActivated(World worldIn, int x, int y, int z, EntityPlayer player, int side, float subX, float subY, float subZ) {
         return true;
     }
-
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockAccess worldIn, int x, int y, int z, int side)
     {
         return true;
     }
-
-
-
     @Override
     public boolean renderAsNormalBlock() {
         return false;
     }
-
-
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
         {
@@ -378,86 +278,4 @@ public class Campfire extends BlockContainer {
         }
 
     }
-
-
-    public void extinguishFire(World world, int i, int j, int k, boolean bSmoulder)
-    {
-        int iMetadata = world.getBlockMetadata( i, j, k );
-
-        if ( bSmoulder )
-        {
-            if (world.getBlockMetadata(i,j,k) >2 && world.getBlockMetadata(i,j,k) < 5){
-                world.setBlockMetadataWithNotify(i,j,k, 5, 2);
-
-            }
-            if (world.getBlockMetadata(i,j,k) >6 && world.getBlockMetadata(i,j,k) < 10){
-                world.setBlockMetadataWithNotify(i,j,k, 10, 2);
-
-            }
-        }
-        else
-        {
-            if (world.getBlockMetadata(i,j,k) >2 && world.getBlockMetadata(i,j,k) < 5){
-                world.setBlockMetadataWithNotify(i,j,k, 1, 2);
-
-            }
-            if (world.getBlockMetadata(i,j,k) >6 && world.getBlockMetadata(i,j,k) < 10){
-                world.setBlockMetadataWithNotify(i,j,k, 11, 2);
-
-            }
-        }
-
-
-        if ( !world.isRemote )
-        {
-            world.playAuxSFX( 11, i, j, k, 1 );
-        }
-
-
-
-    }
-    public void relightFire(World world, int i, int j, int k)
-    {
-        changeFireLevel(world, i, j, k, 1, setFuelState(world.getBlockMetadata(i, j, k), CAMPFIRE_FUEL_STATE_NORMAL));
-    }
-
-    public void changeFireLevel(World world, int i, int j, int k, int iFireLevel, int iMetadata)
-    {
-
-
-        world.setBlockMetadataWithNotify( i, j, k, 0, 2 );
-
-
-    }
-
-    public void setFuelState(World world, int i, int j, int k, int iCampfireState)
-    {
-        int iMetadata = setFuelState(world.getBlockMetadata(i, j, k), iCampfireState);
-
-        world.setBlockMetadataWithNotify( i, j, k, iMetadata, 2 );
-    }
-
-    public int setFuelState(int iMetadata, int iCampfireState)
-    {
-        iMetadata &= ~12; // filter out old state
-
-        return iMetadata | ( iCampfireState << 2 );
-    }
-    public void stopSmouldering(World world, int i, int j, int k)
-    {
-        setFuelState(world, i, j, k, CAMPFIRE_FUEL_STATE_BURNED_OUT);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

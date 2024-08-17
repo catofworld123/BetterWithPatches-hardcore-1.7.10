@@ -9,6 +9,7 @@ tile.bwm:blockTreeStage2.name=Lightly Damaged Oak Log
 tile.bwm:blockTreeStage3.name=Slightly Damaged Oak Log
 tile.bwm:blockTreeStage4.name=Badly Damaged Oak Log
 tile.bwm:campfire.name= Campfire
+tile.bwm:fcBlockCampfire.name=Campfire
 
 item.bwm:material.SoulFlux.name=Soul Flux
 item.bwm:material.EnderSlag.name=Ender Slag
