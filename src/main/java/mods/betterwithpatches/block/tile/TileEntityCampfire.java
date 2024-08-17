@@ -3,10 +3,19 @@ package mods.betterwithpatches.block.tile;
 import mods.betterwithpatches.block.Campfire;
 import mods.betterwithpatches.craft.CampFireCraftingManager;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
+
+import java.util.Random;
+
+import static codechicken.nei.NEIClientConfig.world;
+import static codechicken.nei.NEIClientUtils.isRaining;
+
 
 
 public class TileEntityCampfire extends TileEntity {
@@ -108,7 +117,7 @@ public class TileEntityCampfire extends TileEntity {
 
             spitStack.writeToNBT(spitTag);
 
-            tag.setCompoundTag("fcSpitStack", spitTag);
+            tag.setTag("fcSpitStack", spitTag);
         }
 
         if (cookStack != null) {
@@ -116,7 +125,7 @@ public class TileEntityCampfire extends TileEntity {
 
             cookStack.writeToNBT(cookTag);
 
-            tag.setCompoundTag("fcCookStack", cookTag);
+            tag.setTag("fcCookStack", cookTag);
         }
 
         tag.setInteger("fcBurnCounter", burnTimeCountdown);
@@ -126,105 +135,180 @@ public class TileEntityCampfire extends TileEntity {
         tag.setInteger("fcCookBurning", cookBurningCounter);
     }
 /// TEST ZONE
-public int validateFireLevel()
-{
-    int iCurrentFireLevel = getCurrentFireLevel();
 
-    if ( iCurrentFireLevel > 0 )
+
+    private void extinguishFire(boolean bSmoulder)
     {
-        //int iFuelState = FCBetterThanWolves.fcBlockCampfireUnlit.GetFuelState( worldObj, xCoord, yCoord, zCoord );
-
-        if (burnTimeCountdown <= 0 )
+        if ( bSmoulder )
         {
-            extinguishFire(true);
-
-            return 0;
+            smoulderCounter = SmoulderTime;
         }
         else
         {
-            int iDesiredFireLevel = 2;
-
-            if (burnTimeSinceLit < WarmupTime || burnTimeCountdown < RevertToSmallTime)
-            {
-                iDesiredFireLevel = 1;
-            }
-            else if (burnTimeCountdown > bigTime)
-            {
-                iDesiredFireLevel = 3;
-            }
-
-            if ( iDesiredFireLevel != iCurrentFireLevel )
-            {
-                changeFireLevel(iDesiredFireLevel);
-
-                if ( iDesiredFireLevel == 1 && iCurrentFireLevel == 2 )
-                {
-                    worldObj.playAuxSFX(BTWEffectManager.FIRE_FIZZ_EFFECT_ID, xCoord, yCoord, zCoord, 1 );
-                }
-
-                return iDesiredFireLevel;
-            }
+            smoulderCounter = 0;
         }
 
-    }
-    else // iCurrenFireLevel == 0
-    {
-        if (burnTimeCountdown > 0 &&
-                Campfire.getFuelState(worldObj, xCoord, yCoord, zCoord) ==
-                        Campfire.CAMPFIRE_FUEL_STATE_SMOULDERING)
-        {
-            relightSmouldering();
+        cookCounter = 0; // reset cook counter in case fire is relit later
+        cookBurningCounter = 0;
 
-            return 1;
-        }
+        Campfire block = (Campfire)(worldObj.getBlock( xCoord, yCoord, zCoord ));
+
+        block.extinguishFire(worldObj, xCoord, yCoord, zCoord, bSmoulder);
     }
 
-    return iCurrentFireLevel;
-}
+
+
     @Override
-    public void updateEntity() {
-        super.updateEntity();
+public void updateEntity()
+{
+    super.updateEntity();
 
-        if (!worldObj.isRemote) {
-            int iCurrentFireLevel = getCurrentFireLevel();
+    if ( !worldObj.isRemote )
+    {
+        int iCurrentFireLevel = getCurrentFireLevel();
 
-            if (iCurrentFireLevel > 0) {
-                if (iCurrentFireLevel > 1 && worldObj.rand.nextFloat() <= FireSpreadChance) {
-                    FireBlock.checkForFireSpreadFromLocation(worldObj, xCoord, yCoord, zCoord, worldObj.rand, 0);
-                }
+        if ( iCurrentFireLevel > 0 )
+        {
+          //  if ( iCurrentFireLevel > 1 && worldObj.rand.nextFloat() <= FireSpreadChance)
+          //  {
+          //      checkForFireSpreadFromLocation(worldObj, xCoord, yCoord, zCoord, worldObj.rand, 0);
+          //  }
 
-                burnTimeSinceLit++;
+            burnTimeSinceLit++;
 
-                if (burnTimeCountdown > 0) {
+            if (burnTimeCountdown > 0 )
+            {
+                burnTimeCountdown--;
+
+                if ( iCurrentFireLevel == 3 )
+                {
+                    // blaze burns extra fast
+
                     burnTimeCountdown--;
-
-                    if (iCurrentFireLevel == 3) {
-                        // blaze burns extra fast
-
-                        burnTimeCountdown--;
-                    }
                 }
+            }
 
-                iCurrentFireLevel = validateFireLevel();
+            iCurrentFireLevel = validateFireLevel();
 
-                if (iCurrentFireLevel > 0) {
-                    updateCookState();
+            if ( iCurrentFireLevel > 0 )
+            {
+               // updateCookState();
 
-                    if (worldObj.rand.nextFloat() <= RainKill && isRainingOnCampfire()) {
-                        extinguishFire(false);
-                    }
-                }
-            } else if (smoulderCounter > 0) {
-                smoulderCounter--;
-
-                if (smoulderCounter == 0 || worldObj.rand.nextFloat() <= RainKill && isRainingOnCampfire()) {
-                    stopSmouldering();
+                if (worldObj.rand.nextFloat() <= RainKill  ) //add && isRainingOnCampfire()
+                {
+                    extinguishFire(true);
                 }
             }
         }
+        else if (smoulderCounter > 0 )
+        {
+            smoulderCounter--;
+
+            if (smoulderCounter == 0 || worldObj.rand.nextFloat() <= RainKill) //add && isRainingOnCampfire()
+            {
+               if (worldObj.getBlockMetadata(xCoord,yCoord,zCoord) == 2) {
+                   worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 2);
+               }
+                if (worldObj.getBlockMetadata(xCoord,yCoord,zCoord) == 10) {
+                    worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 11, 2);
+                }
+               }
+            }
+        }
+    }
+
+    public void addBurnTime(int iBurnTime)
+    {
+        burnTimeCountdown += iBurnTime * BurnTimeMultiply * BaseBurnTimeMultiply;
+
+        if (burnTimeCountdown > BurnTimeMax)
+        {
+            burnTimeCountdown = BurnTimeMax;
+        }
+
+        validateFireLevel();
+    }
+
+    public void onFirstLit()
+    {
+        burnTimeCountdown = BurnTimeInitial;
+        burnTimeSinceLit = 0;
+    }
+
+    public int validateFireLevel()
+    {
+        int iCurrentFireLevel = getCurrentFireLevel();
+
+        if ( iCurrentFireLevel > 0 )
+        {
+            //int iFuelState = FCBetterThanWolves.fcBlockCampfireUnlit.GetFuelState( worldObj, xCoord, yCoord, zCoord );
+
+            if (burnTimeCountdown <= 0 )
+            {
+                extinguishFire(true);
+
+                return 0;
+            }
+            else
+            {
+                int iDesiredFireLevel = 2;
+
+                if (burnTimeSinceLit < WarmupTime || burnTimeCountdown < RevertToSmallTime)
+                {
+                    iDesiredFireLevel = 1;
+                }
+                else if (burnTimeCountdown > bigTime)
+                {
+                    iDesiredFireLevel = 3;
+                }
+
+                if ( iDesiredFireLevel != iCurrentFireLevel )
+                {
+                    changeFireLevel(iDesiredFireLevel);
+
+                    if ( iDesiredFireLevel == 1 && iCurrentFireLevel == 2 )
+                    {
+                        worldObj.playAuxSFX(11, xCoord, yCoord, zCoord, 1 );
+                    }
+
+                    return iDesiredFireLevel;
+                }
+            }
+
+        }
+        else // iCurrenFireLevel == 0
+        {
+            if (burnTimeCountdown > 0 && worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 1 || burnTimeCountdown > 0 && worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 10)
+            {
+                relightSmouldering();
+
+                return 1;
+            }
+        }
+
+        return iCurrentFireLevel;
+    }
+
+
+    private void changeFireLevel(int iNewLevel)
+    {
+        Campfire block = (Campfire)(worldObj.getBlock( xCoord, yCoord, zCoord ));
+
+        block.changeFireLevel(worldObj, xCoord, yCoord, zCoord, iNewLevel, worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+    }
+
+    private void relightSmouldering()
+    {
+        burnTimeSinceLit = 0;
+
+        Campfire block = (Campfire)(worldObj.getBlock( xCoord, yCoord, zCoord ));
+
+        block.relightFire(worldObj, xCoord, yCoord, zCoord);
     }
 
 
 
 
+
 }
+

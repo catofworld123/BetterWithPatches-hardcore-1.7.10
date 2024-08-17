@@ -379,4 +379,85 @@ public class Campfire extends BlockContainer {
 
     }
 
+
+    public void extinguishFire(World world, int i, int j, int k, boolean bSmoulder)
+    {
+        int iMetadata = world.getBlockMetadata( i, j, k );
+
+        if ( bSmoulder )
+        {
+            if (world.getBlockMetadata(i,j,k) >2 && world.getBlockMetadata(i,j,k) < 5){
+                world.setBlockMetadataWithNotify(i,j,k, 5, 2);
+
+            }
+            if (world.getBlockMetadata(i,j,k) >6 && world.getBlockMetadata(i,j,k) < 10){
+                world.setBlockMetadataWithNotify(i,j,k, 10, 2);
+
+            }
+        }
+        else
+        {
+            if (world.getBlockMetadata(i,j,k) >2 && world.getBlockMetadata(i,j,k) < 5){
+                world.setBlockMetadataWithNotify(i,j,k, 1, 2);
+
+            }
+            if (world.getBlockMetadata(i,j,k) >6 && world.getBlockMetadata(i,j,k) < 10){
+                world.setBlockMetadataWithNotify(i,j,k, 11, 2);
+
+            }
+        }
+
+
+        if ( !world.isRemote )
+        {
+            world.playAuxSFX( 11, i, j, k, 1 );
+        }
+
+
+
+    }
+    public void relightFire(World world, int i, int j, int k)
+    {
+        changeFireLevel(world, i, j, k, 1, setFuelState(world.getBlockMetadata(i, j, k), CAMPFIRE_FUEL_STATE_NORMAL));
+    }
+
+    public void changeFireLevel(World world, int i, int j, int k, int iFireLevel, int iMetadata)
+    {
+
+
+        world.setBlockMetadataWithNotify( i, j, k, 0, 2 );
+
+
+    }
+
+    public void setFuelState(World world, int i, int j, int k, int iCampfireState)
+    {
+        int iMetadata = setFuelState(world.getBlockMetadata(i, j, k), iCampfireState);
+
+        world.setBlockMetadataWithNotify( i, j, k, iMetadata, 2 );
+    }
+
+    public int setFuelState(int iMetadata, int iCampfireState)
+    {
+        iMetadata &= ~12; // filter out old state
+
+        return iMetadata | ( iCampfireState << 2 );
+    }
+    public void stopSmouldering(World world, int i, int j, int k)
+    {
+        setFuelState(world, i, j, k, CAMPFIRE_FUEL_STATE_BURNED_OUT);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

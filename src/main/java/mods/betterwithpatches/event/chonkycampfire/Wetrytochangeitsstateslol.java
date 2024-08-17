@@ -72,7 +72,9 @@ public class Wetrytochangeitsstateslol {
                         event.entityPlayer.inventory.addItemStackToInventory(new ItemStack(BWPRegistry.itemPointyStick, 1));
 
                         event.world.setBlockMetadataWithNotify(event.x,  event.y,  event.z, 1, 2);
+
                     }
+
                 }
             }
         }}
