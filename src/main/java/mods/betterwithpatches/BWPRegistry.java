@@ -57,9 +57,9 @@ public class BWPRegistry {
 
 
         unlitCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 0).setCreativeTab((BWPRegistry.bwpTab)), ItemBlock.class, "unlitcampfire");
-        smallCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 1).setLightLevel(0.25F), ItemBlock.class, "Campfirewithsmallfire");
-        mediumCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 2).setLightLevel(0.5F), ItemBlock.class, "Campfirewithmediumfire");
-        largeCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 3).setLightLevel(0.875F), ItemBlock.class, "Campfirewithbigfire");
+        smallCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 1), ItemBlock.class, "Campfirewithsmallfire");
+        mediumCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 2), ItemBlock.class, "Campfirewithmediumfire");
+        largeCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 3), ItemBlock.class, "Campfirewithbigfire");
         GameRegistry.registerTileEntity(CampfireTileEntity.class, "bwm.fcBlockCampfire");
 
         steelAxe = registerItem("steelAxe", new ItemSoulforgedAxe());

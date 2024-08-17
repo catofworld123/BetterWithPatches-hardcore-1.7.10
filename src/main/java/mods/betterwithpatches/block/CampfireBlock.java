@@ -667,5 +667,15 @@ public class CampfireBlock extends BlockContainer
                         fVolume, rand.nextFloat() * 0.7F + 0.3F, false );
             }
         }
+
+
+
     }
+
+
+
+
 }
+
+
+

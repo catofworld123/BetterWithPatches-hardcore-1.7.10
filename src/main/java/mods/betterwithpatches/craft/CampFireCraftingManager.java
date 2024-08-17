@@ -19,7 +19,7 @@ public class CampFireCraftingManager
         return (ItemStack) recipeMap.get(InputItemID);
     }
 
-    public void addRecipe(int iInputItemID, ItemStack outputStack)
+    public void addRecipe(Item iInputItemID, ItemStack outputStack)
     {
         recipeMap.put(iInputItemID, outputStack);
     }
