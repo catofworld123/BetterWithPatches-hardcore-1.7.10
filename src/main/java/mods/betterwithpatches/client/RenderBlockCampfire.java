@@ -4,6 +4,7 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import mods.betterwithpatches.BWPRegistry;
 import mods.betterwithpatches.block.Campfire;
 import mods.betterwithpatches.block.CampfireBlock;
+import mods.betterwithpatches.block.tile.CampfireTileEntity;
 import mods.betterwithpatches.proxy.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -17,6 +18,8 @@ import static betterwithmods.client.RenderTileEntities.renderItemBlock;
 
 public class RenderBlockCampfire implements ISimpleBlockRenderingHandler {
     static final double[] fireAnimationScaleArray = new double[] {0D, 0.25D, 0.5D, 0.875D };
+
+
 
 
     @Override
@@ -45,6 +48,7 @@ public class RenderBlockCampfire implements ISimpleBlockRenderingHandler {
 
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+        CampfireBlock blockcampfire = (CampfireBlock)(world.getBlock( x, y, z ));
         renderer.renderAllFaces = true;
         renderer.setOverrideBlockTexture(((Campfire) BWPRegistry.campfire).icons[1]);
         renderer.setRenderBounds(0.125, 0D, 0.125, 0.875, 0.25, 0.875);
@@ -65,7 +69,8 @@ public class RenderBlockCampfire implements ISimpleBlockRenderingHandler {
         renderer.setRenderBounds(0.125, 0.375, 0.6875, 0.875, 0.5, 0.8125);
         renderer.renderStandardBlock(block, x, y, z);
         renderer.clearOverrideBlockTexture();
-        if (world.getBlockMetadata(x, y, z) >= 6){
+
+        if (blockcampfire.getHasSpit(world, x, y, z)){
             renderer.setOverrideBlockTexture(((Campfire) BWPRegistry.campfire).icons[1]);
             renderer.setRenderBounds(0.03125, 0,0.46875 ,0.09375, 0.6875, 0.53125);
             renderer.renderStandardBlock(block, x, y, z);
@@ -93,23 +98,22 @@ public class RenderBlockCampfire implements ISimpleBlockRenderingHandler {
 
         Tessellator tesselator = Tessellator.instance;
 
-        double dScale = fireAnimationScaleArray[BWPRegistry.unlitCampfire.fireLevel];
+        double dScale = fireAnimationScaleArray[blockcampfire.fireLevel];
 
-        double dI = (double)x;
-        double dJ = (double)y;
-        double dK = (double)z;
+        double dI = (double) x;
+        double dJ = (double) y;
+        double dK = (double) z;
 
         IIcon fireTexture1 = Blocks.fire.getFireIcon(0);
-        IIcon fireTexture2 = Blocks.fire.getFireIcon(0);
+        IIcon fireTexture2 = Blocks.fire.getFireIcon(1);
 
-        if ( ( ( x + z ) & 1 ) != 0 )
-        {
+        if (((x + z) & 1) != 0) {
             fireTexture1 = Blocks.fire.getFireIcon(1);
             fireTexture2 = Blocks.fire.getFireIcon(0);
         }
 
-        tesselator.setColorOpaque_F( 1.0F, 1.0F, 1.0F );
-        tesselator.setBrightness( 150 );
+        tesselator.setColorOpaque_F(1.0F, 1.0F, 1.0F);
+        tesselator.setBrightness(150);
 
         double dMinU = fireTexture1.getMinU();
         double dMinV = fireTexture1.getMinV();
@@ -117,8 +121,8 @@ public class RenderBlockCampfire implements ISimpleBlockRenderingHandler {
         double dMaxV = fireTexture1.getMaxV();
 
         double dFireHeight = 1.4D * dScale;
-        double dHorizontalMin = 0.5D - ( 0.5D * dScale );
-        double dHorizontalMax = 0.5D + ( 0.5D * dScale );
+        double dHorizontalMin = 0.5D - (0.5D * dScale);
+        double dHorizontalMax = 0.5D + (0.5D * dScale);
 
         double dOffset = 0.2D * dScale;
 

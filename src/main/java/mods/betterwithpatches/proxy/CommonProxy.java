@@ -1,10 +1,8 @@
 package mods.betterwithpatches.proxy;
 
 import betterwithmods.event.TConHelper;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import mods.betterwithpatches.BWPRegistry;

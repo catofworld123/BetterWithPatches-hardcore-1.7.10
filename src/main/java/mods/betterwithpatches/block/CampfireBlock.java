@@ -18,6 +18,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -31,8 +32,11 @@ import net.minecraftforge.fluids.BlockFluidBase;
 
 import java.util.Random;
 
+
+
 public class CampfireBlock extends BlockContainer
 {
+
     public final int fireLevel;
 
     public static final int CAMPFIRE_FUEL_STATE_NORMAL = 0;
@@ -74,6 +78,17 @@ public class CampfireBlock extends BlockContainer
     }
 
     @Override
+    public Item getItemDropped( int meta, Random random, int fortune )
+    {
+        if (fireLevel != 0 || getFuelState(meta) != CAMPFIRE_FUEL_STATE_NORMAL)
+        {
+            return null;
+        }
+
+        return super.getItemDropped( meta, random, fortune );
+    }
+
+    @Override
     public TileEntity createNewTileEntity(World worldIn, int meta )
     {
         return new CampfireTileEntity();
@@ -86,7 +101,9 @@ public class CampfireBlock extends BlockContainer
         {
             CampfireTileEntity tileEntity = (CampfireTileEntity)worldIn.getTileEntity(x, y, z );
 
-            tileEntity.ejectContents();
+
+                tileEntity.ejectContents();
+
 
             // only called when not changing state as super kills the tile entity
             super.breakBlock( worldIn, x, y, z, worldIn.getBlock(x,y,z), meta );
@@ -141,6 +158,8 @@ public class CampfireBlock extends BlockContainer
     {
         return fireLevel == 0 && getFuelState(blockAccess, i, j, k) == CAMPFIRE_FUEL_STATE_NORMAL;
     }
+
+
     public boolean setOnFireDirectly(World world, int i, int j, int k)
     {
         if ( getCanBeSetOnFireDirectly(world, i, j, k) )
@@ -191,6 +210,8 @@ public class CampfireBlock extends BlockContainer
 
         return 0;
     }
+
+
 
     @Override
     public boolean onBlockActivated( World world, int i, int j, int k, EntityPlayer player, int iFacing, float fXClick, float fYClick, float fZClick )
@@ -249,7 +270,7 @@ public class CampfireBlock extends BlockContainer
 
                                 ejectStack.stackSize = 1;
 
-                                world.spawnEntityInWorld(new EntityItem(world, i, j, k, new ItemStack(ejectStack.getItem())));;
+                                world.spawnEntityInWorld(new EntityItem(world, i, j, k,  ejectStack));;
 
 
                                 world.playAuxSFX( 10,
@@ -274,10 +295,23 @@ public class CampfireBlock extends BlockContainer
                     return true;
                 }
             }
+            if (item == Items.flint_and_steel){
+                if (fireLevel == 0){
+                    stack.damageItem(2, player);
+                    double a = Math.random()*4;
+                    if (a >= 3.0) {
+                        setOnFireDirectly(world, i, j, k);
+                    }
+                    return true;
+
+                }
+            }
 
             if (fireLevel > 0 || getFuelState(world, i, j, k) == CAMPFIRE_FUEL_STATE_SMOULDERING)
             {
                 int iItemDamage = stack.getItemDamage();
+
+
 
                 if ( getCanBeFedDirectlyIntoCampfire(iItemDamage) )
                 {
@@ -297,6 +331,7 @@ public class CampfireBlock extends BlockContainer
 
                     return true;
                 }
+
             }
         }
         else // empty hand
@@ -309,6 +344,7 @@ public class CampfireBlock extends BlockContainer
             if ( cookStack != null )
             {
                 world.spawnEntityInWorld(new EntityItem(world, i, j, k, new ItemStack(cookStack.getItem())));
+                System.out.println("popped a cooking item out");
 
 
                 tileEntity.setCookStack(null);
@@ -321,13 +357,16 @@ public class CampfireBlock extends BlockContainer
 
                 if ( spitStack != null )
                 {
-                    world.spawnEntityInWorld(new EntityItem(world, i, j, k, new ItemStack(spitStack.getItem())));
+                    if (!world.isRemote) {
 
-                    tileEntity.setSpitStack(null);
+                        world.spawnEntityInWorld(new EntityItem(world, i, j, k, spitStack));
+                        System.out.println("popped a spit item out");
+                        setHasSpit(world, i, j, k, false);
+                        tileEntity.setSpitStack(null);
 
-                    setHasSpit(world, i, j, k, false);
 
-                    return true;
+                        return true;
+                    }
                 }
             }
         }
@@ -567,7 +606,38 @@ public class CampfireBlock extends BlockContainer
         return isRainingAtPos(world, i, j, k);
     }
 
+    public int getFireLevel() {
+        return fireLevel;
+    }
 
+    @Override
+    public void updateTick(World worldIn, int x, int y, int z, Random random){
+        if (!World.doesBlockHaveSolidTopSurface(worldIn, x, y - 1, z)){
+            if (fireLevel > 0 )
+            {
+                worldIn.playAuxSFX( 10, x, y, z, 1 );
+            }
+
+            dropBlockAsItem( worldIn, x, y, z, worldIn.getBlockMetadata( x, y, z ), 0 );
+
+            worldIn.setBlockToAir( x, y, z );
+        }
+
+    }
+
+    @Override
+    public void onNeighborBlockChange(World worldIn, int x, int y, int z, Block neighbor) {
+        if (!World.doesBlockHaveSolidTopSurface(worldIn, x, y - 1, z)){
+            if (fireLevel > 0 )
+            {
+                worldIn.playAuxSFX( 10, x, y, z, 1 );
+            }
+
+            dropBlockAsItem( worldIn, x, y, z, worldIn.getBlockMetadata( x, y, z ), 0 );
+
+            worldIn.setBlockToAir( x, y, z );
+        }
+    }
 
     //----------- Client Side Functionality -----------//
 
@@ -608,7 +678,12 @@ public class CampfireBlock extends BlockContainer
     }
 
 
+
+
+
+
     @Override
+    @SideOnly(Side.CLIENT)
     public void randomDisplayTick( World world, int i, int j, int k, Random rand )
     {
         if (fireLevel > 1 )
@@ -667,15 +742,5 @@ public class CampfireBlock extends BlockContainer
                         fVolume, rand.nextFloat() * 0.7F + 0.3F, false );
             }
         }
-
-
-
     }
-
-
-
-
 }
-
-
-

@@ -19,6 +19,7 @@ public class Wetrytochangeitsstateslol {
 
         if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK ) {
             TileEntity tile = event.world.getTileEntity(event.x, event.y, event.z);
+            if (event.world.getBlock(event.x, event.y, event.z) == BWPRegistry.campfire){
             ItemStack item = event.entityPlayer.getCurrentEquippedItem();
 
             if (event.world.getBlockMetadata(event.x, event.y, event.z) >= 1 ){
@@ -78,4 +79,4 @@ public class Wetrytochangeitsstateslol {
                 }
             }
         }}
-}
+}}

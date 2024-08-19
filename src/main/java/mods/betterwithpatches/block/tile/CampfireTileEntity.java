@@ -3,14 +3,15 @@ package mods.betterwithpatches.block.tile;
 import mods.betterwithpatches.BWPRegistry;
 import mods.betterwithpatches.block.CampfireBlock;
 import mods.betterwithpatches.craft.CampFireCraftingManager;
-import mods.betterwithpatches.util.Packet132TileEntityData;
 import mods.betterwithpatches.util.TileEntityDataPacketHandler;
-import net.minecraft.entity.EntityList;
+import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 public class CampfireTileEntity extends TileEntity implements TileEntityDataPacketHandler
 {
@@ -201,7 +202,7 @@ public class CampfireTileEntity extends TileEntity implements TileEntityDataPack
             tag.setTag( "tag02", spitTag );
         }
 
-        return new Packet132TileEntityData( xCoord, yCoord, zCoord, 1, tag );
+        return new S35PacketUpdateTileEntity( xCoord, yCoord, zCoord, 1, tag );
     }
 
     //------------- FCITileEntityDataPacketHandler ------------//
@@ -280,16 +281,22 @@ public class CampfireTileEntity extends TileEntity implements TileEntityDataPack
     {
         if (spitStack != null )
         {
-            worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord, yCoord, zCoord, new ItemStack(spitStack.getItem())));;
+            if (!worldObj.isRemote) {
+                worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord, yCoord, zCoord, new ItemStack(spitStack.getItem())));
 
+            }
             spitStack = null;
         }
 
         if (cookStack != null )
         {
-            worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord, yCoord, zCoord, new ItemStack(cookStack.getItem())));
-
+            if (!worldObj.isRemote) {
+                worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord, yCoord, zCoord, new ItemStack(cookStack.getItem())));
+            }
             cookStack = null;
+        }
+        else{
+            System.out.println("nah bro there was nothing  :skull:");
         }
     }
 
@@ -399,6 +406,10 @@ public class CampfireTileEntity extends TileEntity implements TileEntityDataPack
 
         return block.fireLevel;
     }
+
+
+
+
 
     private void updateCookState()
     {
