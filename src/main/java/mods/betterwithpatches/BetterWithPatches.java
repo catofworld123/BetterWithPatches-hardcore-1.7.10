@@ -7,7 +7,9 @@ import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import mods.betterwithpatches.craft.NewCrafts.CraftingTableStuff;
+import mods.betterwithpatches.craft.RecipeManager;
 import mods.betterwithpatches.proxy.CommonProxy;
+import mods.betterwithpatches.util.BWPRenderMapper;
 
 import static mods.betterwithpatches.util.BWPConstants.MODID;
 import static mods.betterwithpatches.util.BWPConstants.MODNAME;
@@ -36,11 +38,15 @@ public class BetterWithPatches {
     @Mod.EventHandler
     public void init(FMLInitializationEvent e) {
         PROXY.init();
+        RecipeManager.addAllModRecipes();
     }
+
+
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent e) {
         PROXY.postInit();
+        BWPRenderMapper.initTileEntityRenderers();
     }
 
     @Mod.EventHandler

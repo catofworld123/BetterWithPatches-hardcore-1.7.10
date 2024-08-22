@@ -217,6 +217,9 @@ public class CampfireBlock extends BlockContainer
     public boolean onBlockActivated( World world, int i, int j, int k, EntityPlayer player, int iFacing, float fXClick, float fYClick, float fZClick )
     {
         ItemStack stack = player.getCurrentEquippedItem();
+        CampfireTileEntity tileEntityNew =
+                (CampfireTileEntity)world.getTileEntity( i, j, k );
+        ItemStack nocrash = tileEntityNew.getSpitStack();
 
         if ( stack != null )
         {
@@ -247,7 +250,7 @@ public class CampfireBlock extends BlockContainer
 
                 if ( cookStack == null )
                 {
-                    if ( isValidCookItem(stack) )
+                    if ( isValidCookItem(stack) && nocrash != null )
                     {
                         ItemStack spitStack = tileEntity.getSpitStack();
 
@@ -306,6 +309,12 @@ public class CampfireBlock extends BlockContainer
 
                 }
             }
+            if (item == BWPRegistry.itemOakBark){
+                if (world.isRemote) {
+                    System.out.print(tileEntityNew.getCookStack());
+                    return true;
+                }
+            }
 
             if (fireLevel > 0 || getFuelState(world, i, j, k) == CAMPFIRE_FUEL_STATE_SMOULDERING)
             {
@@ -341,7 +350,7 @@ public class CampfireBlock extends BlockContainer
 
             ItemStack cookStack = tileEntity.getCookStack();
 
-            if ( cookStack != null )
+            if ( cookStack != null && !world.isRemote )
             {
                 world.spawnEntityInWorld(new EntityItem(world, i, j, k, new ItemStack(cookStack.getItem())));
                 System.out.println("popped a cooking item out");
@@ -380,9 +389,20 @@ public class CampfireBlock extends BlockContainer
     {
         return 4800;
     }
+    public boolean getCanItemBeSetOnFireOnUse(int iItemDamage)
+    {
+        return false;
+    }
+
+    public boolean getCanItemStartFireOnUse(int iItemDamage)
+    {
+        return false;
+    }
+
     public boolean getCanBeFedDirectlyIntoCampfire(int iItemDamage) //ill leave it like this for now, going to change it soon
     {
-        return true;
+        return !getCanItemBeSetOnFireOnUse(iItemDamage) && !getCanItemStartFireOnUse(iItemDamage) &&
+                getCampfireBurnTime(iItemDamage) > 0;
     }
 
 

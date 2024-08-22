@@ -1,9 +1,10 @@
 package mods.betterwithpatches.craft;
 
+import betterwithmods.BWCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class RecipeManager {
+public class RecipeManager  {
     public static void addAllModRecipes() {
         SmeltingRecipeList.addRecipes();
     }

@@ -1,7 +1,9 @@
 package mods.betterwithpatches;
 
-import betterwithmods.BWMod;
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mods.betterwithpatches.block.*;
 import mods.betterwithpatches.block.tile.*;
 import mods.betterwithpatches.data.BWPCreativeTab;
@@ -89,5 +91,8 @@ public class BWPRegistry {
         GameRegistry.registerItem(item, id);
         return item;
     }
+
+
+
 
 }

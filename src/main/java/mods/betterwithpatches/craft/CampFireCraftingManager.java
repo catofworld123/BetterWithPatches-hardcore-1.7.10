@@ -13,7 +13,8 @@ public class CampFireCraftingManager
 
     private Map recipeMap = new HashMap();
 
-    private CampFireCraftingManager() {}
+    private CampFireCraftingManager() {
+    }
     public ItemStack getRecipeResult(Item InputItemID)
     {
         return (ItemStack) recipeMap.get(InputItemID);

@@ -5,6 +5,7 @@ import mods.betterwithpatches.block.CampfireBlock;
 import mods.betterwithpatches.craft.CampFireCraftingManager;
 import mods.betterwithpatches.util.TileEntityDataPacketHandler;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,6 +13,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import org.lwjgl.opengl.GL11;
 
 public class CampfireTileEntity extends TileEntity implements TileEntityDataPacketHandler
 {
@@ -324,7 +326,7 @@ public class CampfireTileEntity extends TileEntity implements TileEntityDataPack
 
         if ( iCurrentFireLevel > 0 )
         {
-            //int iFuelState = FCBetterThanWolves.fcBlockCampfireUnlit.GetFuelState( worldObj, xCoord, yCoord, zCoord );
+           // int iFuelState = FCBetterThanWolves.fcBlockCampfireUnlit.GetFuelState( worldObj, xCoord, yCoord, zCoord );
 
             if (burnTimeCountdown <= 0 )
             {
@@ -500,4 +502,6 @@ public class CampfireTileEntity extends TileEntity implements TileEntityDataPack
 
         block.relightFire(worldObj, xCoord, yCoord, zCoord);
     }
+
+
 }

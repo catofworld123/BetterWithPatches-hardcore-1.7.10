@@ -9,15 +9,24 @@ import mods.betterwithpatches.proxy.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.shader.Framebuffer;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import org.lwjgl.opengl.GL11;
 
 import static betterwithmods.client.RenderTileEntities.renderItemBlock;
 
 
 public class RenderBlockCampfire implements ISimpleBlockRenderingHandler {
     static final double[] fireAnimationScaleArray = new double[] {0D, 0.25D, 0.5D, 0.875D };
+    private static Framebuffer framebuffer;
+
 
 
 
@@ -49,6 +58,7 @@ public class RenderBlockCampfire implements ISimpleBlockRenderingHandler {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
         CampfireBlock blockcampfire = (CampfireBlock)(world.getBlock( x, y, z ));
+        CampfireTileEntity campfireTile =  (CampfireTileEntity)world.getTileEntity( x, y, z );
         renderer.renderAllFaces = true;
         renderer.setOverrideBlockTexture(((Campfire) BWPRegistry.campfire).icons[1]);
         renderer.setRenderBounds(0.125, 0D, 0.125, 0.875, 0.25, 0.875);
@@ -89,14 +99,18 @@ public class RenderBlockCampfire implements ISimpleBlockRenderingHandler {
             renderer.setRenderBounds(0, 0.6875,0.46875 ,1, 0.75, 0.53125);
             renderer.renderStandardBlock(block, x, y, z);
             renderer.clearOverrideBlockTexture();
+
         }
 
 
-
-
-
-
         Tessellator tesselator = Tessellator.instance;
+
+
+
+
+
+
+
 
         double dScale = fireAnimationScaleArray[blockcampfire.fireLevel];
 
@@ -205,7 +219,12 @@ public class RenderBlockCampfire implements ISimpleBlockRenderingHandler {
 
         return true;
 
-    }
+
+
+
+       }
+
+
 
     @Override
     public boolean shouldRender3DInInventory(int modelId) {
