@@ -13,6 +13,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import org.lwjgl.opengl.GL11;
 
 public class CampfireTileEntity extends TileEntity implements TileEntityDataPacketHandler
@@ -52,80 +53,79 @@ public class CampfireTileEntity extends TileEntity implements TileEntityDataPack
         super();
     }
 
+
+    private static final String INV_SPIT_TAG = "InventorySpit";
+    private static final String INV_COOK_TAG = "InventoryCook";
+
+    /**
+     * Данный метод вызывается при записи данных Tile Entity в чанк. Мы не рекомендуем удалять вызов родительского метода,
+     * так как это может привести к ошибке загрузки данных Tile Entity.
+     *
+     * @param nbt данные NBT в которых будет храниться информация о Tile Entity.
+     */
     @Override
-    public void readFromNBT( NBTTagCompound tag )
-    {
-        super.readFromNBT( tag );
+    public void writeToNBT(NBTTagCompound nbt) {
+        super.writeToNBT(nbt);
 
-        NBTTagCompound spitTag = tag.getCompoundTag( "fcSpitStack" );
-
-        if (spitStack.hasTagCompound() )
-        {
-            spitStack = ItemStack.loadItemStackFromNBT(spitTag);
+        if (spitStack != null) {
+            NBTTagCompound inventorySpitTag = new NBTTagCompound();
+            spitStack.writeToNBT(inventorySpitTag);
+            nbt.setTag(INV_SPIT_TAG, inventorySpitTag);
         }
-
-        NBTTagCompound cookTag = tag.getCompoundTag( "fcCookStack" );
-
-        if (cookStack.hasTagCompound() )
-        {
-            cookStack = ItemStack.loadItemStackFromNBT(cookTag);
-        }
-
-        if ( tag.hasKey( "fcBurnCounter" ) )
-        {
-            burnTimeCountdown = tag.getInteger("fcBurnCounter");
-        }
-
-        if ( tag.hasKey( "fcBurnTime" ) )
-        {
-            burnTimeSinceLit = tag.getInteger("fcBurnTime");
-        }
-
-        if ( tag.hasKey( "fcCookCounter" ) )
-        {
-            cookCounter = tag.getInteger("fcCookCounter");
-        }
-
-        if ( tag.hasKey( "fcSmoulderCounter" ) )
-        {
-            smoulderCounter = tag.getInteger("fcSmoulderCounter");
-        }
-
-        if ( tag.hasKey( "fcCookBurning" ) )
-        {
-            cookBurningCounter = tag.getInteger("fcCookBurning");
-        }
-    }
-
-    @Override
-    public void writeToNBT( NBTTagCompound tag)
-    {
-        super.writeToNBT( tag );
-
-        if (spitStack != null)
-        {
-            NBTTagCompound spitTag = new NBTTagCompound();
-
-            spitStack.writeToNBT(spitTag);
-
-            tag.setTag( "fcSpitStack", spitTag );
-        }
-
         if (cookStack != null)
         {
             NBTTagCompound cookTag = new NBTTagCompound();
 
             cookStack.writeToNBT(cookTag);
 
-            tag.setTag( "fcCookStack", cookTag );
+            nbt.setTag( INV_COOK_TAG, cookTag );
+        }
+        nbt.setInteger("fcBurnCounter", burnTimeCountdown);
+        nbt.setInteger("fcBurnTime", burnTimeSinceLit);
+        nbt.setInteger("fcCookCounter", cookCounter);
+        nbt.setInteger("fcSmoulderCounter", smoulderCounter);
+        nbt.setInteger("fcCookBurning", cookBurningCounter);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbt) {
+        super.readFromNBT(nbt);
+
+        if (nbt.hasKey(INV_SPIT_TAG, Constants.NBT.TAG_COMPOUND)) {
+            NBTTagCompound inventoryTag = nbt.getCompoundTag(INV_SPIT_TAG);
+            spitStack = ItemStack.loadItemStackFromNBT(inventoryTag);
+        }
+        if (nbt.hasKey(INV_COOK_TAG, Constants.NBT.TAG_COMPOUND)) {
+            NBTTagCompound inventoryTag = nbt.getCompoundTag(INV_COOK_TAG);
+            cookStack = ItemStack.loadItemStackFromNBT(inventoryTag);
+        }
+        if ( nbt.hasKey( "fcBurnCounter" ) )
+        {
+            burnTimeCountdown = nbt.getInteger("fcBurnCounter");
         }
 
-        tag.setInteger("fcBurnCounter", burnTimeCountdown);
-        tag.setInteger("fcBurnTime", burnTimeSinceLit);
-        tag.setInteger("fcCookCounter", cookCounter);
-        tag.setInteger("fcSmoulderCounter", smoulderCounter);
-        tag.setInteger("fcCookBurning", cookBurningCounter);
+        if ( nbt.hasKey( "fcBurnTime" ) )
+        {
+            burnTimeSinceLit = nbt.getInteger("fcBurnTime");
+        }
+
+        if ( nbt.hasKey( "fcCookCounter" ) )
+        {
+            cookCounter = nbt.getInteger("fcCookCounter");
+        }
+
+        if ( nbt.hasKey( "fcSmoulderCounter" ) )
+        {
+            smoulderCounter = nbt.getInteger("fcSmoulderCounter");
+        }
+
+        if ( nbt.hasKey( "fcCookBurning" ) )
+        {
+            cookBurningCounter = nbt.getInteger("fcCookBurning");
+        }
     }
+
+
 
     @Override
     public void updateEntity()
