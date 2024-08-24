@@ -1,4 +1,5 @@
 package mods.betterwithpatches.block.tile;
+import net.minecraft.nbt.NBTTagCompound;
 
 import mods.betterwithpatches.BWPRegistry;
 import mods.betterwithpatches.block.CampfireBlock;
@@ -9,14 +10,16 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import org.lwjgl.opengl.GL11;
 
-public class CampfireTileEntity extends TileEntity implements TileEntityDataPacketHandler
+public class CampfireTileEntity extends TileEntity
 {
     private static final int CAMPFIRE_BURN_TIME_MULTIPLIER = 8;
 
@@ -67,19 +70,10 @@ public class CampfireTileEntity extends TileEntity implements TileEntityDataPack
     public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
 
-        if (spitStack != null) {
-            NBTTagCompound inventorySpitTag = new NBTTagCompound();
-            spitStack.writeToNBT(inventorySpitTag);
-            nbt.setTag(INV_SPIT_TAG, inventorySpitTag);
-        }
-        if (cookStack != null)
-        {
-            NBTTagCompound cookTag = new NBTTagCompound();
+        writeExtendedData(nbt);
+        writeExtendedData2(nbt);
 
-            cookStack.writeToNBT(cookTag);
 
-            nbt.setTag( INV_COOK_TAG, cookTag );
-        }
         nbt.setInteger("fcBurnCounter", burnTimeCountdown);
         nbt.setInteger("fcBurnTime", burnTimeSinceLit);
         nbt.setInteger("fcCookCounter", cookCounter);
@@ -91,14 +85,10 @@ public class CampfireTileEntity extends TileEntity implements TileEntityDataPack
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
 
-        if (nbt.hasKey(INV_SPIT_TAG, Constants.NBT.TAG_COMPOUND)) {
-            NBTTagCompound inventoryTag = nbt.getCompoundTag(INV_SPIT_TAG);
-            spitStack = ItemStack.loadItemStackFromNBT(inventoryTag);
-        }
-        if (nbt.hasKey(INV_COOK_TAG, Constants.NBT.TAG_COMPOUND)) {
-            NBTTagCompound inventoryTag = nbt.getCompoundTag(INV_COOK_TAG);
-            cookStack = ItemStack.loadItemStackFromNBT(inventoryTag);
-        }
+        readExtendedData2(nbt);
+
+        readExtendedData(nbt);
+
         if ( nbt.hasKey( "fcBurnCounter" ) )
         {
             burnTimeCountdown = nbt.getInteger("fcBurnCounter");
@@ -123,7 +113,55 @@ public class CampfireTileEntity extends TileEntity implements TileEntityDataPack
         {
             cookBurningCounter = nbt.getInteger("fcCookBurning");
         }
+
+
+
     }
+    private void writeExtendedData(NBTTagCompound nbt) {
+        if (cookStack != null) {
+            NBTTagCompound inventoryTag = new NBTTagCompound();
+            cookStack.writeToNBT(inventoryTag);
+            nbt.setTag(INV_COOK_TAG, inventoryTag);
+        }
+    }
+    private void writeExtendedData2(NBTTagCompound nbt) {
+        if (spitStack != null) {
+            NBTTagCompound inventoryTag = new NBTTagCompound();
+            spitStack.writeToNBT(inventoryTag);
+            nbt.setTag(INV_SPIT_TAG, inventoryTag);
+        }
+    }
+    private void readExtendedData(NBTTagCompound nbt) {
+        if (nbt.hasKey(INV_COOK_TAG, Constants.NBT.TAG_COMPOUND)) {
+            NBTTagCompound inventoryTag = nbt.getCompoundTag(INV_COOK_TAG);
+            cookStack = ItemStack.loadItemStackFromNBT(inventoryTag);
+        }
+    }
+    private void readExtendedData2(NBTTagCompound nbt) {
+        if (nbt.hasKey(INV_SPIT_TAG, Constants.NBT.TAG_COMPOUND)) {
+            NBTTagCompound inventoryTag = nbt.getCompoundTag(INV_SPIT_TAG);
+            spitStack = ItemStack.loadItemStackFromNBT(inventoryTag);
+        }
+    }
+
+    @Override
+    public Packet getDescriptionPacket() {
+
+        NBTTagCompound nbt = new NBTTagCompound();
+
+        writeExtendedData(nbt);
+        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, nbt);
+    }
+    @Override
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+        // Получаем Tile Entity по координатам из пакета
+        TileEntity tile = worldObj.getTileEntity(packet.func_148856_c(), packet.func_148855_d(), packet.func_148854_e());
+        if (tile instanceof CampfireTileEntity) {
+            // Читаем изолированные данные
+            ((CampfireTileEntity) tile).readExtendedData(packet.func_148857_g());
+        }
+    }
+
 
 
 
@@ -181,55 +219,8 @@ public class CampfireTileEntity extends TileEntity implements TileEntityDataPack
         }
     }
 
-    @Override
-    public Packet getDescriptionPacket()
-    {
-        NBTTagCompound tag = new NBTTagCompound();
 
-        if (cookStack != null)
-        {
-            NBTTagCompound cookTag = new NBTTagCompound();
 
-            cookStack.writeToNBT(cookTag);
-
-            tag.setTag( "tag01", cookTag );
-        }
-
-        if (spitStack != null)
-        {
-            NBTTagCompound spitTag = new NBTTagCompound();
-
-            spitStack.writeToNBT(spitTag);
-
-            tag.setTag( "tag02", spitTag );
-        }
-
-        return new S35PacketUpdateTileEntity( xCoord, yCoord, zCoord, 1, tag );
-    }
-
-    //------------- FCITileEntityDataPacketHandler ------------//
-
-    @Override
-    public void readNBTFromPacket( NBTTagCompound tag )
-    {
-        NBTTagCompound cookTag = tag.getCompoundTag( "tag01" );
-
-        if (cookStack.hasTagCompound() )
-        {
-            cookStack = ItemStack.loadItemStackFromNBT(cookTag);
-        }
-
-        NBTTagCompound spitTag = tag.getCompoundTag( "tag02" );
-
-        if (spitStack.hasTagCompound() )
-        {
-            spitStack = ItemStack.loadItemStackFromNBT(spitTag);
-        }
-
-        // force a visual update for the block since the above variables affect it
-
-        worldObj.markBlockRangeForRenderUpdate( xCoord, yCoord, zCoord, xCoord, yCoord, zCoord );
-    }
 
     //------------- Class Specific Methods ------------//
 
@@ -256,20 +247,22 @@ public class CampfireTileEntity extends TileEntity implements TileEntityDataPack
 
     public void setCookStack(ItemStack stack)
     {
-        if ( stack != null )
-        {
-            cookStack = stack.copy();
 
-            cookStack.stackSize = 1;
-        }
-        else
-        {
-            cookStack = null;
+            if (stack != null) {
+                cookStack = stack.copy();
 
-            cookBurningCounter = 0;
-        }
+                cookStack.stackSize = 1;
 
-        cookCounter = 0;
+
+            } else {
+                cookStack = null;
+
+                cookBurningCounter = 0;
+
+
+            }
+
+            cookCounter = 0;
 
         worldObj.markBlockForUpdate( xCoord, yCoord, zCoord );
     }
@@ -296,9 +289,10 @@ public class CampfireTileEntity extends TileEntity implements TileEntityDataPack
                 worldObj.spawnEntityInWorld(new EntityItem(worldObj, xCoord, yCoord, zCoord, new ItemStack(cookStack.getItem())));
             }
             cookStack = null;
+
         }
         else{
-            System.out.println("nah bro there was nothing  :skull:");
+
         }
     }
 
@@ -502,6 +496,10 @@ public class CampfireTileEntity extends TileEntity implements TileEntityDataPack
 
         block.relightFire(worldObj, xCoord, yCoord, zCoord);
     }
+
+
+
+
 
 
 }

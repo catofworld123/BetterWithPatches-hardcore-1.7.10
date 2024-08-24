@@ -1,9 +1,8 @@
 package mods.betterwithpatches.proxy;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import mods.betterwithpatches.BetterWithPatches;
 import mods.betterwithpatches.Config;
-import mods.betterwithpatches.block.tile.TileEntityCampfire;
 import mods.betterwithpatches.client.*;
 import mods.betterwithpatches.craft.HardcoreWoodInteractionExtensions;
 import mods.betterwithpatches.features.HCMovement;
@@ -55,7 +54,6 @@ public class ClientProxy extends CommonProxy {
             if (Config.HCMovement && Config.removeSpeedPenaltyFOVChanges)
                 MinecraftForge.EVENT_BUS.register(new HCMovement.HCMovementFOV());
         }
-
 
     }
 

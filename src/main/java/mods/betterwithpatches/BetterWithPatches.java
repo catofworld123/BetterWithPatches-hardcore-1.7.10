@@ -6,6 +6,8 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.FMLEventChannel;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import mods.betterwithpatches.craft.NewCrafts.CraftingTableStuff;
 import mods.betterwithpatches.craft.RecipeManager;
 import mods.betterwithpatches.proxy.CommonProxy;
@@ -19,6 +21,7 @@ import static mods.betterwithpatches.util.BWPConstants.MODNAME;
 
 @Mod(modid = MODID, name = MODNAME, version = "${version}", dependencies = "required-after:betterwithmods")
 public class BetterWithPatches {
+
 
 
     @SidedProxy(clientSide = "mods.betterwithpatches.proxy.ClientProxy", serverSide = "mods.betterwithpatches.proxy.CommonProxy")
@@ -39,6 +42,7 @@ public class BetterWithPatches {
     public void init(FMLInitializationEvent e) {
         PROXY.init();
         RecipeManager.addAllModRecipes();
+
     }
 
 

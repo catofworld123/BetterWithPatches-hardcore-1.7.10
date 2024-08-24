@@ -267,17 +267,16 @@ public class CampfireBlock extends BlockContainer
 
                             setHasSpit(world, i, j, k, false);
 
-                            if ( !world.isRemote )
-                            {
+
                                 ItemStack ejectStack = stack.copy();
 
                                 ejectStack.stackSize = 1;
+                            if ( !world.isRemote ) {
+                                world.spawnEntityInWorld(new EntityItem(world, i, j, k, ejectStack));
 
-                                world.spawnEntityInWorld(new EntityItem(world, i, j, k,  ejectStack));;
 
-
-                                world.playAuxSFX( 10,
-                                        i, j, k, 0 );
+                                world.playAuxSFX(10,
+                                        i, j, k, 0);
                             }
                         }
 
@@ -312,8 +311,10 @@ public class CampfireBlock extends BlockContainer
             if (item == BWPRegistry.itemOakBark){
                 if (world.isRemote) {
                     System.out.print(tileEntityNew.getCookStack());
-                    return true;
+                    System.out.print(tileEntityNew.getSpitStack() + "spit");
                 }
+                    return true;
+
             }
 
             if (fireLevel > 0 || getFuelState(world, i, j, k) == CAMPFIRE_FUEL_STATE_SMOULDERING)
@@ -324,10 +325,9 @@ public class CampfireBlock extends BlockContainer
 
                 if ( getCanBeFedDirectlyIntoCampfire(iItemDamage) )
                 {
-                    if ( !world.isRemote )
+
                     {
-                        CampfireTileEntity tileEntity =
-                                (CampfireTileEntity)world.getTileEntity( i, j, k );
+                        CampfireTileEntity tileEntity = (CampfireTileEntity)world.getTileEntity( i, j, k );
 
                         world.playSoundEffect( i + 0.5D, j + 0.5D, k + 0.5D, "mob.ghast.fireball",
                                 0.2F + world.rand.nextFloat() * 0.1F,
@@ -350,10 +350,11 @@ public class CampfireBlock extends BlockContainer
 
             ItemStack cookStack = tileEntity.getCookStack();
 
-            if ( cookStack != null && !world.isRemote )
+            if ( cookStack != null  )
             {
-                world.spawnEntityInWorld(new EntityItem(world, i, j, k, new ItemStack(cookStack.getItem())));
-                System.out.println("popped a cooking item out");
+                if (!world.isRemote) {
+                    world.spawnEntityInWorld(new EntityItem(world, i, j, k, new ItemStack(cookStack.getItem())));
+                }
 
 
                 tileEntity.setCookStack(null);
@@ -369,13 +370,13 @@ public class CampfireBlock extends BlockContainer
                     if (!world.isRemote) {
 
                         world.spawnEntityInWorld(new EntityItem(world, i, j, k, spitStack));
-                        System.out.println("popped a spit item out");
+                    }
                         setHasSpit(world, i, j, k, false);
                         tileEntity.setSpitStack(null);
 
 
                         return true;
-                    }
+
                 }
             }
         }

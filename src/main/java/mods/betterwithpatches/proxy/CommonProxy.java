@@ -6,6 +6,7 @@ import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import mods.betterwithpatches.BWPRegistry;
+import mods.betterwithpatches.BetterWithPatches;
 import mods.betterwithpatches.Config;
 import mods.betterwithpatches.compat.minetweaker.util.MTHelper;
 import mods.betterwithpatches.compat.nei.NEIBWMConfig;

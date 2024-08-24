@@ -1,26 +1,33 @@
 package mods.betterwithpatches.client;
 
 import mods.betterwithpatches.BWPRegistry;
+import mods.betterwithpatches.block.CampfireBlock;
 import mods.betterwithpatches.block.tile.CampfireTileEntity;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
 public class CampfireRenderer extends TileEntitySpecialRenderer
 {
-    public void renderTileEntityAt(TileEntity tileEntity, double xCoord, double yCoord, double zCoord, float fPartialTickCount )
+
+    public void renderTileEntityAt(TileEntity tileEntity, double xCoord, double yCoord, double zCoord, float fPartialTickCount)
     {
         CampfireTileEntity campfire = (CampfireTileEntity)tileEntity;
+
 
         renderCookStack(campfire, xCoord, yCoord, zCoord);
     }
 
+
     private void renderCookStack(CampfireTileEntity campfire, double xCoord, double yCoord, double zCoord)
     {
         ItemStack stack = campfire.getCookStack();
+
 
         if ( stack != null )
         {
@@ -50,4 +57,6 @@ public class CampfireRenderer extends TileEntitySpecialRenderer
 
         }
     }
+
+
 }
