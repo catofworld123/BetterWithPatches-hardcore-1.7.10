@@ -215,6 +215,7 @@ public class RenderBlockCampfire implements ISimpleBlockRenderingHandler {
         tesselator.addVertexWithUV((dI + dHorizontalMax), (dJ + 0), var22, dMinU, dMaxV);
         tesselator.addVertexWithUV((dI + dHorizontalMin), (dJ + 0), var22, dMaxU, dMaxV);
         tesselator.addVertexWithUV((dI + dHorizontalMin), (dJ + dFireHeight), var30, dMaxU, dMinV);
+        renderer.renderAllFaces = false;
 
 
         return true;

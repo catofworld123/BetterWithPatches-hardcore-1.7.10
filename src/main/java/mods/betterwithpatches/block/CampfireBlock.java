@@ -604,10 +604,19 @@ public class CampfireBlock extends BlockContainer
 
     public void changeFireLevel(World world, int i, int j, int k, int iFireLevel, int iMetadata)
     {
-
+TileEntity tileentity = world.getTileEntity(i, j , k);
         CampfireBlock.campfireChangingState = true;
+
+
         world.setBlock( i, j, k, CampfireBlock.fireLevelBlockArray[iFireLevel], iMetadata, 2 );
         CampfireBlock.campfireChangingState = false;
+        if (tileentity != null) {
+            tileentity.validate();
+            world.setTileEntity(i, j, k, tileentity);
+        }
+
+
+
     }
 
 
