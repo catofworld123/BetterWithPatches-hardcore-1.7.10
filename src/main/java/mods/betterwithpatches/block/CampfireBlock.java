@@ -3,13 +3,14 @@ package mods.betterwithpatches.block;
 
 
 
+import betterwithmods.BWRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mods.betterwithpatches.BWPRegistry;
 import mods.betterwithpatches.block.tile.CampfireTileEntity;
 import mods.betterwithpatches.craft.CampFireCraftingManager;
-import mods.betterwithpatches.features.HCFurnace;
 import mods.betterwithpatches.proxy.ClientProxy;
+import mods.betterwithpatches.util.BWMaterials;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -319,11 +320,12 @@ public class CampfireBlock extends BlockContainer
 
             if (fireLevel > 0 || getFuelState(world, i, j, k) == CAMPFIRE_FUEL_STATE_SMOULDERING)
             {
-                int iItemDamage = stack.getItemDamage();
 
 
 
-                if ( getCanBeFedDirectlyIntoCampfire(iItemDamage) )
+
+
+                if ( getCanBeFedDirectlyIntoCampfire( stack) )
                 {
 
                     {
@@ -333,7 +335,7 @@ public class CampfireBlock extends BlockContainer
                                 0.2F + world.rand.nextFloat() * 0.1F,
                                 world.rand.nextFloat() * 0.25F + 1.25F );
 
-                        tileEntity.addBurnTime(getCampfireBurnTime(iItemDamage));
+                        tileEntity.addBurnTime(getCampfireBurnTime(stack));
                     }
 
                     stack.stackSize--;
@@ -386,7 +388,7 @@ public class CampfireBlock extends BlockContainer
 
 
 
-    public int getCampfireBurnTime(int iItemDamage)
+    public int getCampfireBurnTime(ItemStack iItemDamage)
     {
         return 4800;
     }
@@ -400,10 +402,12 @@ public class CampfireBlock extends BlockContainer
         return false;
     }
 
-    public boolean getCanBeFedDirectlyIntoCampfire(int iItemDamage) //ill leave it like this for now, going to change it soon
+    public boolean getCanBeFedDirectlyIntoCampfire( ItemStack itemstack) //ill leave it like this for now, going to change it soon
     {
-        return !getCanItemBeSetOnFireOnUse(iItemDamage) && !getCanItemStartFireOnUse(iItemDamage) &&
-                getCampfireBurnTime(iItemDamage) > 0;
+        if (itemstack.getItem() == BWPRegistry.itemShaft || itemstack.getItem() == BWRegistry.bark || itemstack == BWMaterials.getMaterial(BWMaterials.SAWDUST)){
+            return true;
+        }
+            return false;
     }
 
 
@@ -411,17 +415,16 @@ public class CampfireBlock extends BlockContainer
     @Override
     public void onEntityCollidedWithBlock( World world, int i, int j, int k, Entity entity )
     {
-        if ( !world.isRemote && entity.isEntityAlive() && (fireLevel > 0 ||
-                getFuelState(world, i, j, k) == CAMPFIRE_FUEL_STATE_SMOULDERING) )
+        if ( !world.isRemote && entity.isEntityAlive() && (fireLevel > 0 || getFuelState(world, i, j, k) == CAMPFIRE_FUEL_STATE_SMOULDERING) )
         {
             if ( entity instanceof EntityItem)
             {
                 EntityItem entityItem = (EntityItem)entity;
                 ItemStack targetStack = entityItem.getEntityItem();
                 Item item = targetStack.getItem();
-                int iBurnTime = getCampfireBurnTime(targetStack.getItemDamage());
+                int iBurnTime = getCampfireBurnTime(targetStack);
 
-                if ( iBurnTime > 0 )
+                if ( iBurnTime > 0  && getCanBeFedDirectlyIntoCampfire(targetStack))
                 {
                     iBurnTime *= targetStack.stackSize;
 
