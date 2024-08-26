@@ -1,35 +1,33 @@
 package mods.betterwithpatches.block.tile;
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 
 import mods.betterwithpatches.BWPRegistry;
 import mods.betterwithpatches.block.CampfireBlock;
 import mods.betterwithpatches.craft.CampFireCraftingManager;
-import mods.betterwithpatches.util.TileEntityDataPacketHandler;
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.entity.RenderManager;
+
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.PacketBuffer;
+
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
-import org.lwjgl.opengl.GL11;
+
 
 public class CampfireTileEntity extends TileEntity
 {
     private static final int CAMPFIRE_BURN_TIME_MULTIPLIER = 8;
 
-    private static final int TIME_TO_COOK = (400 * CAMPFIRE_BURN_TIME_MULTIPLIER *
-            3 / 2 ); // this line represents efficiency relative to furnace cooking
+    private static final int TIME_TO_COOK = (400 * CAMPFIRE_BURN_TIME_MULTIPLIER * 3 / 2 ); // this line represents efficiency relative to furnace cooking
 
     private static final int MAX_BURN_TIME = (5 * 1200);
 
-    private static final int INITIAL_BURN_TIME = (50 * 4 * CAMPFIRE_BURN_TIME_MULTIPLIER *
-            2); // 50 is the furnace burn time of a shaft
+    private static final int INITIAL_BURN_TIME = (50 * 4 * CAMPFIRE_BURN_TIME_MULTIPLIER * 2); // 50 is the furnace burn time of a shaft
 
     private static final int WARMUP_TIME = (10 * 20);
     private static final int REVERT_TO_SMALL_TIME = (20 * 20);
@@ -146,22 +144,27 @@ public class CampfireTileEntity extends TileEntity
 
     @Override
     public Packet getDescriptionPacket() {
-
         NBTTagCompound nbt = new NBTTagCompound();
-
         writeExtendedData(nbt);
         return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, nbt);
     }
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-        // Получаем Tile Entity по координатам из пакета
         TileEntity tile = worldObj.getTileEntity(packet.func_148856_c(), packet.func_148855_d(), packet.func_148854_e());
         if (tile instanceof CampfireTileEntity) {
-            // Читаем изолированные данные
             ((CampfireTileEntity) tile).readExtendedData(packet.func_148857_g());
         }
     }
 
+@Override
+public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int newMeta, World world, int x, int y, int z)
+{
+    if (oldBlock != newBlock) {
+        System.out.println("refreshin'");
+        return true;
+    }
+    else return false;
+}
 
 
 
@@ -193,6 +196,7 @@ public class CampfireTileEntity extends TileEntity
 
                         burnTimeCountdown--;
                     }
+
                 }
 
                 iCurrentFireLevel = validateFireLevel();
@@ -291,9 +295,7 @@ public class CampfireTileEntity extends TileEntity
             cookStack = null;
 
         }
-        else{
 
-        }
     }
 
     public void addBurnTime(int iBurnTime)
@@ -316,6 +318,7 @@ public class CampfireTileEntity extends TileEntity
 
     public int validateFireLevel()
     {
+        System.out.print(burnTimeCountdown);
         int iCurrentFireLevel = getCurrentFireLevel();
 
         if ( iCurrentFireLevel > 0 )
@@ -325,15 +328,18 @@ public class CampfireTileEntity extends TileEntity
             if (burnTimeCountdown <= 0 )
             {
                 extinguishFire(true);
+            System.out.println("extinguished fire");
 
                 return 0;
             }
             else
             {
+
                 int iDesiredFireLevel = 2;
 
                 if (burnTimeSinceLit < WARMUP_TIME || burnTimeCountdown < REVERT_TO_SMALL_TIME)
                 {
+                    System.out.println("changing to 1");
                     iDesiredFireLevel = 1;
                 }
                 else if (burnTimeCountdown > BLAZE_TIME)
@@ -358,8 +364,7 @@ public class CampfireTileEntity extends TileEntity
         else // iCurrenFireLevel == 0
         {
             if (burnTimeCountdown > 0 &&
-                    BWPRegistry.unlitCampfire.getFuelState(worldObj, xCoord, yCoord, zCoord) ==
-                            CampfireBlock.CAMPFIRE_FUEL_STATE_SMOULDERING)
+                    BWPRegistry.unlitCampfire.getFuelState(worldObj, xCoord, yCoord, zCoord) == CampfireBlock.CAMPFIRE_FUEL_STATE_SMOULDERING)
             {
                 relightSmouldering();
 

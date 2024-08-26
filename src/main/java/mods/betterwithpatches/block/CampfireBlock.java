@@ -404,7 +404,7 @@ public class CampfireBlock extends BlockContainer
 
     public boolean getCanBeFedDirectlyIntoCampfire( ItemStack itemstack) //ill leave it like this for now, going to change it soon
     {
-        if (itemstack.getItem() == BWPRegistry.itemShaft || itemstack.getItem() == BWRegistry.bark || itemstack == BWMaterials.getMaterial(BWMaterials.SAWDUST)){
+        if (itemstack.getItem() == BWPRegistry.itemShaft || itemstack.getItem() == BWRegistry.bark || itemstack.equals(BWMaterials.getMaterial(BWMaterials.SAWDUST))){
             return true;
         }
             return false;
@@ -604,10 +604,9 @@ public class CampfireBlock extends BlockContainer
 
     public void changeFireLevel(World world, int i, int j, int k, int iFireLevel, int iMetadata)
     {
+
         CampfireBlock.campfireChangingState = true;
-
         world.setBlock( i, j, k, CampfireBlock.fireLevelBlockArray[iFireLevel], iMetadata, 2 );
-
         CampfireBlock.campfireChangingState = false;
     }
 
@@ -630,9 +629,7 @@ public class CampfireBlock extends BlockContainer
         return isRainingAtPos(world, i, j, k);
     }
 
-    public int getFireLevel() {
-        return fireLevel;
-    }
+
 
     @Override
     public void updateTick(World worldIn, int x, int y, int z, Random random){
@@ -669,7 +666,7 @@ public class CampfireBlock extends BlockContainer
     @SideOnly(Side.CLIENT)
     public IIcon[] icons;
 
-    static final double[] fireAnimationScaleArray = new double[] {0D, 0.25D, 0.5D, 0.875D };
+
 
 
 
