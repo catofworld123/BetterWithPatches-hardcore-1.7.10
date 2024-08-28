@@ -17,6 +17,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -178,7 +179,34 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
 
 
 
-    @Override
+    private int getChanceOfNeighborsEncouragingFire(World p_149845_1_, int p_149845_2_, int p_149845_3_, int p_149845_4_)
+    {
+        byte b0 = 0;
+
+        if (!p_149845_1_.isAirBlock(p_149845_2_, p_149845_3_, p_149845_4_))
+        {
+            return 0;
+        }
+        else
+        {
+            int l = b0;
+            l = this.getChanceToEncourageFire(p_149845_1_, p_149845_2_ + 1, p_149845_3_, p_149845_4_, l, WEST );
+            l = this.getChanceToEncourageFire(p_149845_1_, p_149845_2_ - 1, p_149845_3_, p_149845_4_, l, EAST );
+            l = this.getChanceToEncourageFire(p_149845_1_, p_149845_2_, p_149845_3_ - 1, p_149845_4_, l, UP   );
+            l = this.getChanceToEncourageFire(p_149845_1_, p_149845_2_, p_149845_3_ + 1, p_149845_4_, l, DOWN );
+            l = this.getChanceToEncourageFire(p_149845_1_, p_149845_2_, p_149845_3_, p_149845_4_ - 1, l, SOUTH);
+            l = this.getChanceToEncourageFire(p_149845_1_, p_149845_2_, p_149845_3_, p_149845_4_ + 1, l, NORTH);
+            return l;
+        }
+    }
+
+    public int getChanceToEncourageFire(IBlockAccess world, int x, int y, int z, int oldChance, ForgeDirection face)
+    {
+        int newChance = world.getBlock(x, y, z).getFireSpreadSpeed(world, x, y, z, face);
+        return (newChance > oldChance ? newChance : oldChance);
+    }
+
+@Override
     public void updateEntity()
     {
         Random random = new Random();
@@ -192,12 +220,62 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
             {
                if ( iCurrentFireLevel > 1 && worldObj.rand.nextFloat() <= CHANCE_OF_FIRE_SPREAD)
                 {
-                    tryCatchFire(worldObj, xCoord + 1, yCoord, zCoord, 300, random, 12, WEST );
-                    tryCatchFire(worldObj, xCoord - 1, yCoord, zCoord, 300 , random, 12, EAST );
-                    tryCatchFire(worldObj, xCoord, yCoord - 1, zCoord, 250 , random, 12, UP   );
-                    tryCatchFire(worldObj, xCoord, yCoord + 1, zCoord, 250 , random, 12, DOWN );
-                    tryCatchFire(worldObj, xCoord, yCoord, zCoord - 1, 300 , random, 12, SOUTH);
-                    tryCatchFire(worldObj, xCoord, yCoord, zCoord + 1, 300 , random, 12, NORTH);
+                    boolean flag1 = worldObj.isBlockHighHumidity(xCoord, yCoord, zCoord);
+                    byte b0 = 0;
+
+                    if (flag1)
+                    {
+                        b0 = -50;
+                    }
+                    int l = 12;
+                    tryCatchFire(worldObj, xCoord + 1, yCoord, zCoord, 300 + b0, random, l, WEST );
+                    tryCatchFire(worldObj, xCoord - 1, yCoord, zCoord, 300 + b0 , random, l, EAST );
+                    tryCatchFire(worldObj, xCoord, yCoord - 1, zCoord, 250 + b0 , random, l, UP   );
+                    tryCatchFire(worldObj, xCoord, yCoord + 1, zCoord, 250 + b0 , random, l, DOWN );
+                    tryCatchFire(worldObj, xCoord, yCoord, zCoord - 1, 300 + b0 , random, l, SOUTH);
+                    tryCatchFire(worldObj, xCoord, yCoord, zCoord + 1, 300 + b0 , random, l, NORTH);
+                    for (int i1 = xCoord - 1; i1 <= xCoord + 1; ++i1)
+                    {
+                        for (int j1 = zCoord - 1; j1 <= zCoord + 1; ++j1)
+                        {
+                            for (int k1 = yCoord - 1; k1 <= yCoord + 4; ++k1)
+                            {
+                                if (i1 != xCoord || k1 != yCoord || j1 != zCoord)
+                                {
+                                    int l1 = 100;
+
+                                    if (k1 > yCoord + 1)
+                                    {
+                                        l1 += (k1 - (yCoord + 1)) * 100;
+                                    }
+
+                                    int i2 = getChanceOfNeighborsEncouragingFire(worldObj, i1, k1, j1);
+
+                                    if (i2 > 0)
+                                    {
+                                        int j2 = (i2 + 40 + worldObj.difficultySetting.getDifficultyId() * 7) / (l + 30);
+
+                                        if (flag1)
+                                        {
+                                            j2 /= 2;
+                                        }
+
+                                        if (j2 > 0 && random.nextInt(l1) <= j2 && (!worldObj.isRaining() || !worldObj.canLightningStrikeAt(i1, k1, j1)) && !worldObj.canLightningStrikeAt(i1 - 1, k1, zCoord) && !worldObj.canLightningStrikeAt(i1 + 1, k1, j1) && !worldObj.canLightningStrikeAt(i1, k1, j1 - 1) && !worldObj.canLightningStrikeAt(i1, k1, j1 + 1))
+                                        {
+                                            int k2 = l + random.nextInt(5) / 4;
+
+                                            if (k2 > 15)
+                                            {
+                                                k2 = 15;
+                                            }
+
+                                            worldObj.setBlock(i1, k1, j1, Blocks.fire, k2, 3);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
 
                 }
 
@@ -365,61 +443,53 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
 
     public int validateFireLevel()
     {
-        System.out.print(burnTimeCountdown);
-        int iCurrentFireLevel = getCurrentFireLevel();
+        if (worldObj.getBlock(xCoord, yCoord, zCoord) != Blocks.air) {
+            System.out.print(burnTimeCountdown);
+            int iCurrentFireLevel = getCurrentFireLevel();
 
-        if ( iCurrentFireLevel > 0 )
-        {
-           // int iFuelState = FCBetterThanWolves.fcBlockCampfireUnlit.GetFuelState( worldObj, xCoord, yCoord, zCoord );
+            if (iCurrentFireLevel > 0) {
+                // int iFuelState = FCBetterThanWolves.fcBlockCampfireUnlit.GetFuelState( worldObj, xCoord, yCoord, zCoord );
 
-            if (burnTimeCountdown <= 0 )
-            {
-                extinguishFire(true);
-            System.out.println("extinguished fire");
+                if (burnTimeCountdown <= 0) {
+                    extinguishFire(true);
+                    System.out.println("extinguished fire");
 
-                return 0;
-            }
-            else
-            {
+                    return 0;
+                } else {
 
-                int iDesiredFireLevel = 2;
+                    int iDesiredFireLevel = 2;
 
-                if (burnTimeSinceLit < WARMUP_TIME || burnTimeCountdown < REVERT_TO_SMALL_TIME)
-                {
-                    System.out.println("changing to 1");
-                    iDesiredFireLevel = 1;
-                }
-                else if (burnTimeCountdown > BLAZE_TIME)
-                {
-                    iDesiredFireLevel = 3;
-                }
-
-                if ( iDesiredFireLevel != iCurrentFireLevel )
-                {
-                    changeFireLevel(iDesiredFireLevel);
-
-                    if ( iDesiredFireLevel == 1 && iCurrentFireLevel == 2 )
-                    {
-                        worldObj.playAuxSFX(10, xCoord, yCoord, zCoord, 1 );
+                    if (burnTimeSinceLit < WARMUP_TIME || burnTimeCountdown < REVERT_TO_SMALL_TIME) {
+                        System.out.println("changing to 1");
+                        iDesiredFireLevel = 1;
+                    } else if (burnTimeCountdown > BLAZE_TIME) {
+                        iDesiredFireLevel = 3;
                     }
 
-                    return iDesiredFireLevel;
+                    if (iDesiredFireLevel != iCurrentFireLevel) {
+                        changeFireLevel(iDesiredFireLevel);
+
+                        if (iDesiredFireLevel == 1 && iCurrentFireLevel == 2) {
+                            worldObj.playAuxSFX(10, xCoord, yCoord, zCoord, 1);
+                        }
+
+                        return iDesiredFireLevel;
+                    }
+                }
+
+            } else // iCurrenFireLevel == 0
+            {
+                if (burnTimeCountdown > 0 &&
+                        BWPRegistry.unlitCampfire.getFuelState(worldObj, xCoord, yCoord, zCoord) == CampfireBlock.CAMPFIRE_FUEL_STATE_SMOULDERING) {
+                    relightSmouldering();
+
+                    return 1;
                 }
             }
 
+            return iCurrentFireLevel;
         }
-        else // iCurrenFireLevel == 0
-        {
-            if (burnTimeCountdown > 0 &&
-                    BWPRegistry.unlitCampfire.getFuelState(worldObj, xCoord, yCoord, zCoord) == CampfireBlock.CAMPFIRE_FUEL_STATE_SMOULDERING)
-            {
-                relightSmouldering();
-
-                return 1;
-            }
-        }
-
-        return iCurrentFireLevel;
+        return 0;
     }
 
     private void extinguishFire(boolean bSmoulder)
@@ -450,9 +520,12 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
 
     private int getCurrentFireLevel()
     {
-        CampfireBlock block = (CampfireBlock)(worldObj.getBlock( xCoord, yCoord, zCoord ));
+        if (worldObj.getBlock(xCoord, yCoord,zCoord) != Blocks.air) {
+            CampfireBlock block = (CampfireBlock) (worldObj.getBlock(xCoord, yCoord, zCoord));
 
-        return block.fireLevel;
+            return block.fireLevel;
+        }
+        return 0;
     }
 
 

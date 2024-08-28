@@ -155,11 +155,7 @@ public class CampfireBlock extends BlockContainer
         return 2;
     }
 
-    @Override
-    public int getFlammability(IBlockAccess world, int x, int y, int z, ForgeDirection face)
-    {
-        return 5;
-    }
+
 
 
 
@@ -460,6 +456,10 @@ public class CampfireBlock extends BlockContainer
 
                     entity.setDead();
                 }
+            }
+            else {
+                entity.setFire(10);
+
             }
         }
     }
