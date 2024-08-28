@@ -1,4 +1,5 @@
 package mods.betterwithpatches.block.tile;
+import betterwithmods.util.BlockPosition;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.init.Blocks;
@@ -24,6 +25,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Random;
 
+import static mods.betterwithpatches.block.Campfire.CAMPFIRE_FUEL_STATE_NORMAL;
+import static mods.betterwithpatches.block.Campfire.getFuelState;
 import static net.minecraftforge.common.util.ForgeDirection.*;
 import static net.minecraftforge.common.util.ForgeDirection.NORTH;
 
@@ -215,6 +218,28 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
         if ( !worldObj.isRemote )
         {
             int iCurrentFireLevel = getCurrentFireLevel();
+            if (  getFuelState(worldObj, xCoord, yCoord, zCoord) == CAMPFIRE_FUEL_STATE_NORMAL  && worldObj.rand.nextFloat() <= CHANCE_OF_FIRE_SPREAD)
+                {
+
+                    for(int k =0; k < 2; k++)
+                    {
+                        for(int j =0; j < 3; j++)
+                        {
+                            for(int i =0; i < 3; i++)
+                            {
+                                Block block = worldObj.getBlock(xCoord + j, yCoord + k, zCoord + i);
+                                if (block == Blocks.fire)
+                                {
+                                    CampfireBlock campfireBlock = (CampfireBlock) worldObj.getBlock(xCoord, yCoord, zCoord);
+                                   campfireBlock.setOnFireDirectly(worldObj, xCoord, yCoord, zCoord) ;
+
+                                }
+
+                            }
+
+                        }
+                    }
+            }
 
             if ( iCurrentFireLevel > 0 )
             {
@@ -278,6 +303,9 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
                     }
 
                 }
+
+
+
 
                 burnTimeSinceLit++;
 

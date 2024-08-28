@@ -334,10 +334,10 @@ public class CampfireBlock extends BlockContainer
 
 
 
-                if ( getCanBeFedDirectlyIntoCampfire( stack) )
+                if ( getCanBeFedDirectlyIntoCampfire(stack) )
                 {
 
-                    {
+
                         CampfireTileEntity tileEntity = (CampfireTileEntity)world.getTileEntity( i, j, k );
 
                         world.playSoundEffect( i + 0.5D, j + 0.5D, k + 0.5D, "mob.ghast.fireball",
@@ -345,7 +345,7 @@ public class CampfireBlock extends BlockContainer
                                 world.rand.nextFloat() * 0.25F + 1.25F );
 
                         tileEntity.addBurnTime(getCampfireBurnTime(stack));
-                    }
+                    world.markBlockForUpdate(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
 
                     stack.stackSize--;
 
