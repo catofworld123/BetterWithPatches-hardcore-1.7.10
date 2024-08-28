@@ -12,6 +12,7 @@ import mods.betterwithpatches.craft.CampFireCraftingManager;
 import mods.betterwithpatches.proxy.ClientProxy;
 import mods.betterwithpatches.util.BWMaterials;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockFire;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -415,6 +416,7 @@ public class CampfireBlock extends BlockContainer
     {
         return false;
     }
+
 
     public boolean getCanItemStartFireOnUse(int iItemDamage)
     {

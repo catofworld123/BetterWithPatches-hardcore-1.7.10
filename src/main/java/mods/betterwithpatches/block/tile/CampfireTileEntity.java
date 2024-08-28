@@ -1,5 +1,7 @@
 package mods.betterwithpatches.block.tile;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFire;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 
 import mods.betterwithpatches.BWPRegistry;
@@ -17,6 +19,12 @@ import net.minecraft.tileentity.TileEntity;
 
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.Random;
+
+import static net.minecraftforge.common.util.ForgeDirection.*;
+import static net.minecraftforge.common.util.ForgeDirection.NORTH;
 
 
 public class CampfireTileEntity extends TileEntity
@@ -173,6 +181,7 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
     @Override
     public void updateEntity()
     {
+        Random random = new Random();
         super.updateEntity();
 
         if ( !worldObj.isRemote )
@@ -181,10 +190,16 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
 
             if ( iCurrentFireLevel > 0 )
             {
-              // if ( iCurrentFireLevel > 1 && worldObj.rand.nextFloat() <= CHANCE_OF_FIRE_SPREAD)
-              //  {
-              //      BlockCustomFire.checkForFireSpreadFromLocation(worldObj, xCoord, yCoord, zCoord, worldObj.rand, 0);
-              //  }
+               if ( iCurrentFireLevel > 1 && worldObj.rand.nextFloat() <= CHANCE_OF_FIRE_SPREAD)
+                {
+                    tryCatchFire(worldObj, xCoord + 1, yCoord, zCoord, 300, random, 12, WEST );
+                    tryCatchFire(worldObj, xCoord - 1, yCoord, zCoord, 300 , random, 12, EAST );
+                    tryCatchFire(worldObj, xCoord, yCoord - 1, zCoord, 250 , random, 12, UP   );
+                    tryCatchFire(worldObj, xCoord, yCoord + 1, zCoord, 250 , random, 12, DOWN );
+                    tryCatchFire(worldObj, xCoord, yCoord, zCoord - 1, 300 , random, 12, SOUTH);
+                    tryCatchFire(worldObj, xCoord, yCoord, zCoord + 1, 300 , random, 12, NORTH);
+
+                }
 
                 burnTimeSinceLit++;
 
@@ -225,6 +240,36 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
         }
     }
 
+    private void tryCatchFire(World p_149841_1_, int p_149841_2_, int p_149841_3_, int p_149841_4_, int p_149841_5_, Random p_149841_6_, int p_149841_7_, ForgeDirection face)
+    {
+        int j1 = p_149841_1_.getBlock(p_149841_2_, p_149841_3_, p_149841_4_).getFlammability(p_149841_1_, p_149841_2_, p_149841_3_, p_149841_4_, face);
+
+        if (p_149841_6_.nextInt(p_149841_5_) < j1)
+        {
+            boolean flag = p_149841_1_.getBlock(p_149841_2_, p_149841_3_, p_149841_4_) == Blocks.tnt;
+
+            if (p_149841_6_.nextInt(p_149841_7_ + 10) < 5 && !p_149841_1_.canLightningStrikeAt(p_149841_2_, p_149841_3_, p_149841_4_))
+            {
+                int k1 = p_149841_7_ + p_149841_6_.nextInt(5) / 4;
+
+                if (k1 > 15)
+                {
+                    k1 = 15;
+                }
+
+                p_149841_1_.setBlock(p_149841_2_, p_149841_3_, p_149841_4_, Blocks.fire, k1, 3);
+            }
+            else
+            {
+                p_149841_1_.setBlockToAir(p_149841_2_, p_149841_3_, p_149841_4_);
+            }
+
+            if (flag)
+            {
+                Blocks.tnt.onBlockDestroyedByPlayer(p_149841_1_, p_149841_2_, p_149841_3_, p_149841_4_, 1);
+            }
+        }
+    }
 
 
 
