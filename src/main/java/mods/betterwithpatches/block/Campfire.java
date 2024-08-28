@@ -69,7 +69,7 @@ public class Campfire extends BlockContainer {
         this.icons[2] = reg.registerIcon("betterwithpatches:BlockCampfireNoFire");
         this.icons[3] = reg.registerIcon("betterwithpatches:OakBark");
         this.icons[4] = reg.registerIcon("placeholder");
-        this.icons[5] = reg.registerIcon("placeholder");
+        this.icons[5] = reg.registerIcon("betterwithpatches:fcBlockCampfire_burned");
         this.icons[6] = reg.registerIcon("placeholder");
     }
 

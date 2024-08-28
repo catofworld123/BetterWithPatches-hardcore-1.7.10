@@ -21,6 +21,9 @@ import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 
 import static betterwithmods.client.RenderTileEntities.renderItemBlock;
+import static mods.betterwithpatches.block.Campfire.getFuelState;
+import static mods.betterwithpatches.block.CampfireBlock.CAMPFIRE_FUEL_STATE_BURNED_OUT;
+import static mods.betterwithpatches.block.CampfireBlock.CAMPFIRE_FUEL_STATE_SMOULDERING;
 
 
 public class RenderBlockCampfire implements ISimpleBlockRenderingHandler {
@@ -60,25 +63,36 @@ public class RenderBlockCampfire implements ISimpleBlockRenderingHandler {
         CampfireBlock blockcampfire = (CampfireBlock)(world.getBlock( x, y, z ));
         CampfireTileEntity campfireTile =  (CampfireTileEntity)world.getTileEntity( x, y, z );
         renderer.renderAllFaces = true;
-        renderer.setOverrideBlockTexture(((Campfire) BWPRegistry.campfire).icons[1]);
-        renderer.setRenderBounds(0.125, 0D, 0.125, 0.875, 0.25, 0.875);
-        renderer.setRenderBounds(0.0625, 0, 0, 0.1875, 0.125, 1);
-        renderer.renderStandardBlock(block, x, y, z);
-        renderer.setRenderBounds(0.8125, 0, 0, 0.9375, 0.125, 1);
-        renderer.renderStandardBlock(block, x, y, z);
-        renderer.setRenderBounds(0, 0.125, 0.75, 1, 0.250, 0.875);
-        renderer.renderStandardBlock(block, x, y, z);
-        renderer.setRenderBounds(0, 0.125, 0.125, 1, 0.250, 0.25);
-        renderer.renderStandardBlock(block, x, y, z);
-        renderer.setRenderBounds(0.1875, 0.25, 0.0625, 0.3125, 0.375, 0.9375);
-        renderer.renderStandardBlock(block, x, y, z);
-        renderer.setRenderBounds(0.6875, 0.25, 0.0625, 0.8125, 0.375, 0.9375);
-        renderer.renderStandardBlock(block, x, y, z);
-        renderer.setRenderBounds(0.125, 0.375, 0.1875, 0.875, 0.5, 0.3125);
-        renderer.renderStandardBlock(block, x, y, z);
-        renderer.setRenderBounds(0.125, 0.375, 0.6875, 0.875, 0.5, 0.8125);
-        renderer.renderStandardBlock(block, x, y, z);
-        renderer.clearOverrideBlockTexture();
+        if (getFuelState(world, x, y, z) == 2) {
+            renderer.setOverrideBlockTexture(((Campfire) BWPRegistry.campfire).icons[2]);
+        }
+        if (getFuelState(world, x, y, z) == 1) {
+            renderer.setOverrideBlockTexture(((Campfire) BWPRegistry.campfire).icons[5]);
+        }
+        if (getFuelState(world, x, y, z) != 2 && getFuelState(world, x, y, z) != 1) {
+            renderer.setOverrideBlockTexture(((Campfire) BWPRegistry.campfire).icons[1]);
+        }
+            renderer.setRenderBounds(0.125, 0D, 0.125, 0.875, 0.25, 0.875);
+            renderer.setRenderBounds(0.0625, 0, 0, 0.1875, 0.125, 1);
+            renderer.renderStandardBlock(block, x, y, z);
+            renderer.setRenderBounds(0.8125, 0, 0, 0.9375, 0.125, 1);
+            renderer.renderStandardBlock(block, x, y, z);
+            renderer.setRenderBounds(0, 0.125, 0.75, 1, 0.250, 0.875);
+            renderer.renderStandardBlock(block, x, y, z);
+            renderer.setRenderBounds(0, 0.125, 0.125, 1, 0.250, 0.25);
+            renderer.renderStandardBlock(block, x, y, z);
+            renderer.setRenderBounds(0.1875, 0.25, 0.0625, 0.3125, 0.375, 0.9375);
+            renderer.renderStandardBlock(block, x, y, z);
+            renderer.setRenderBounds(0.6875, 0.25, 0.0625, 0.8125, 0.375, 0.9375);
+            renderer.renderStandardBlock(block, x, y, z);
+            renderer.setRenderBounds(0.125, 0.375, 0.1875, 0.875, 0.5, 0.3125);
+            renderer.renderStandardBlock(block, x, y, z);
+            renderer.setRenderBounds(0.125, 0.375, 0.6875, 0.875, 0.5, 0.8125);
+            renderer.renderStandardBlock(block, x, y, z);
+            renderer.clearOverrideBlockTexture();
+
+
+
 
         if (blockcampfire.getHasSpit(world, x, y, z)){
             renderer.setOverrideBlockTexture(((Campfire) BWPRegistry.campfire).icons[1]);

@@ -21,6 +21,8 @@ import net.minecraftforge.common.util.Constants;
 
 public class CampfireTileEntity extends TileEntity
 {
+
+
     private static final int CAMPFIRE_BURN_TIME_MULTIPLIER = 8;
 
     private static final int TIME_TO_COOK = (400 * CAMPFIRE_BURN_TIME_MULTIPLIER * 3 / 2 ); // this line represents efficiency relative to furnace cooking
@@ -179,10 +181,10 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
 
             if ( iCurrentFireLevel > 0 )
             {
-              //  if ( iCurrentFireLevel > 1 && worldObj.rand.nextFloat() <= CHANCE_OF_FIRE_SPREAD)
+              // if ( iCurrentFireLevel > 1 && worldObj.rand.nextFloat() <= CHANCE_OF_FIRE_SPREAD)
               //  {
-              //      FireBlock.checkForFireSpreadFromLocation(worldObj, xCoord, yCoord, zCoord, worldObj.rand, 0);
-               // }
+              //      BlockCustomFire.checkForFireSpreadFromLocation(worldObj, xCoord, yCoord, zCoord, worldObj.rand, 0);
+              //  }
 
                 burnTimeSinceLit++;
 

@@ -6,8 +6,6 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.FMLEventChannel;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import mods.betterwithpatches.craft.NewCrafts.CraftingTableStuff;
 import mods.betterwithpatches.craft.RecipeManager;
 import mods.betterwithpatches.proxy.CommonProxy;

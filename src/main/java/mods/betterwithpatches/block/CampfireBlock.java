@@ -29,10 +29,12 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.block.Block;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.BlockFluidBase;
 
 import java.util.Random;
 
+import static mods.betterwithpatches.block.Campfire.getFuelState;
 
 
 public class CampfireBlock extends BlockContainer
@@ -152,6 +154,12 @@ public class CampfireBlock extends BlockContainer
         return 2;
     }
 
+    @Override
+    public int getFlammability(IBlockAccess world, int x, int y, int z, ForgeDirection face)
+    {
+        return 5;
+    }
+
 
 
 
@@ -210,6 +218,10 @@ public class CampfireBlock extends BlockContainer
         }
 
         return 0;
+    }
+
+    public boolean getCanBlockBeReplacedByFire(World world, int i, int j, int k){
+        return false;
     }
 
 
@@ -305,14 +317,14 @@ public class CampfireBlock extends BlockContainer
                     if (a >= 3.0) {
                         setOnFireDirectly(world, i, j, k);
                     }
-                    return true;
+
 
                 }
+                return true;
             }
             if (item == BWPRegistry.itemOakBark){
                 if (world.isRemote) {
-                    System.out.print(tileEntityNew.getCookStack());
-                    System.out.print(tileEntityNew.getSpitStack() + "spit");
+                    System.out.println(getFuelState(world, i, j, k));
                 }
                     return true;
 
@@ -388,9 +400,16 @@ public class CampfireBlock extends BlockContainer
 
 
 
-    public int getCampfireBurnTime(ItemStack iItemDamage)
+    public int getCampfireBurnTime(ItemStack stack)
     {
-        return 4800;
+        if( stack.getItem() == BWPRegistry.itemShaft ||  stack.getItem() == BWPRegistry.itemPointyStick){
+          return 50;
+        }
+        if( stack.getItem() == BWRegistry.bark || stack.equals(BWMaterials.getMaterial(BWMaterials.SAWDUST))){
+            return 25;
+        }
+        else return 0;
+
     }
     public boolean getCanItemBeSetOnFireOnUse(int iItemDamage)
     {
@@ -404,7 +423,7 @@ public class CampfireBlock extends BlockContainer
 
     public boolean getCanBeFedDirectlyIntoCampfire( ItemStack itemstack) //ill leave it like this for now, going to change it soon
     {
-        if (itemstack.getItem() == BWPRegistry.itemShaft || itemstack.getItem() == BWRegistry.bark || itemstack.equals(BWMaterials.getMaterial(BWMaterials.SAWDUST))){
+        if (itemstack.getItem() == BWPRegistry.itemPointyStick || itemstack.getItem() == BWPRegistry.itemShaft || itemstack.getItem() == BWRegistry.bark || itemstack.equals(BWMaterials.getMaterial(BWMaterials.SAWDUST))){
             return true;
         }
             return false;
@@ -636,6 +655,16 @@ TileEntity tileentity = world.getTileEntity(i, j , k);
     public boolean isRainingOnCampfire(World world, int i, int j, int k)
     {
         return isRainingAtPos(world, i, j, k);
+    }
+
+
+    @Override
+    public boolean canPlaceBlockAt( World world, int i, int j, int k )
+    {
+        if(!World.doesBlockHaveSolidTopSurface(world, i, j -1, k)){
+            return false;
+        }
+        return super.canPlaceBlockAt(world, i, j, k);
     }
 
 

@@ -31,6 +31,7 @@ public class BWPRegistry {
     public static Block blocktreestage4;
     public static Block campfire;
 
+
     public static CampfireBlock unlitCampfire;
     public static CampfireBlock smallCampfire;
     public static CampfireBlock mediumCampfire;
@@ -54,14 +55,15 @@ public class BWPRegistry {
         blocktreestage4 = GameRegistry.registerBlock(new BlockTreeStage4(), ItemBlock.class, "blockTreeStage4");
         GameRegistry.registerTileEntity(TileEntityBlockTreeStage4.class, "bwm.blockTreeStage4");
 
+
         campfire = GameRegistry.registerBlock(new Campfire(0).setCreativeTab((BWPRegistry.bwpTab)), ItemBlock.class, "campfire");
         GameRegistry.registerTileEntity(TileEntityCampfire.class, "bwm.campfire");
 
 
         unlitCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 0).setCreativeTab((BWPRegistry.bwpTab)), ItemBlock.class, "unlitcampfire");
-        smallCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 1), ItemBlock.class, "Campfirewithsmallfire");
-        mediumCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 2), ItemBlock.class, "Campfirewithmediumfire");
-        largeCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 3), ItemBlock.class, "Campfirewithbigfire");
+        smallCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 1).setLightLevel(0.25F), ItemBlock.class, "Campfirewithsmallfire");
+        mediumCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 2).setLightLevel(0.5F), ItemBlock.class, "Campfirewithmediumfire");
+        largeCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 3).setLightLevel(0.875F), ItemBlock.class, "Campfirewithbigfire");
         GameRegistry.registerTileEntity(CampfireTileEntity.class, "bwm.fcBlockCampfire");
 
         steelAxe = registerItem("steelAxe", new ItemSoulforgedAxe());
