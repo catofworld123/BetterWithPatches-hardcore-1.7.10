@@ -205,24 +205,6 @@ public class CampfireBlock extends BlockContainer
 
         return false;
     }
-
-
-    public int getChanceOfFireSpreadingDirectlyTo(IBlockAccess blockAccess, int i, int j, int k)
-    {
-        if (fireLevel == 0 && getFuelState(blockAccess, i, j, k) == CAMPFIRE_FUEL_STATE_NORMAL)
-        {
-            return 60; // same chance as leaves and other highly flammable objects
-        }
-
-        return 0;
-    }
-
-    public boolean getCanBlockBeReplacedByFire(World world, int i, int j, int k){
-        return false;
-    }
-
-
-
     @Override
     public boolean onBlockActivated( World world, int i, int j, int k, EntityPlayer player, int iFacing, float fXClick, float fYClick, float fZClick )
     {
@@ -319,13 +301,7 @@ public class CampfireBlock extends BlockContainer
                 }
                 return true;
             }
-            if (item == BWPRegistry.itemOakBark){
-                if (world.isRemote) {
-                    System.out.println(getFuelState(world, i, j, k));
-                }
-                    return true;
 
-            }
 
             if (fireLevel > 0 || getFuelState(world, i, j, k) == CAMPFIRE_FUEL_STATE_SMOULDERING)
             {
@@ -408,16 +384,7 @@ public class CampfireBlock extends BlockContainer
         else return 0;
 
     }
-    public boolean getCanItemBeSetOnFireOnUse(int iItemDamage)
-    {
-        return false;
-    }
 
-
-    public boolean getCanItemStartFireOnUse(int iItemDamage)
-    {
-        return false;
-    }
 
     public boolean getCanBeFedDirectlyIntoCampfire( ItemStack itemstack) //ill leave it like this for now, going to change it soon
     {
@@ -455,6 +422,10 @@ public class CampfireBlock extends BlockContainer
                     tileEntity.addBurnTime(iBurnTime);
 
                     entity.setDead();
+                }
+                else {
+                    entity.setFire(10);
+
                 }
             }
             else {
@@ -731,6 +702,11 @@ TileEntity tileentity = world.getTileEntity(i, j , k);
     public boolean shouldSideBeRendered( IBlockAccess blockAccess, int iNeighborI, int iNeighborJ, int iNeighborK, int iSide )
     {
         return true;
+    }
+
+    @Override
+    protected String getTextureName() {
+        return "betterwithpatches:OakBark";
     }
 
     @Override

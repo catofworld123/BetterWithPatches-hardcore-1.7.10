@@ -174,7 +174,6 @@ public class CampfireTileEntity extends TileEntity
 public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int newMeta, World world, int x, int y, int z)
 {
     if (oldBlock != newBlock) {
-        System.out.println("refreshin'");
         return true;
     }
     else return false;
@@ -476,8 +475,6 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
             int iCurrentFireLevel = getCurrentFireLevel();
 
             if (iCurrentFireLevel > 0) {
-                // int iFuelState = FCBetterThanWolves.fcBlockCampfireUnlit.GetFuelState( worldObj, xCoord, yCoord, zCoord );
-
                 if (burnTimeCountdown <= 0) {
                     extinguishFire(true);
                     System.out.println("extinguished fire");
