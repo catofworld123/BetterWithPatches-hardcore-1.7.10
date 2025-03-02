@@ -28,7 +28,10 @@ public class CampfireRenderer extends TileEntitySpecialRenderer
     private final ResourceLocation texture2 = new ResourceLocation(BWPConstants.MODID, "textures/models/BlockCampfireNoFire.png");
     private final ResourceLocation texture1 = new ResourceLocation(BWPConstants.MODID, "textures/models/BlockCampfire.png");
     private final ResourceLocation modelPath = new ResourceLocation(BWPConstants.MODID, "textures/models/CampfireModel.obj");
+    private final ResourceLocation modelPath2 = new ResourceLocation(BWPConstants.MODID, "textures/models/SpitModel.obj");
     private final IModelCustom smelterModel = new ModelWrapperDisplayList((WavefrontObject) AdvancedModelLoader.loadModel(modelPath));
+
+    private final IModelCustom spitmodel = new ModelWrapperDisplayList((WavefrontObject) AdvancedModelLoader.loadModel(modelPath2));
 
     public void renderTileEntityAt(TileEntity tileEntity, double xCoord, double yCoord, double zCoord, float fPartialTickCount)
     {
@@ -39,6 +42,7 @@ public class CampfireRenderer extends TileEntitySpecialRenderer
         CampfireTileEntity campfire = (CampfireTileEntity)tileEntity;
 
         int facing;
+
         int k = 3;
         facing = campfire.getFacing();
         if (facing == 2) {
@@ -53,14 +57,14 @@ public class CampfireRenderer extends TileEntitySpecialRenderer
         if (facing == 5) {
             k = -90;
         }
+        renderSpitStack(campfire, xCoord, yCoord, zCoord);
 
         renderCookStack(campfire, xCoord, yCoord, zCoord);
         GL11.glPushMatrix();
 
         GL11.glTranslated(xCoord + 0.5, yCoord, zCoord + 0.5);
         GL11.glRotatef(k, 0.0F, 1.0F, 0.0F);
-        smelterModel.renderAll();
-        this.bindTexture(texture1);
+
         if (getFuelState(campfire.getWorldObj(), campfire.xCoord, campfire.yCoord, campfire.zCoord) == 2) {
             this.bindTexture(texture2);
         }
@@ -70,6 +74,7 @@ public class CampfireRenderer extends TileEntitySpecialRenderer
         if (getFuelState(campfire.getWorldObj(), campfire.xCoord, campfire.yCoord, campfire.zCoord) != 2 && getFuelState(campfire.getWorldObj(), campfire.xCoord, campfire.yCoord, campfire.zCoord) != 1) {
             this.bindTexture(texture1);
         }
+        smelterModel.renderAll();
 
 
 
@@ -127,6 +132,37 @@ public class CampfireRenderer extends TileEntitySpecialRenderer
             GL11.glPopMatrix();
 
 
+
+        }
+    }
+    private void renderSpitStack(CampfireTileEntity campfire, double xCoord, double yCoord, double zCoord) {
+        int facing;
+        int k = 3;
+        facing = campfire.getFacing();
+        if (facing == 2) {
+            k = 180;
+        }
+        if (facing == 3) {
+            k = 0;
+        }
+        if (facing == 4) {
+            k = 90;
+        }
+        if (facing == 5) {
+            k = -90;
+        }
+
+
+        ItemStack stack = campfire.getSpitStack();
+        if (stack != null){
+            GL11.glPushMatrix();
+
+            GL11.glTranslated(xCoord + 0.5, yCoord, zCoord + 0.5);
+            GL11.glRotatef(k, 0.0F, 1.0F, 0.0F);
+            this.bindTexture(texture1);
+            spitmodel.renderAll();
+
+            GL11.glPopMatrix();
 
         }
     }

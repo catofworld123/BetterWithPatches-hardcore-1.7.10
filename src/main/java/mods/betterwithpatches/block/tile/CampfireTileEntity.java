@@ -64,7 +64,6 @@ public class CampfireTileEntity extends TileEntity
     private int cookCounter = 0;
     private int smoulderCounter = 0;
     private int cookBurningCounter = 0;
-    private int dir = 0;
     private byte facing;
 
     public CampfireTileEntity()
@@ -75,24 +74,13 @@ public class CampfireTileEntity extends TileEntity
 
     private static final String INV_SPIT_TAG = "InventorySpit";
     private static final String INV_COOK_TAG = "InventoryCook";
+    private static final String ROT_TAG = "facing";
 
 
-    public void wasPlaced(EntityLivingBase entityliving, ItemStack itemStack)
-    {
-    }
-    public void setFacing(byte facing2)
-    {
-        this.facing = facing2;
-    }
-    public int getFacing()
-    {
-        return this.facing;
-    }
 
 
-      public void GetPlayerRotation (EntityLivingBase player, NBTTagCompound nbt) {
-           dir = MathHelper.floor_double((player.rotationYaw * 4F) / 360F + 0.5D) & 3;
-    }
+
+
 
 
 
@@ -117,7 +105,9 @@ public class CampfireTileEntity extends TileEntity
         nbt.setInteger("fcCookCounter", cookCounter);
         nbt.setInteger("fcSmoulderCounter", smoulderCounter);
         nbt.setInteger("fcCookBurning", cookBurningCounter);
-        nbt.setInteger("directory", dir);
+        nbt.setByte("facing", facing);
+        System.out.println("SET FACING " + facing);
+
     }
 
     @Override
@@ -153,9 +143,11 @@ public class CampfireTileEntity extends TileEntity
             cookBurningCounter = nbt.getInteger("fcCookBurning");
         }
 
-        if (nbt.hasKey( "dir")){
-            dir = nbt.getInteger("directory");
 
+        if (nbt.hasKey("facing")) {
+            facing = nbt.getByte("facing");
+            setFacing(facing);
+            System.out.println("GOT FACING" + facing);
         }
 
 
@@ -175,6 +167,11 @@ public class CampfireTileEntity extends TileEntity
             nbt.setTag(INV_SPIT_TAG, inventoryTag);
         }
     }
+    private void writeExtendedData3(NBTTagCompound nbt) {
+       NBTTagCompound inventoryTag = new NBTTagCompound();
+       inventoryTag.setByte("facing", facing);
+       nbt.setTag("facing", inventoryTag);
+    }
     private void readExtendedData(NBTTagCompound nbt) {
         if (nbt.hasKey(INV_COOK_TAG, Constants.NBT.TAG_COMPOUND)) {
             NBTTagCompound inventoryTag = nbt.getCompoundTag(INV_COOK_TAG);
@@ -185,13 +182,26 @@ public class CampfireTileEntity extends TileEntity
         if (nbt.hasKey(INV_SPIT_TAG, Constants.NBT.TAG_COMPOUND)) {
             NBTTagCompound inventoryTag = nbt.getCompoundTag(INV_SPIT_TAG);
             spitStack = ItemStack.loadItemStackFromNBT(inventoryTag);
+
         }
     }
+    private void readExtendedData3(NBTTagCompound nbt) {
+        if (nbt.hasKey("facing", Constants.NBT.TAG_COMPOUND)) {
+            NBTTagCompound inventoryTag = nbt.getCompoundTag("facing");
+            facing = inventoryTag.getByte("facing");
+
+        }
+    }
+
 
     @Override
     public Packet getDescriptionPacket() {
         NBTTagCompound nbt = new NBTTagCompound();
         writeExtendedData(nbt);
+        writeExtendedData2(nbt);
+        writeExtendedData3(nbt);
+
+
         return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, nbt);
     }
     @Override
@@ -199,6 +209,10 @@ public class CampfireTileEntity extends TileEntity
         TileEntity tile = worldObj.getTileEntity(packet.func_148856_c(), packet.func_148855_d(), packet.func_148854_e());
         if (tile instanceof CampfireTileEntity) {
             ((CampfireTileEntity) tile).readExtendedData(packet.func_148857_g());
+            ((CampfireTileEntity) tile).readExtendedData2(packet.func_148857_g());
+            ((CampfireTileEntity) tile).readExtendedData3(packet.func_148857_g());
+
+
         }
     }
 
@@ -749,6 +763,22 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
         CampfireBlock block = (CampfireBlock)(worldObj.getBlock( xCoord, yCoord, zCoord ));
 
         block.relightFire(worldObj, xCoord, yCoord, zCoord);
+    }
+
+    public void wasPlaced(EntityLivingBase entityliving, ItemStack itemStack)
+    {
+    }
+    public void setFacing(byte facing2)
+    {
+        facing = facing2;
+        System.out.println("set facing to " + facing);
+    }
+    public int getFacing()
+    {
+        System.out.println("gave facing" + facing);
+        return facing;
+
+
     }
 
 
