@@ -2,6 +2,7 @@ package mods.betterwithpatches.block.tile;
 import betterwithmods.util.BlockPosition;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -18,6 +19,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
@@ -72,12 +74,20 @@ public class CampfireTileEntity extends TileEntity
     private static final String INV_SPIT_TAG = "InventorySpit";
     private static final String INV_COOK_TAG = "InventoryCook";
 
+
+    public void GetPlayerRotation (EntityLivingBase player) {
+        int dir = MathHelper.floor_double((player.rotationYaw * 4F) / 360F + 0.5D) & 3;
+    }
+
+
     /**
      * Данный метод вызывается при записи данных Tile Entity в чанк. Мы не рекомендуем удалять вызов родительского метода,
      * так как это может привести к ошибке загрузки данных Tile Entity.
      *
      * @param nbt данные NBT в которых будет храниться информация о Tile Entity.
      */
+
+
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
@@ -226,6 +236,8 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
                         {
                             for(int i =0; i < 3; i++)
                             {
+
+
                                 Block block = worldObj.getBlock(xCoord + j, yCoord + k, zCoord + i);
                                 if (block == Blocks.fire)
                                 {
@@ -233,7 +245,72 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
                                    campfireBlock.setOnFireDirectly(worldObj, xCoord, yCoord, zCoord) ;
 
                                 }
+                            }
 
+                        }
+                    }
+                    for(int k = -1; k < 2; k++)
+                    {
+                        for(int j =-1; j < 2; j++)
+                        {
+                            for(int i =-1; i < 2; i++)
+                            {
+
+                                Block block01 = worldObj.getBlock(xCoord + j, yCoord + k, zCoord + i);
+                                if (block01 == BWPRegistry.largeCampfire)
+                                {
+                                    CampfireBlock campfireBlock = (CampfireBlock) worldObj.getBlock(xCoord, yCoord, zCoord);
+                                    double a = Math.random()*200;
+                                    if (a == 1.0) {
+                                        campfireBlock.setOnFireDirectly(worldObj, xCoord, yCoord, zCoord) ;
+                                    }
+
+                                }
+                                if (block01 == BWPRegistry.smallCampfire)
+                                {
+                                    CampfireBlock campfireBlock = (CampfireBlock) worldObj.getBlock(xCoord, yCoord, zCoord);
+                                    double a = Math.random()*200;
+                                    if (a <= 1.0) {
+                                        campfireBlock.setOnFireDirectly(worldObj, xCoord, yCoord, zCoord) ;
+                                    }
+
+                                }
+                                if (block01 == BWPRegistry.mediumCampfire)
+                                {
+                                    CampfireBlock campfireBlock = (CampfireBlock) worldObj.getBlock(xCoord, yCoord, zCoord);
+                                    double a = Math.random()*200;
+                                    if (a <= 1.0) {
+                                        campfireBlock.setOnFireDirectly(worldObj, xCoord, yCoord, zCoord) ;
+                                    }
+
+                                }
+                                if (block01 == Blocks.lava)
+                                {
+                                    CampfireBlock campfireBlock = (CampfireBlock) worldObj.getBlock(xCoord, yCoord, zCoord);
+                                    double a = Math.random()*200;
+                                    if (a <= 1.0) {
+                                        campfireBlock.setOnFireDirectly(worldObj, xCoord, yCoord, zCoord) ;
+                                    }
+
+                                }
+                                if (block01 == Blocks.lava)
+                                {
+                                    CampfireBlock campfireBlock = (CampfireBlock) worldObj.getBlock(xCoord, yCoord, zCoord);
+                                    double a = Math.random()*200;
+                                    if (a <= 1.0) {
+                                        campfireBlock.setOnFireDirectly(worldObj, xCoord, yCoord, zCoord) ;
+                                    }
+
+                                }
+                                if (block01 == Blocks.lava)
+                                {
+                                    CampfireBlock campfireBlock = (CampfireBlock) worldObj.getBlock(xCoord, yCoord, zCoord);
+                                    double a = Math.random()*200;
+                                    if (a <= 1.0) {
+                                        campfireBlock.setOnFireDirectly(worldObj, xCoord, yCoord, zCoord) ;
+                                    }
+
+                                }
                             }
 
                         }
@@ -380,6 +457,13 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
 
     //------------- Class Specific Methods ------------//
 
+
+
+
+
+
+
+
     public void setSpitStack(ItemStack stack)
     {
         if ( stack != null )
@@ -471,13 +555,11 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
     public int validateFireLevel()
     {
         if (worldObj.getBlock(xCoord, yCoord, zCoord) != Blocks.air) {
-            System.out.print(burnTimeCountdown);
             int iCurrentFireLevel = getCurrentFireLevel();
 
             if (iCurrentFireLevel > 0) {
                 if (burnTimeCountdown <= 0) {
                     extinguishFire(true);
-                    System.out.println("extinguished fire");
 
                     return 0;
                 } else {
@@ -485,7 +567,6 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
                     int iDesiredFireLevel = 2;
 
                     if (burnTimeSinceLit < WARMUP_TIME || burnTimeCountdown < REVERT_TO_SMALL_TIME) {
-                        System.out.println("changing to 1");
                         iDesiredFireLevel = 1;
                     } else if (burnTimeCountdown > BLAZE_TIME) {
                         iDesiredFireLevel = 3;

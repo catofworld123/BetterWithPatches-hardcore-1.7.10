@@ -34,6 +34,8 @@ public class RenderBlockCampfire implements ISimpleBlockRenderingHandler {
 
 
 
+
+
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         renderer.setOverrideBlockTexture(((Campfire) BWPRegistry.campfire).icons[1]);
@@ -61,8 +63,9 @@ public class RenderBlockCampfire implements ISimpleBlockRenderingHandler {
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
         CampfireBlock blockcampfire = (CampfireBlock)(world.getBlock( x, y, z ));
-
         CampfireTileEntity campfireTile =  (CampfireTileEntity)world.getTileEntity( x, y, z );
+
+
         renderer.renderAllFaces = true;
         if (getFuelState(world, x, y, z) == 2) {
             renderer.setOverrideBlockTexture(((Campfire) BWPRegistry.campfire).icons[2]);

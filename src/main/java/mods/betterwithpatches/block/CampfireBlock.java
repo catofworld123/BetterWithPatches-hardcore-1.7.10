@@ -144,6 +144,7 @@ public class CampfireBlock extends BlockContainer
     public int onBlockPlaced( World world, int i, int j, int k, int iFacing, float fClickX, float fClickY, float fClickZ, int iMetadata )
     {
         return setIAligned(iMetadata, isFacingIAligned(iFacing));
+
     }
 
 
@@ -462,6 +463,7 @@ public class CampfireBlock extends BlockContainer
 
     //------------- Class Specific Methods ------------//
 
+
     public void setIAligned(World world, int i, int j, int k, boolean bIAligned)
     {
         int iMetadata = setIAligned(world.getBlockMetadata(i, j, k), bIAligned);
@@ -695,7 +697,7 @@ TileEntity tileentity = world.getTileEntity(i, j , k);
     @Override
     public IIcon getIcon(int side,int meta ) {
 
-        return this.icons[1];
+        return (((Campfire) BWPRegistry.campfire).icons[1]);
     }
     @Override
 
