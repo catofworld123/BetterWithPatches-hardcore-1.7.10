@@ -17,6 +17,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -26,6 +27,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.block.Block;
@@ -141,10 +143,34 @@ public class CampfireBlock extends BlockContainer
 
 
     @Override
-    public int onBlockPlaced( World world, int i, int j, int k, int iFacing, float fClickX, float fClickY, float fClickZ, int iMetadata )
+    public void onBlockPlacedBy(World world, int x, int y, int z,EntityLivingBase entityliving, ItemStack itemStack)
     {
-        return setIAligned(iMetadata, isFacingIAligned(iFacing));
-
+        byte chestFacing = 0;
+        int facing = MathHelper.floor_double((entityliving.rotationYaw * 4F) / 360F + 0.5D) & 3;
+        if (facing == 0)
+        {
+            chestFacing = 2;
+        }
+        if (facing == 1)
+        {
+            chestFacing = 5;
+        }
+        if (facing == 2)
+        {
+            chestFacing = 3;
+        }
+        if (facing == 3)
+        {
+            chestFacing = 4;
+        }
+        TileEntity te = world.getTileEntity(x, y, z);
+        if (te != null && te instanceof CampfireTileEntity)
+        {
+            CampfireTileEntity teic = (CampfireTileEntity) te;
+            teic.wasPlaced(entityliving, itemStack);
+            teic.setFacing(chestFacing);
+            world.markBlockForUpdate(x, y, z);
+        }
     }
 
 

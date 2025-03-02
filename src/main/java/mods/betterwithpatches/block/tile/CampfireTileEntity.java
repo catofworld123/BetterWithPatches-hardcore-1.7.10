@@ -64,6 +64,8 @@ public class CampfireTileEntity extends TileEntity
     private int cookCounter = 0;
     private int smoulderCounter = 0;
     private int cookBurningCounter = 0;
+    private int dir = 0;
+    private byte facing;
 
     public CampfireTileEntity()
     {
@@ -75,9 +77,23 @@ public class CampfireTileEntity extends TileEntity
     private static final String INV_COOK_TAG = "InventoryCook";
 
 
-    public void GetPlayerRotation (EntityLivingBase player) {
-        int dir = MathHelper.floor_double((player.rotationYaw * 4F) / 360F + 0.5D) & 3;
+    public void wasPlaced(EntityLivingBase entityliving, ItemStack itemStack)
+    {
     }
+    public void setFacing(byte facing2)
+    {
+        this.facing = facing2;
+    }
+    public int getFacing()
+    {
+        return this.facing;
+    }
+
+
+      public void GetPlayerRotation (EntityLivingBase player, NBTTagCompound nbt) {
+           dir = MathHelper.floor_double((player.rotationYaw * 4F) / 360F + 0.5D) & 3;
+    }
+
 
 
     /**
@@ -101,6 +117,7 @@ public class CampfireTileEntity extends TileEntity
         nbt.setInteger("fcCookCounter", cookCounter);
         nbt.setInteger("fcSmoulderCounter", smoulderCounter);
         nbt.setInteger("fcCookBurning", cookBurningCounter);
+        nbt.setInteger("directory", dir);
     }
 
     @Override
@@ -134,6 +151,11 @@ public class CampfireTileEntity extends TileEntity
         if ( nbt.hasKey( "fcCookBurning" ) )
         {
             cookBurningCounter = nbt.getInteger("fcCookBurning");
+        }
+
+        if (nbt.hasKey( "dir")){
+            dir = nbt.getInteger("directory");
+
         }
 
 
@@ -224,6 +246,7 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
         Random random = new Random();
         super.updateEntity();
 
+
         if ( !worldObj.isRemote )
         {
             int iCurrentFireLevel = getCurrentFireLevel();
@@ -261,7 +284,7 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
                                 {
                                     CampfireBlock campfireBlock = (CampfireBlock) worldObj.getBlock(xCoord, yCoord, zCoord);
                                     double a = Math.random()*200;
-                                    if (a == 1.0) {
+                                    if (a <= 4.0) {
                                         campfireBlock.setOnFireDirectly(worldObj, xCoord, yCoord, zCoord) ;
                                     }
 
@@ -270,7 +293,7 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
                                 {
                                     CampfireBlock campfireBlock = (CampfireBlock) worldObj.getBlock(xCoord, yCoord, zCoord);
                                     double a = Math.random()*200;
-                                    if (a <= 1.0) {
+                                    if (a <= 4.0) {
                                         campfireBlock.setOnFireDirectly(worldObj, xCoord, yCoord, zCoord) ;
                                     }
 
@@ -279,7 +302,7 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
                                 {
                                     CampfireBlock campfireBlock = (CampfireBlock) worldObj.getBlock(xCoord, yCoord, zCoord);
                                     double a = Math.random()*200;
-                                    if (a <= 1.0) {
+                                    if (a <= 4.0) {
                                         campfireBlock.setOnFireDirectly(worldObj, xCoord, yCoord, zCoord) ;
                                     }
 
@@ -288,7 +311,7 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
                                 {
                                     CampfireBlock campfireBlock = (CampfireBlock) worldObj.getBlock(xCoord, yCoord, zCoord);
                                     double a = Math.random()*200;
-                                    if (a <= 1.0) {
+                                    if (a <= 4.0) {
                                         campfireBlock.setOnFireDirectly(worldObj, xCoord, yCoord, zCoord) ;
                                     }
 
@@ -297,7 +320,7 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
                                 {
                                     CampfireBlock campfireBlock = (CampfireBlock) worldObj.getBlock(xCoord, yCoord, zCoord);
                                     double a = Math.random()*200;
-                                    if (a <= 1.0) {
+                                    if (a <= 4.0) {
                                         campfireBlock.setOnFireDirectly(worldObj, xCoord, yCoord, zCoord) ;
                                     }
 
@@ -306,7 +329,7 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
                                 {
                                     CampfireBlock campfireBlock = (CampfireBlock) worldObj.getBlock(xCoord, yCoord, zCoord);
                                     double a = Math.random()*200;
-                                    if (a <= 1.0) {
+                                    if (a <= 4.0) {
                                         campfireBlock.setOnFireDirectly(worldObj, xCoord, yCoord, zCoord) ;
                                     }
 
