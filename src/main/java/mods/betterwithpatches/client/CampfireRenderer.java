@@ -23,7 +23,7 @@ import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 
 public class CampfireRenderer extends TileEntitySpecialRenderer
 {
-
+    private final ResourceLocation texture1 = new ResourceLocation(BWPConstants.MODID, "textures/models/BlockCampfire.png");
     private final ResourceLocation modelPath = new ResourceLocation(BWPConstants.MODID, "textures/models/CampfireModel.obj");
     private final IModelCustom smelterModel = new ModelWrapperDisplayList((WavefrontObject) AdvancedModelLoader.loadModel(modelPath));
 
@@ -53,12 +53,11 @@ public class CampfireRenderer extends TileEntitySpecialRenderer
 
         renderCookStack(campfire, xCoord, yCoord, zCoord);
         GL11.glPushMatrix();
-        GL11.glDisable(GL_TEXTURE_2D);
 
         GL11.glTranslated(xCoord + 0.5, yCoord, zCoord + 0.5);
         GL11.glRotatef(k, 0.0F, 1.0F, 0.0F);
         smelterModel.renderAll();
-        GL11.glEnable(GL_TEXTURE_2D);
+        this.bindTexture(texture1);
         GL11.glPopMatrix();
 
     }
