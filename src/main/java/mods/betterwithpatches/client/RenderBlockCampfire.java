@@ -86,16 +86,6 @@ public class RenderBlockCampfire implements ISimpleBlockRenderingHandler {
 
        renderer.renderAllFaces = true;
 
-
-
-
-
-             if (getFuelState(world, x, y, z) == 2) {
-             }
-             if (getFuelState(world, x, y, z) == 1) {
-             }
-             if (getFuelState(world, x, y, z) != 2 && getFuelState(world, x, y, z) != 1) {
-             }
              if (blockcampfire.getHasSpit(world, x, y, z)) {
              }
 

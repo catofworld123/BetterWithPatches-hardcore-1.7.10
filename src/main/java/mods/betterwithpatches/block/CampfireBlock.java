@@ -610,6 +610,7 @@ public class CampfireBlock extends BlockContainer
         {
             world.playAuxSFX( 10, i, j, k, 1 );
         }
+        world.markBlockForUpdate(i,j,k);
     }
 
     public void relightFire(World world, int i, int j, int k)

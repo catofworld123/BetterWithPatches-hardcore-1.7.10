@@ -19,10 +19,13 @@ import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 import org.lwjgl.opengl.GL11;
 
+import static mods.betterwithpatches.block.Campfire.getFuelState;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 
 public class CampfireRenderer extends TileEntitySpecialRenderer
 {
+    private final ResourceLocation texture3 = new ResourceLocation(BWPConstants.MODID, "textures/models/fcBlockCampfire_burned.png");
+    private final ResourceLocation texture2 = new ResourceLocation(BWPConstants.MODID, "textures/models/BlockCampfireNoFire.png");
     private final ResourceLocation texture1 = new ResourceLocation(BWPConstants.MODID, "textures/models/BlockCampfire.png");
     private final ResourceLocation modelPath = new ResourceLocation(BWPConstants.MODID, "textures/models/CampfireModel.obj");
     private final IModelCustom smelterModel = new ModelWrapperDisplayList((WavefrontObject) AdvancedModelLoader.loadModel(modelPath));
@@ -58,6 +61,18 @@ public class CampfireRenderer extends TileEntitySpecialRenderer
         GL11.glRotatef(k, 0.0F, 1.0F, 0.0F);
         smelterModel.renderAll();
         this.bindTexture(texture1);
+        if (getFuelState(campfire.getWorldObj(), campfire.xCoord, campfire.yCoord, campfire.zCoord) == 2) {
+            this.bindTexture(texture2);
+        }
+        if (getFuelState(campfire.getWorldObj(), campfire.xCoord, campfire.yCoord, campfire.zCoord) == 1) {
+            this.bindTexture(texture3);
+        }
+        if (getFuelState(campfire.getWorldObj(), campfire.xCoord, campfire.yCoord, campfire.zCoord) != 2 && getFuelState(campfire.getWorldObj(), campfire.xCoord, campfire.yCoord, campfire.zCoord) != 1) {
+            this.bindTexture(texture1);
+        }
+
+
+
         GL11.glPopMatrix();
 
     }
