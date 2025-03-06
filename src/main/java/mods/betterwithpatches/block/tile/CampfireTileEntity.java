@@ -1,7 +1,5 @@
 package mods.betterwithpatches.block.tile;
-import betterwithmods.util.BlockPosition;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFire;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,7 +17,6 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
@@ -98,6 +95,7 @@ public class CampfireTileEntity extends TileEntity
 
         writeExtendedData(nbt);
         writeExtendedData2(nbt);
+        writeExtendedData3(nbt);
 
 
         nbt.setInteger("fcBurnCounter", burnTimeCountdown);
@@ -106,7 +104,6 @@ public class CampfireTileEntity extends TileEntity
         nbt.setInteger("fcSmoulderCounter", smoulderCounter);
         nbt.setInteger("fcCookBurning", cookBurningCounter);
         nbt.setByte("facing", facing);
-        System.out.println("SET FACING " + facing);
 
     }
 
@@ -117,6 +114,8 @@ public class CampfireTileEntity extends TileEntity
         readExtendedData2(nbt);
 
         readExtendedData(nbt);
+
+        readExtendedData3(nbt);
 
         if ( nbt.hasKey( "fcBurnCounter" ) )
         {
@@ -147,7 +146,6 @@ public class CampfireTileEntity extends TileEntity
         if (nbt.hasKey("facing")) {
             facing = nbt.getByte("facing");
             setFacing(facing);
-            System.out.println("GOT FACING" + facing);
         }
 
 
@@ -200,8 +198,6 @@ public class CampfireTileEntity extends TileEntity
         writeExtendedData(nbt);
         writeExtendedData2(nbt);
         writeExtendedData3(nbt);
-
-
         return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, nbt);
     }
     @Override
@@ -211,8 +207,6 @@ public class CampfireTileEntity extends TileEntity
             ((CampfireTileEntity) tile).readExtendedData(packet.func_148857_g());
             ((CampfireTileEntity) tile).readExtendedData2(packet.func_148857_g());
             ((CampfireTileEntity) tile).readExtendedData3(packet.func_148857_g());
-
-
         }
     }
 
@@ -220,6 +214,9 @@ public class CampfireTileEntity extends TileEntity
 public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int newMeta, World world, int x, int y, int z)
 {
     if (oldBlock != newBlock) {
+        return true;
+    }
+    if (oldMeta != newMeta) {
         return true;
     }
     else return false;
@@ -587,6 +584,7 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
     {
         burnTimeCountdown = INITIAL_BURN_TIME;
         burnTimeSinceLit = 0;
+
     }
 
     public int validateFireLevel()
@@ -771,14 +769,10 @@ public boolean shouldRefresh(Block oldBlock, Block newBlock, int oldMeta, int ne
     public void setFacing(byte facing2)
     {
         facing = facing2;
-        System.out.println("set facing to " + facing);
     }
-    public int getFacing()
+    public byte getFacing()
     {
-        System.out.println("gave facing" + facing);
         return facing;
-
-
     }
 
 

@@ -24,6 +24,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
@@ -193,7 +194,7 @@ public class CampfireBlock extends BlockContainer
     }
 
 
-    public boolean setOnFireDirectly(World world, int i, int j, int k)
+    public void setOnFireDirectly(World world, int i, int j, int k)
     {
         if ( getCanBeSetOnFireDirectly(world, i, j, k) )
         {
@@ -211,8 +212,6 @@ public class CampfireBlock extends BlockContainer
 
                 if ( !Blocks.portal.func_150000_e( world, i, j, k ) )
                 {
-                    // FCTODO: A bit hacky here.  Should probably be a general way to start a
-                    // bigger fire atop flammable blocks
 
                     Block iBlockBelowID = world.getBlock( i, j - 1, k );
 
@@ -221,24 +220,25 @@ public class CampfireBlock extends BlockContainer
                         world.setBlock( i, j, k, Blocks.fire);
                     }
                 }
+
             }
             else
             {
                 world.playAuxSFX( 10, i, j, k, 0 );
             }
 
-            return true;
         }
 
-        return false;
     }
     @Override
-    public boolean onBlockActivated( World world, int i, int j, int k, EntityPlayer player, int iFacing, float fXClick, float fYClick, float fZClick )
+    public boolean  onBlockActivated( World world, int i, int j, int k, EntityPlayer player, int iFacing, float fXClick, float fYClick, float fZClick )
     {
         ItemStack stack = player.getCurrentEquippedItem();
+        CampfireBlock campfireBlock = (CampfireBlock) world.getBlock(i, j, k);
         CampfireTileEntity tileEntityNew =
                 (CampfireTileEntity)world.getTileEntity( i, j, k );
         ItemStack nocrash = tileEntityNew.getSpitStack();
+
 
         if ( stack != null )
         {
@@ -317,11 +317,16 @@ public class CampfireBlock extends BlockContainer
                 }
             }
             if (item == Items.flint_and_steel){
+
                 if (fireLevel == 0){
-                    stack.damageItem(2, player);
-                    double a = Math.random()*4;
-                    if (a >= 3.0) {
-                        setOnFireDirectly(world, i, j, k);
+                    if ( !world.isRemote ) {
+                        stack.damageItem(2, player);
+                        double a = Math.random() * 4;
+                        if (a >= 3.0) {
+                            campfireBlock.setOnFireDirectly(world, i, j, k);
+                            tileEntityNew.getDescriptionPacket();
+
+                        }
                     }
 
 
@@ -494,7 +499,7 @@ public class CampfireBlock extends BlockContainer
     {
         int iMetadata = setIAligned(world.getBlockMetadata(i, j, k), bIAligned);
 
-        world.setBlockMetadataWithNotify( i, j, k, iMetadata,2 );
+        world.setBlockMetadataWithNotify( i, j, k, iMetadata,3 );
     }
 
     public int setIAligned(int iMetadata, boolean bIAligned)
@@ -530,7 +535,7 @@ public class CampfireBlock extends BlockContainer
     {
         int iMetadata = setHasSpit(world.getBlockMetadata(i, j, k), bHasSpit);
 
-        world.setBlockMetadataWithNotify( i, j, k, iMetadata,2 );
+        world.setBlockMetadataWithNotify( i, j, k, iMetadata,3 );
     }
 
     public int setHasSpit(int iMetadata, boolean bHasSpit)
@@ -561,7 +566,7 @@ public class CampfireBlock extends BlockContainer
     {
         int iMetadata = setFuelState(world.getBlockMetadata(i, j, k), iCampfireState);
 
-        world.setBlockMetadataWithNotify( i, j, k, iMetadata,2 );
+        world.setBlockMetadataWithNotify( i, j, k, iMetadata,3 );
     }
 
     public int setFuelState(int iMetadata, int iCampfireState)
@@ -627,8 +632,8 @@ public class CampfireBlock extends BlockContainer
 TileEntity tileentity = world.getTileEntity(i, j , k);
         CampfireBlock.campfireChangingState = true;
 
+        world.setBlock( i, j, k, CampfireBlock.fireLevelBlockArray[iFireLevel], iMetadata, 3 );
 
-        world.setBlock( i, j, k, CampfireBlock.fireLevelBlockArray[iFireLevel], iMetadata, 2 );
         CampfireBlock.campfireChangingState = false;
         if (tileentity != null) {
             tileentity.validate();
