@@ -16,6 +16,7 @@ public class ClientProxy extends CommonProxy {
     public static int renderBlockTreeStage4;
     public static int renderCampfire;
     public static int renderBlockCampfire;
+    public static int renderInfernalEnchanter;
 
     @Override
     public void preInit() {
@@ -48,6 +49,8 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerBlockHandler(renderCampfire, new RenderCampfire());
         renderBlockCampfire = RenderingRegistry.getNextAvailableRenderId();
         RenderingRegistry.registerBlockHandler(renderBlockCampfire, new RenderBlockCampfire());
+        renderInfernalEnchanter = RenderingRegistry.getNextAvailableRenderId();
+        RenderingRegistry.registerBlockHandler(renderInfernalEnchanter, new RenderInfernalEnchanterBlock());
 
 
         if (Config.enablePenalties) {

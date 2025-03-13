@@ -8,8 +8,9 @@ tile.bwm:blockTreeStage1.name=Debarked Oak Log
 tile.bwm:blockTreeStage2.name=Lightly Damaged Oak Log
 tile.bwm:blockTreeStage3.name=Slightly Damaged Oak Log
 tile.bwm:blockTreeStage4.name=Badly Damaged Oak Log
-tile.bwm:campfire.name= Campfire
+tile.bwm:campfire.name=Campfire
 tile.bwm:fcBlockCampfire.name=Campfire
+tile.bwm:infernalenchanter.name=Infernal Enchanter
 
 item.bwm:material.SoulFlux.name=Soul Flux
 item.bwm:material.EnderSlag.name=Ender Slag
@@ -39,3 +40,4 @@ item.bwm:shaft.name=Shaft
 item.bwm:pileOfDirt.name=Pile Of Dirt
 item.bwm:itemOakBark.name=NOT IN USE
 item.bwm:ItemPointyStick.name= Pointy Stick
+item.bwm:ItemArcaneScroll.name= Arcane scroll

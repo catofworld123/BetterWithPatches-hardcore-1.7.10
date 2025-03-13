@@ -7,6 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import mods.betterwithpatches.block.*;
 import mods.betterwithpatches.block.tile.*;
 import mods.betterwithpatches.data.BWPCreativeTab;
+import mods.betterwithpatches.item.ArcaneScrollItem;
 import mods.betterwithpatches.item.ItemOakBark;
 import mods.betterwithpatches.item.ItemShaft;
 import mods.betterwithpatches.item.PileOfDirt;
@@ -14,10 +15,15 @@ import mods.betterwithpatches.item.tool.*;
 import mods.betterwithpatches.util.BWPConstants;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.common.util.EnumHelper;
+
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 
 public class BWPRegistry {
     public static final CreativeTabs bwpTab = new BWPCreativeTab();
@@ -30,6 +36,7 @@ public class BWPRegistry {
     public static Block blocktreestage3;
     public static Block blocktreestage4;
     public static Block campfire;
+    public static Block infernalEnchanter;
 
 
     public static CampfireBlock unlitCampfire;
@@ -39,7 +46,7 @@ public class BWPRegistry {
 
 
     public static Item steelAxe, steelHoe, steelPickaxe, itemOakBark, steelShovel, steelSword, steelHelmet, steelChestplate, steelLeggings, steelBoots, itemPointyStick,
-            dredgeHeavyHelmet, dredgeHeavyChestplate, dredgeHeavyLeggings, dredgeHeavyBoots, itemShaft, pileOfDirt;
+            dredgeHeavyHelmet, dredgeHeavyChestplate, dredgeHeavyLeggings, dredgeHeavyBoots, itemShaft, pileOfDirt, arcaneScroll;
 
 
 
@@ -58,6 +65,8 @@ public class BWPRegistry {
 
         campfire = GameRegistry.registerBlock(new Campfire(0).setCreativeTab((BWPRegistry.bwpTab)), ItemBlock.class, "campfire");
         GameRegistry.registerTileEntity(TileEntityCampfire.class, "bwm.campfire");
+        infernalEnchanter = GameRegistry.registerBlock(new InfernalEnchanterBlock().setCreativeTab(BWPRegistry.bwpTab), ItemBlock.class,"infernalenchanter");
+        GameRegistry.registerTileEntity(InfernalEnchanterTileEntity.class,"bwm.infernalenchanter");
 
 
         unlitCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 0).setCreativeTab((BWPRegistry.bwpTab)), ItemBlock.class, "unlitcampfire");
@@ -83,6 +92,7 @@ public class BWPRegistry {
         pileOfDirt = registerItem("pileOfDirt", new PileOfDirt());
         itemOakBark = registerItem("itemOakBark", new ItemOakBark());
         itemPointyStick = registerItem("ItemPointyStick", new ItemPointyStick());
+        arcaneScroll = registerItem("ItemArcaneScroll", new ArcaneScrollItem());
 
     }
 
@@ -93,6 +103,7 @@ public class BWPRegistry {
         GameRegistry.registerItem(item, id);
         return item;
     }
+
 
 
 
