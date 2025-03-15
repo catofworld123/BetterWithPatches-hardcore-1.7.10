@@ -7,8 +7,6 @@ import mods.betterwithpatches.Config;
 import mods.betterwithpatches.craft.FilteredHopperInteractions;
 import mods.betterwithpatches.craft.filteredhopper.HopperRecipe;
 import mods.betterwithpatches.data.recipe.HopperFilter;
-import mods.betterwithpatches.data.recipe.RecipeOutput;
-import mods.betterwithpatches.util.BWPUtils;
 import mods.betterwithpatches.util.IFilteredHopper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -27,17 +25,27 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(TileEntityFilteredHopper.class)
 public abstract class TileEntityFilteredHopperMixin extends TileEntityVisibleInventory implements IFilteredHopper {
-    @Shadow(remap = false) @Final private int xpInvSpace;
-    @Shadow(remap = false) @Final private int xpEjectSize;
-    @Shadow(remap = false) @Final private int delayBetweenXPDrops;
-    @Shadow(remap = false) private int containedXP;
-    @Shadow(remap = false) private int xpDropDelay;
-    @Shadow(remap = false) private int soulsRetained;
-    @Shadow(remap = false) @Final private int maximumRetainedSouls;
+    @Shadow(remap = false)
+    @Final
+    private int xpInvSpace;
+    @Shadow(remap = false)
+    @Final
+    private int xpEjectSize;
+    @Shadow(remap = false)
+    @Final
+    private int delayBetweenXPDrops;
+    @Shadow(remap = false)
+    private int containedXP;
+    @Shadow(remap = false)
+    private int xpDropDelay;
+    @Shadow(remap = false)
+    private int soulsRetained;
+    @Shadow(remap = false)
+    @Final
+    private int maximumRetainedSouls;
 
-    @Shadow(remap = false) protected abstract void ejectStack(ItemStack stack);
-
-    @Shadow(remap = false) protected abstract boolean spawnGhast();
+    @Shadow(remap = false)
+    protected abstract boolean spawnGhast();
 
     public ItemStack filterStack;
     public HopperFilter filter;
@@ -47,6 +55,7 @@ public abstract class TileEntityFilteredHopperMixin extends TileEntityVisibleInv
     public void initFilter(CallbackInfo ctx) {
         this.filterStack = null;
         this.filter = FilteredHopperInteractions.EMPTY;
+        //this.collectionZone = AxisAlignedBB.getBoundingBox(this.xCoord, this.yCoord + 0.625f, this.zCoord, this.xCoord + 1, this.yCoord + 1.15f, this.zCoord + 1);
     }
 
     @Redirect(method = "readFromNBT", at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/NBTTagCompound;hasKey(Ljava/lang/String;)Z", ordinal = 3))
@@ -58,7 +67,8 @@ public abstract class TileEntityFilteredHopperMixin extends TileEntityVisibleInv
     }
 
     @Redirect(method = "writeToNBT", at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/NBTTagCompound;setShort(Ljava/lang/String;S)V", ordinal = 0))
-    private void noShort(NBTTagCompound instance, String key, short value) {}
+    private void noShort(NBTTagCompound instance, String key, short value) {
+    }
 
     @Redirect(method = "markDirty", at = @At(value = "INVOKE", target = "Lbetterwithmods/blocks/tile/TileEntityFilteredHopper;setFilter(S)V", remap = false))
     private void setActualFilter(TileEntityFilteredHopper instance, short filter) {
@@ -107,7 +117,7 @@ public abstract class TileEntityFilteredHopperMixin extends TileEntityVisibleInv
 
     @Override
     public void onEntityCollidedWithHopper(World world, int x, int y, int z, Entity entity) {
-        if (entity != null && entity.boundingBox.intersectsWith(this.collectionZone) && !entity.isDead) {
+        if (entity != null && !entity.isDead && entity.boundingBox.intersectsWith(this.collectionZone)) {
             TileEntityFilteredHopper tile = (TileEntityFilteredHopper) (Object) this;
             if (this.filter.shouldHopperProcessItems(world, x, y, z, tile, entity)) {
                 if (entity instanceof EntityItem) {
@@ -191,5 +201,15 @@ public abstract class TileEntityFilteredHopperMixin extends TileEntityVisibleInv
     @Override
     public boolean trySpawnGhast() {
         return this.spawnGhast();
+    }
+
+    @Override
+    public AxisAlignedBB getCollectionZone() {
+        return this.collectionZone;
+    }
+
+    @Override
+    public void setCollectionZone(AxisAlignedBB box) {
+        this.collectionZone = box;
     }
 }

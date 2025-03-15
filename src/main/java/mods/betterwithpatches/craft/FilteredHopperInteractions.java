@@ -63,17 +63,17 @@ public interface FilteredHopperInteractions {
 
     static void addRecipe(ItemStack filter, ItemStack input, Object... outputs) {
         if (input == null) return;
-        else if (RECIPE_MAP.get(filter) == null) RECIPE_MAP.put(filter, new ItemStackMap<>(null));
+        else RECIPE_MAP.computeIfAbsent(filter, k -> new ItemStackMap<>(null));
         RECIPE_MAP.get(filter).put(input, new HopperRecipe(-1, outputs));
     }
 
     /**
      * @param filter Filter stack
-     * @param input Input stack, if you need OD use the method below
+     * @param input  Input stack, if you need OD use the method below
      * @param recipe new HopperRecipe(String oreName, ItemStack[] outputs)
      */
     static void addCustomRecipe(@Nullable ItemStack filter, @Nonnull ItemStack input, HopperRecipe recipe) {
-        if (RECIPE_MAP.get(filter) == null) RECIPE_MAP.put(filter, new ItemStackMap<>(null));
+        RECIPE_MAP.computeIfAbsent(filter, k -> new ItemStackMap<>(null));
         RECIPE_MAP.get(filter).put(input, recipe);
     }
 
@@ -117,7 +117,8 @@ public interface FilteredHopperInteractions {
 
         addCustomRecipe(soulSand, new SoulUrnRecipe("dustNetherrack", BWMaterials.getMaterial(BWMaterials.HELLFIRE_DUST)));
         addCustomRecipe(soulSand, new SoulUrnRecipe("dustSoul", BWMaterials.getMaterial(BWMaterials.SAWDUST)));
-        /*todo config?*/ addCustomRecipe(soulSand, new SoulUrnRecipe("dustGlowstone", BWMaterials.getMaterial(BWMaterials.BRIMSTONE)));
+        /*todo config?*/
+        addCustomRecipe(soulSand, new SoulUrnRecipe("dustGlowstone", BWMaterials.getMaterial(BWMaterials.BRIMSTONE)));
         addRecipe(wicker, Blocks.gravel, new WeightedStack(new ChanceStack(Blocks.sand, 0.5f), new ChanceStack(new ItemStack(Blocks.sand, 1, 1), 0.5f)), Items.flint);
         addCustomRecipe(soulSand, new HopperRecipe("sand", Blocks.soul_sand) {
             @Override
