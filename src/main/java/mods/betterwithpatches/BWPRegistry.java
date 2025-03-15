@@ -26,6 +26,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 
 public class BWPRegistry {
+
     public static final CreativeTabs bwpTab = new BWPCreativeTab();
     public static final Item.ToolMaterial SOULFORGED_TOOL = EnumHelper.addToolMaterial("soulforgedSteel", 4, 2250, 10f, 3, 22);
     public static final ItemArmor.ArmorMaterial SOULFORGED_ARMOR = EnumHelper.addArmorMaterial("soulforgedSteel", 40, new int[]{3, 8, 6, 3}, 25),
@@ -37,12 +38,17 @@ public class BWPRegistry {
     public static Block blocktreestage4;
     public static Block campfire;
     public static Block infernalEnchanter;
+    public static BWPRegistry instance;
 
 
     public static CampfireBlock unlitCampfire;
     public static CampfireBlock smallCampfire;
     public static CampfireBlock mediumCampfire;
     public static CampfireBlock largeCampfire;
+    public enum ENUM_IDS
+    {
+       Nothing(), InfernalEnchanter(), TileEntityBallers(),
+    }
 
 
     public static Item steelAxe, steelHoe, steelPickaxe, itemOakBark, steelShovel, steelSword, steelHelmet, steelChestplate, steelLeggings, steelBoots, itemPointyStick,
@@ -102,6 +108,7 @@ public class BWPRegistry {
         item.setCreativeTab(bwpTab);
         GameRegistry.registerItem(item, id);
         return item;
+
     }
 
 

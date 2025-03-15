@@ -16,6 +16,7 @@ import mods.betterwithpatches.event.chonkycampfire.Wetrytochangeitsstateslol;
 import mods.betterwithpatches.event.chonkycampfire.campfirelightupEvent;
 import mods.betterwithpatches.features.*;
 import mods.betterwithpatches.menu.BWPMenuHandler;
+import mods.betterwithpatches.network.GuiHandler;
 import mods.betterwithpatches.util.BWPConstants;
 import mods.betterwithpatches.util.BWPUtils;
 import mods.betterwithpatches.util.RecipeUtils;
@@ -35,14 +36,16 @@ import static mods.betterwithpatches.util.BWMaterials.getMaterial;
 
 public abstract class CommonProxy implements Proxy {
     public static final boolean isMTPresent = Loader.isModLoaded("MineTweaker3");
+    public static CommonProxy instance;
 
 
 
     @Override
     public void preInit() {
         Config.tryInit();
-
         NetworkRegistry.INSTANCE.registerGuiHandler(BWPConstants.MODID, new BWPMenuHandler());
+        NetworkRegistry.INSTANCE.registerGuiHandler(BWPConstants.MODID, new GuiHandler());
+
 
         if (Config.enableNEICompat && Loader.isModLoaded("NotEnoughItems")) {
             NEIBWMConfig nei = new NEIBWMConfig();
@@ -145,6 +148,7 @@ public abstract class CommonProxy implements Proxy {
             HCFurnace.overrideCookingTime("cobblestone", 1600);
             HCFurnace.overrideCookingTime("sand", 1600);
         }
+
     }
 
     @Override

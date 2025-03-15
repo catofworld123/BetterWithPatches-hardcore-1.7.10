@@ -11,9 +11,11 @@ public class BWPMenuHandler implements IGuiHandler {
     @Override
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
         if (id == 0) {
+            System.out.println("balls :D");
             TileEntity tile = world.getTileEntity(x, y, z);
             if (tile instanceof TileEntitySteelAnvil)
                 return new MenuSteelAnvil(player.inventory, (TileEntitySteelAnvil) world.getTileEntity(x, y, z));
+
         }
         return null;
     }

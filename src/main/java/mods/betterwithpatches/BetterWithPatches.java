@@ -6,8 +6,12 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import mods.betterwithpatches.craft.NewCrafts.CraftingTableStuff;
 import mods.betterwithpatches.craft.RecipeManager;
+import mods.betterwithpatches.menu.BWPMenuHandler;
+import mods.betterwithpatches.network.GuiHandler;
+import mods.betterwithpatches.proxy.ClientProxy;
 import mods.betterwithpatches.proxy.CommonProxy;
 import mods.betterwithpatches.util.BWPRenderMapper;
 import mods.betterwithpatches.util.WorldUtils;
@@ -24,8 +28,12 @@ import static mods.betterwithpatches.util.BWPConstants.MODNAME;
 
 
 
+
 @Mod(modid = MODID, name = MODNAME, version = "${version}", dependencies = "required-after:betterwithmods")
 public class BetterWithPatches {
+    public static BetterWithPatches instance;
+
+
 
 
 
@@ -37,14 +45,21 @@ public class BetterWithPatches {
 
         CraftingTableStuff.mainRegistry();
     }
+    @Mod.EventHandler
+    public static void load(FMLInitializationEvent event){
+
+    }
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent e) {
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new BWPMenuHandler());
         PROXY.preInit();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent e) {
+
         PROXY.init();
         RecipeManager.addAllModRecipes();
 
@@ -63,7 +78,8 @@ public class BetterWithPatches {
         PROXY.afterInit();
     }
 
-    
+
+
 }
 
 

@@ -1,8 +1,12 @@
 package mods.betterwithpatches.block;
 
+import cpw.mods.fml.common.network.NetworkRegistry;
+import mods.betterwithpatches.BWPRegistry;
 import mods.betterwithpatches.BetterWithPatches;
 import mods.betterwithpatches.block.tile.InfernalEnchanterTileEntity;
+import mods.betterwithpatches.inventory.container.InfernalEnchanterContainer;
 import mods.betterwithpatches.proxy.ClientProxy;
+import mods.betterwithpatches.util.BWPConstants;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -56,8 +60,8 @@ public class InfernalEnchanterBlock extends BlockContainer {
 
     public boolean onBlockActivated(World world, int i, int j, int k, EntityPlayer player, int iFacing, float fXClick, float fYClick, float fZClick) {
         if (!world.isRemote && player instanceof EntityPlayerMP) {
-      //     InfernalEnchanterContainer container = new InfernalEnchanterContainer(player.inventory, world, i, j, k);
-       //     BetterWithPatches.serverOpenCustomInterface((EntityPlayerMP)player, container, BTWContainers.infernalEnchanterContainerID);
+           InfernalEnchanterContainer container = new InfernalEnchanterContainer(player.inventory, world, i, j, k);
+            player.openGui(BWPConstants.MODID, BWPRegistry.ENUM_IDS.InfernalEnchanter.ordinal(),world, i,j,k);
         }
 
         return true;

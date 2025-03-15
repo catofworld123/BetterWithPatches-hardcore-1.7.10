@@ -1,12 +1,17 @@
 package mods.betterwithpatches.proxy;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import mods.betterwithpatches.BWPRegistry;
 import mods.betterwithpatches.BetterWithPatches;
 import mods.betterwithpatches.Config;
 import mods.betterwithpatches.client.*;
 import mods.betterwithpatches.craft.HardcoreWoodInteractionExtensions;
 import mods.betterwithpatches.features.HCMovement;
+import mods.betterwithpatches.network.GuiHandler;
 import net.minecraftforge.common.MinecraftForge;
+
+import java.util.Map;
 
 public class ClientProxy extends CommonProxy {
     public static int renderAnvil;
@@ -17,6 +22,7 @@ public class ClientProxy extends CommonProxy {
     public static int renderCampfire;
     public static int renderBlockCampfire;
     public static int renderInfernalEnchanter;
+    public static ClientProxy instance;
 
     @Override
     public void preInit() {
@@ -51,6 +57,7 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerBlockHandler(renderBlockCampfire, new RenderBlockCampfire());
         renderInfernalEnchanter = RenderingRegistry.getNextAvailableRenderId();
         RenderingRegistry.registerBlockHandler(renderInfernalEnchanter, new RenderInfernalEnchanterBlock());
+
 
 
         if (Config.enablePenalties) {

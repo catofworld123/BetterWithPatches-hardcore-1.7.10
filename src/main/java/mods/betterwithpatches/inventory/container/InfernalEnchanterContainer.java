@@ -2,6 +2,7 @@ package mods.betterwithpatches.inventory.container;
 
 import mods.betterwithpatches.BWPRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -11,11 +12,13 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.EnumHelper;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class InfernalEnchanterContainer extends Container {
@@ -256,13 +259,47 @@ public class InfernalEnchanterContainer extends Container {
     }
 
     private int getMaximumEnchantmentCost(ItemStack itemStack) {
-        return 30;
       //  return itemStack.getItem().getInfernalMaxEnchantmentCost(); deprectaed (for now)
+         return 30;
     }
 
     private int getMaximumNumberOfEnchantments(ItemStack itemStack) {
-        return 3;
-       // return itemStack.getItem().getInfernalMaxNumEnchants(); deprecated (for now)
+        Item item = itemStack.getItem();
+        if (item != null){
+            if ( item instanceof ItemTool){
+                ItemTool tool = (ItemTool) itemStack.getItem();
+                if (Objects.equals(tool.getToolMaterialName(), "EMERALD")) {
+                    return 2;
+                }
+                else if (Objects.equals(tool.getToolMaterialName(), "soulforgedSteel")) {
+                    return 4;
+                }
+                else return 3;
+            }
+           else if (item instanceof ItemSword){
+               ItemSword itemSword = (ItemSword)itemStack.getItem();
+               if (Objects.equals(itemSword.getToolMaterialName(), "EMERALD")) {
+                   return 2;
+               }
+               else if (Objects.equals(itemSword.getToolMaterialName(), "soulforgedSteel")) {
+                   return 4;
+               }
+               else return 3;
+           }
+            else if (item instanceof ItemArmor){
+                ItemArmor armor = (ItemArmor) itemStack.getItem();
+                if (armor.getArmorMaterial() == ItemArmor.ArmorMaterial.DIAMOND) {
+                    return 2;
+                }
+                else if (armor.getArmorMaterial() == BWPRegistry.SOULFORGED_ARMOR) {
+                    return 4;
+                }
+                else return 3;
+
+            }
+            else return 3;
+        }
+        else return 0;
     }
 
     private boolean isEnchantmentAppropriateForItem(int iEnchantmentIndex, ItemStack itemStack) {
