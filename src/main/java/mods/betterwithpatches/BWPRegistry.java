@@ -47,7 +47,7 @@ public class BWPRegistry {
     public static CampfireBlock largeCampfire;
     public enum ENUM_IDS
     {
-       Nothing(), InfernalEnchanter(), TileEntityBallers(),
+       Nothing(), InfernalEnchanter(),
     }
 
 
