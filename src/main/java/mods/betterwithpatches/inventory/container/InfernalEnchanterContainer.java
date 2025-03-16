@@ -1,5 +1,6 @@
 package mods.betterwithpatches.inventory.container;
 
+import betterwithmods.BWRegistry;
 import mods.betterwithpatches.BWPRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -259,8 +260,28 @@ public class InfernalEnchanterContainer extends Container {
     }
 
     private int getMaximumEnchantmentCost(ItemStack itemStack) {
-      //  return itemStack.getItem().getInfernalMaxEnchantmentCost(); deprectaed (for now)
-         return 30;
+        Item item = itemStack.getItem();
+        if (item != null) {
+            if (item instanceof ItemArmor) {
+                ItemArmor armor = (ItemArmor) itemStack.getItem();
+                if (armor.getArmorMaterial() == ItemArmor.ArmorMaterial.IRON) {
+                    return 25;
+                }
+                else if (armor.getArmorMaterial() == ItemArmor.ArmorMaterial.CLOTH) {
+                    return 25;
+                }
+
+                else return 30;
+            }
+            else if (item instanceof ItemBow){
+                return 30;
+            }
+            else if (item instanceof ItemShears){
+                return 25;
+            }
+            else return 30;
+        }
+        else return 30;
     }
 
     private int getMaximumNumberOfEnchantments(ItemStack itemStack) {
@@ -275,6 +296,9 @@ public class InfernalEnchanterContainer extends Container {
                     return 4;
                 }
                 else return 3;
+            }
+            else if (item instanceof ItemShears){
+                return 2;
             }
            else if (item instanceof ItemSword){
                ItemSword itemSword = (ItemSword)itemStack.getItem();
@@ -293,6 +317,15 @@ public class InfernalEnchanterContainer extends Container {
                 }
                 else if (armor.getArmorMaterial() == BWPRegistry.SOULFORGED_ARMOR) {
                     return 4;
+                }
+                else if (armor.getArmorMaterial() == ItemArmor.ArmorMaterial.CHAIN) {
+                    return 2;
+                }
+                else if (armor.getArmorMaterial() == ItemArmor.ArmorMaterial.IRON) {
+                    return 2;
+                }
+                else if (armor.getArmorMaterial() == ItemArmor.ArmorMaterial.CLOTH) {
+                    return 2;
                 }
                 else return 3;
 
