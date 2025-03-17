@@ -46,7 +46,7 @@ public class InfernalEnchanterBlock extends BlockContainer {
         this.setHardness(100.0F);
         this.setResistance(2000.0F);
         this.setStepSound(soundTypeMetal);
-        this.setCreativeTab(CreativeTabs.tabDecorations);
+        this.setCreativeTab(BWPRegistry.bwpTab);
 
     }
 

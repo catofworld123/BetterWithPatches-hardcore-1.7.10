@@ -7,12 +7,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 import mods.betterwithpatches.block.*;
 import mods.betterwithpatches.block.tile.*;
 import mods.betterwithpatches.data.BWPCreativeTab;
-import mods.betterwithpatches.item.ArcaneScrollItem;
-import mods.betterwithpatches.item.ItemOakBark;
-import mods.betterwithpatches.item.ItemShaft;
-import mods.betterwithpatches.item.PileOfDirt;
+import mods.betterwithpatches.item.*;
 import mods.betterwithpatches.item.tool.*;
 import mods.betterwithpatches.util.BWPConstants;
+import mods.betterwithpatches.util.ModStepSound;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -29,7 +27,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 
 public class BWPRegistry {
-    public static final Material candleMaterial = new MaterialLogic(MapColor.airColor).setNoPushMobility().setDoesNotBreakSaw().setRequiresTool();
+    public static final Material candleMaterial = new MaterialLogic(MapColor.airColor).setNoPushMobility().setRequiresTool();
 
     public static final CreativeTabs bwpTab = new BWPCreativeTab();
     public static final Item.ToolMaterial SOULFORGED_TOOL = EnumHelper.addToolMaterial("soulforgedSteel", 4, 2250, 10f, 3, 22);
@@ -42,7 +40,6 @@ public class BWPRegistry {
     public static Block blocktreestage4;
     public static Block campfire;
     public static Block infernalEnchanter;
-    public static Block candle;
     public static BWPRegistry instance;
 
 
@@ -54,10 +51,14 @@ public class BWPRegistry {
     {
        Nothing(), InfernalEnchanter(),
     }
+    public static  Block.SoundType smallObjectStepsound;
+
+
+
 
 
     public static Item steelAxe, steelHoe, steelPickaxe, itemOakBark, steelShovel, steelSword, steelHelmet, steelChestplate, steelLeggings, steelBoots, itemPointyStick,
-            dredgeHeavyHelmet, dredgeHeavyChestplate, dredgeHeavyLeggings, dredgeHeavyBoots, itemShaft, pileOfDirt, arcaneScroll;
+            dredgeHeavyHelmet, dredgeHeavyChestplate, dredgeHeavyLeggings, dredgeHeavyBoots, itemShaft, pileOfDirt, arcaneScroll, candle;
 
 
 
@@ -72,7 +73,6 @@ public class BWPRegistry {
         GameRegistry.registerTileEntity(TileEntityBlockTreeStage3.class, "bwm.blockTreeStage3");
         blocktreestage4 = GameRegistry.registerBlock(new BlockTreeStage4(), ItemBlock.class, "blockTreeStage4");
         GameRegistry.registerTileEntity(TileEntityBlockTreeStage4.class, "bwm.blockTreeStage4");
-        candle = GameRegistry.registerBlock(new CandleBlock(16, "fcBlockCandle_plain", "btw:candle"), ItemBlock.class, "fcBlockCandle_plain");
 
 
         campfire = GameRegistry.registerBlock(new Campfire(0).setCreativeTab((BWPRegistry.bwpTab)), ItemBlock.class, "campfire");
@@ -105,6 +105,8 @@ public class BWPRegistry {
         itemOakBark = registerItem("itemOakBark", new ItemOakBark());
         itemPointyStick = registerItem("ItemPointyStick", new ItemPointyStick());
         arcaneScroll = registerItem("ItemArcaneScroll", new ArcaneScrollItem());
+
+        smallObjectStepsound = new ModStepSound("bwm:small_object", 1.0f, 0.8f);
 
     }
 
