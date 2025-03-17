@@ -19,7 +19,6 @@ public class SmeltingRecipeList extends BWCrafting {
         RecipeManager.addCampfireRecipe(Items.beef, new ItemStack(Items.cooked_beef));
         RecipeManager.addCampfireRecipe(Items.chicken, new ItemStack(Items.cooked_chicken));
         RecipeManager.addCampfireRecipe(Items.fish, new ItemStack(Items.cooked_fished));
-        RecipeManager.addCampfireRecipe(Items.potato, new ItemStack(Items.baked_potato));
     }
 }
 

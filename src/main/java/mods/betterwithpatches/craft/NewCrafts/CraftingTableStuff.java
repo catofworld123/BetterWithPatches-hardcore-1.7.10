@@ -27,5 +27,7 @@ public class CraftingTableStuff {
 
         GameRegistry.addShapelessRecipe(new ItemStack(itemPointyStick), new Object[]{new ItemStack(itemShaft)});
 
+
+
     }
 }

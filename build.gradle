@@ -346,6 +346,7 @@ minecraft {
         injectMissingGenerics.set(true)
     }
 
+
     username = developmentEnvironmentUserName.toString()
 
     lwjgl3Version = "3.3.2-SNAPSHOT"

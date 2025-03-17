@@ -14,6 +14,9 @@ import mods.betterwithpatches.item.PileOfDirt;
 import mods.betterwithpatches.item.tool.*;
 import mods.betterwithpatches.util.BWPConstants;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.MapColor;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialLogic;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
@@ -26,6 +29,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 
 public class BWPRegistry {
+    public static final Material candleMaterial = new MaterialLogic(MapColor.airColor).setNoPushMobility().setDoesNotBreakSaw().setRequiresTool();
 
     public static final CreativeTabs bwpTab = new BWPCreativeTab();
     public static final Item.ToolMaterial SOULFORGED_TOOL = EnumHelper.addToolMaterial("soulforgedSteel", 4, 2250, 10f, 3, 22);
@@ -38,6 +42,7 @@ public class BWPRegistry {
     public static Block blocktreestage4;
     public static Block campfire;
     public static Block infernalEnchanter;
+    public static Block candle;
     public static BWPRegistry instance;
 
 
@@ -67,6 +72,7 @@ public class BWPRegistry {
         GameRegistry.registerTileEntity(TileEntityBlockTreeStage3.class, "bwm.blockTreeStage3");
         blocktreestage4 = GameRegistry.registerBlock(new BlockTreeStage4(), ItemBlock.class, "blockTreeStage4");
         GameRegistry.registerTileEntity(TileEntityBlockTreeStage4.class, "bwm.blockTreeStage4");
+        candle = GameRegistry.registerBlock(new CandleBlock(16, "fcBlockCandle_plain", "btw:candle"), ItemBlock.class, "fcBlockCandle_plain");
 
 
         campfire = GameRegistry.registerBlock(new Campfire(0).setCreativeTab((BWPRegistry.bwpTab)), ItemBlock.class, "campfire");

@@ -372,7 +372,21 @@ public class CampfireBlock extends BlockContainer
             if ( cookStack != null  )
             {
                 if (!world.isRemote) {
-                    world.spawnEntityInWorld(new EntityItem(world, i, j, k, new ItemStack(cookStack.getItem())));
+                    Random rand = new Random();
+                    if (player.inventory.addItemStackToInventory(cookStack)) {
+                        player.worldObj.playSoundAtEntity(player, "random.pop", 0.2f, ((rand.nextFloat() - rand.nextFloat()) * 0.7f + 1.0f) * 2.0f);
+                    } else if (!player.worldObj.isRemote) {
+                        float xOffset = world.rand.nextFloat() * 0.7f + 0.15f;
+                        float yOffset = world.rand.nextFloat() * 0.2f + 0.1f;
+                        float zOffset = world.rand.nextFloat() * 0.7f + 0.15f;
+                        EntityItem entityitem = new EntityItem(world, i, j, k, cookStack);
+                        float velocityFactor = 0.05f;
+                        entityitem.motionX = world.rand.nextFloat() * 0.7f + 0.15f;
+                        entityitem.motionY = world.rand.nextFloat() * 0.2f + 0.1f;
+                        entityitem.motionZ = world.rand.nextFloat() * 0.7f + 0.15f;
+                        entityitem.delayBeforeCanPickup = 10;
+                        world.spawnEntityInWorld(entityitem);
+                    }
                 }
 
 
@@ -388,7 +402,21 @@ public class CampfireBlock extends BlockContainer
                 {
                     if (!world.isRemote) {
 
-                        world.spawnEntityInWorld(new EntityItem(world, i, j, k, spitStack));
+                        Random rand = new Random();
+                        if (player.inventory.addItemStackToInventory(spitStack)) {
+                            player.worldObj.playSoundAtEntity(player, "random.pop", 0.2f, ((rand.nextFloat() - rand.nextFloat()) * 0.7f + 1.0f) * 2.0f);
+                        } else if (!player.worldObj.isRemote) {
+                            float xOffset = world.rand.nextFloat() * 0.7f + 0.15f;
+                            float yOffset = world.rand.nextFloat() * 0.2f + 0.1f;
+                            float zOffset = world.rand.nextFloat() * 0.7f + 0.15f;
+                            EntityItem entityitem = new EntityItem(world, i, j, k, spitStack);
+                            float velocityFactor = 0.05f;
+                            entityitem.motionX = (float)world.rand.nextGaussian() * velocityFactor;
+                            entityitem.motionY = (float)world.rand.nextGaussian() * velocityFactor + 0.2f;
+                            entityitem.motionZ = (float)world.rand.nextGaussian() * velocityFactor;
+                            entityitem.delayBeforeCanPickup = 10;
+                            world.spawnEntityInWorld(entityitem);
+                        }
                     }
                         setHasSpit(world, i, j, k, false);
                         tileEntity.setSpitStack(null);
@@ -709,6 +737,7 @@ TileEntity tileentity = world.getTileEntity(i, j , k);
 
     @SideOnly(Side.CLIENT)
     public IIcon[] icons;
+
 
 
 
