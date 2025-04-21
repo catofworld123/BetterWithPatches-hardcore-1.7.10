@@ -5,6 +5,7 @@ import mods.betterwithpatches.BetterWithPatches;
 import mods.betterwithpatches.block.CampfireBlock;
 import mods.betterwithpatches.block.tile.CampfireTileEntity;
 import mods.betterwithpatches.util.BWPConstants;
+import mods.betterwithpatches.util.BWPRenderMapper;
 import mods.betterwithpatches.util.ModelWrapperDisplayList;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.entity.RenderManager;

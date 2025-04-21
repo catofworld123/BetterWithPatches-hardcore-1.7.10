@@ -17,6 +17,11 @@ public class WorldUtils {
     public WorldUtils() {
     }
 
+    public static boolean isReplaceableBlock(World world, int i, int j, int k) {
+        Block block = world.getBlock(i, j, k);
+        return block == null || block.getMaterial().isReplaceable();
+    }
+
     public static int rotateFacingForCoordBaseMode(int iFacing, int iCoordBaseMode) {
         if (iCoordBaseMode == 0) {
             if (iFacing == 2) {

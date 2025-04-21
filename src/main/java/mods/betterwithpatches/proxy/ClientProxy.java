@@ -22,6 +22,7 @@ public class ClientProxy extends CommonProxy {
     public static int renderCampfire;
     public static int renderBlockCampfire;
     public static int renderInfernalEnchanter;
+    public static int renderVessel;
     public static ClientProxy instance;
 
     @Override
@@ -57,6 +58,8 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerBlockHandler(renderBlockCampfire, new RenderBlockCampfire());
         renderInfernalEnchanter = RenderingRegistry.getNextAvailableRenderId();
         RenderingRegistry.registerBlockHandler(renderInfernalEnchanter, new RenderInfernalEnchanterBlock());
+        renderVessel = RenderingRegistry.getNextAvailableRenderId();
+        RenderingRegistry.registerBlockHandler(renderVessel, new RenderVessel());
 
 
 
