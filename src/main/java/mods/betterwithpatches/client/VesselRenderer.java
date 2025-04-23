@@ -30,7 +30,7 @@ public class VesselRenderer extends TileEntitySpecialRenderer {
     {
         if (tileEntity instanceof ArcaneVesselTileEntity){
             int iFacing = (((ArcaneVesselTileEntity) tileEntity).getFacing());
-            int k = 3;
+            int k = 0;
             System.out.println(iFacing);
             if (iFacing == 2) {
                 k = 1;
@@ -51,7 +51,27 @@ public class VesselRenderer extends TileEntitySpecialRenderer {
                 GL11.glTranslated(xCoord + 0.5, yCoord+0.5, zCoord + 1);
                 GL11.glRotatef(90, -1.0F, 0.0F, 0.0F);
 
+
             }
+            else if ( k == 4 ){
+
+                GL11.glTranslated(xCoord + 0, yCoord + 0.5, zCoord + 0.5);
+                GL11.glRotatef(90, 0.0F, 0.0F, -1.0F);
+
+            }
+            else if ( k == 3 ){
+
+                GL11.glTranslated(xCoord + 1, yCoord + 0.5, zCoord + 0.5);
+                GL11.glRotatef(90, 0.0F, 0.0F, 1.0F);
+
+            }
+            else if ( k == 2 ){
+
+                GL11.glTranslated(xCoord + 0.5, yCoord + 0.5, zCoord + 0.0);
+                GL11.glRotatef(90, 1.0F, 0.0F, 0.0F);
+
+            }
+
             else GL11.glTranslated(xCoord + 0.5, yCoord, zCoord + 0.5);
 
 
