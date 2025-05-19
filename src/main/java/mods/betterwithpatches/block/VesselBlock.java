@@ -227,12 +227,18 @@ public abstract class VesselBlock extends BlockContainer implements IMechanicalB
                 bShouldBreak = true;
             }
             if (bShouldBreak) {
-                tempPos = new BlockPosition(i, j, k);
                 i += Facing.offsetsXForSide[iFacing];
                 j += Facing.offsetsYForSide[iFacing];
                 k += Facing.offsetsZForSide[iFacing];
+                tempPos = new BlockPosition(i, j, k);
                 ((BlockAxle) BWRegistry.axle).breakAxle(world, tempPos.x, tempPos.y, tempPos.z);
             }
+            if (!MechanicalUtil.isPoweredByCrankOnSide(world, i, j, k, ForgeDirection.getOrientation(iFacing))) continue;
+            i += Facing.offsetsXForSide[iFacing];
+            j += Facing.offsetsYForSide[iFacing];
+            k += Facing.offsetsZForSide[iFacing];
+            tempPos = new BlockPosition(i, j, k);
+            ((BlockCrank)BWRegistry.handCrank).breakCrank(world, tempPos.x, tempPos.y, tempPos.z);
 
         }
     }

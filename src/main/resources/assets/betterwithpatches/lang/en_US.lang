@@ -13,6 +13,7 @@ tile.bwm:fcBlockCampfire.name=Campfire
 tile.bwm:infernalenchanter.name=Infernal Enchanter
 tile.bwm:fcBlockCandle_plain.name= Plain Candle
 tile.bwm:fcBlockArcaneVessel.name=Vessel of the Dragon
+tile.bwm:fcBlockAshGroundCover.name=Ash
 
 item.bwm:material.SoulFlux.name=Soul Flux
 item.bwm:material.EnderSlag.name=Ender Slag

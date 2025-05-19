@@ -27,8 +27,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 
 public class BWPRegistry {
-    public static final Material candleMaterial = new MaterialLogic(MapColor.airColor).setNoPushMobility().setRequiresTool();
-    public static final Material miscMaterial = new Material(MapColor.dirtColor);
+
+    public static final Material ashMaterial = new MaterialLogic(MapColor.stoneColor).setReplaceable().setTranslucent().setRequiresTool().setNoPushMobility();
 
     public static final CreativeTabs bwpTab = new BWPCreativeTab();
     public static final Item.ToolMaterial SOULFORGED_TOOL = EnumHelper.addToolMaterial("soulforgedSteel", 4, 2250, 10f, 3, 22);
@@ -42,7 +42,9 @@ public class BWPRegistry {
     public static Block campfire;
     public static Block infernalEnchanter;
     public static Block arcanevessel;
+    public static Block ashCoverBlock;
     public static BWPRegistry instance;
+
 
 
     public static CampfireBlock unlitCampfire;
@@ -88,6 +90,7 @@ public class BWPRegistry {
         mediumCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 2).setLightLevel(0.5F), ItemBlock.class, "Campfirewithmediumfire");
         largeCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 3).setLightLevel(0.875F), ItemBlock.class, "Campfirewithbigfire");
         GameRegistry.registerTileEntity(CampfireTileEntity.class, "bwm.fcBlockCampfire");
+        ashCoverBlock = (AshGroundCoverBlock)GameRegistry.registerBlock(new AshGroundCoverBlock(), ItemBlock.class,"fcBlockAshGroundCover");
 
         arcanevessel = GameRegistry.registerBlock(new ArcaneVesselBlock().setCreativeTab((BWPRegistry.bwpTab)), ItemBlock.class, "fcBlockArcaneVessel");
         GameRegistry.registerTileEntity(ArcaneVesselTileEntity.class, "bwm.fcBlockArcaneVessel");
