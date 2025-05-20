@@ -12,6 +12,7 @@ import mods.betterwithpatches.compat.minetweaker.util.MTHelper;
 import mods.betterwithpatches.compat.nei.NEIBWMConfig;
 import mods.betterwithpatches.craft.*;
 import mods.betterwithpatches.event.*;
+import mods.betterwithpatches.event.blockbreakers.BreakinDusts;
 import mods.betterwithpatches.event.chonkycampfire.Wetrytochangeitsstateslol;
 import mods.betterwithpatches.event.chonkycampfire.campfirelightupEvent;
 import mods.betterwithpatches.features.*;
@@ -69,6 +70,7 @@ public abstract class CommonProxy implements Proxy {
         MinecraftForge.EVENT_BUS.register(new Break3Event());
         MinecraftForge.EVENT_BUS.register(new campfirelightupEvent());
         MinecraftForge.EVENT_BUS.register(new Wetrytochangeitsstateslol());
+        MinecraftForge.EVENT_BUS.register(new BreakinDusts());
 
 
     }

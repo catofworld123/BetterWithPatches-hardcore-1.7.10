@@ -1,4 +1,4 @@
-package mods.betterwithpatches.mixins.technerdystuff;
+package mods.betterwithpatches.mixins.complex;
 
 import net.minecraft.block.Block;
 import org.spongepowered.asm.mixin.Mixin; //penis 360

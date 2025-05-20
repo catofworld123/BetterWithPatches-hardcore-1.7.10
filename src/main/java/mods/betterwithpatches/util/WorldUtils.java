@@ -59,6 +59,45 @@ public class WorldUtils {
         return false;
     }
 
+    static public boolean hasStickySnowNeighborInFullFaceContactToFacing(World world, int i, int j, int k, int iFacing)
+    {
+        BlockPosition tempBlockPos = new BlockPosition( i, j, k, ForgeDirection.getOrientation(iFacing) );
+
+
+        Block tempBlock = world.getBlock(tempBlockPos.x, tempBlockPos.y, tempBlockPos.z);
+        BTWBlockadd blockadd = (BTWBlockadd)tempBlock;
+
+        if ( tempBlock != null && blockadd.isStickyToSnow(world, tempBlockPos.x, tempBlockPos.y, tempBlockPos.z) )
+        {
+            if ( blockadd.hasContactPointToFullFace(world, tempBlockPos.x, tempBlockPos.y, tempBlockPos.z,
+                    blockadd.getFacing(iFacing^1)) )
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    static public boolean hasStickySnowNeighborInSlabSideContactToFacing(World world, int i, int j, int k, int iFacing, boolean bIsSlabUpsideDown)
+    {
+        BlockPosition tempBlockPos = new BlockPosition( i, j, k,ForgeDirection.getOrientation( iFacing) );
+
+        Block tempBlock = world.getBlock(tempBlockPos.x, tempBlockPos.y, tempBlockPos.z);
+
+        BTWBlockadd blockadd = (BTWBlockadd)tempBlock;
+
+        if ( tempBlock != null && blockadd.isStickyToSnow(world, tempBlockPos.x, tempBlockPos.y, tempBlockPos.z) )
+        {
+            if ( blockadd.hasContactPointToSlabSideFace(world, tempBlockPos.x, tempBlockPos.y, tempBlockPos.z,
+                    blockadd.getFacing(iFacing^1), bIsSlabUpsideDown) )
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static int rotateFacingForCoordBaseMode(int iFacing, int iCoordBaseMode) {
         if (iCoordBaseMode == 0) {
             if (iFacing == 2) {

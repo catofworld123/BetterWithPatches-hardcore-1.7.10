@@ -24,7 +24,7 @@ public class BWPMixinLoader {
             load(Config.furnaceHCGunpowder, "hcgunpowder.TileEntityFurnaceMixin");
             load(Config.HCFurnace, "hcfurnace.TileEntityFurnaceMixin", "hcfurnace.ContainerFurnaceMixin");
             load(Config.enablePenalties, "penalty.EntityPlayerMixin");
-            load (true, "item.BlockDropsNewLeaf", "item.BlockDropsOldLeaf", "item.Saplings","block.BlockMixin");
+            load (true, "item.BlockDropsNewLeaf", "item.BlockDropsOldLeaf", "item.Saplings","block.BlockMixin","complex.MaterialMixin");
             if (MixinEnvironment.getCurrentEnvironment().getSide() == MixinEnvironment.Side.CLIENT) {
                 load(Config.HCFurnace, "hcfurnace.client.TileEntityFurnaceMixin");
                 load(true, "client.RenderBipedMixin", "client.RenderPlayerMixin");

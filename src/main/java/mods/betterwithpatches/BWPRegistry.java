@@ -1,9 +1,6 @@
 package mods.betterwithpatches;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mods.betterwithpatches.block.*;
 import mods.betterwithpatches.block.tile.*;
 import mods.betterwithpatches.data.BWPCreativeTab;
@@ -16,15 +13,10 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLogic;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.common.util.EnumHelper;
-
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 
 public class BWPRegistry {
 
@@ -43,6 +35,15 @@ public class BWPRegistry {
     public static Block infernalEnchanter;
     public static Block arcanevessel;
     public static Block ashCoverBlock;
+    public static Block looseSparseGrass;
+    public static Block looseSparseGrassSlab;
+    public static Block looseDirt;
+    public static Block looseDirtSlab;
+    public static Block aestheticEarth;
+    public static Block grassSlab;
+    public static Block dirtSlab;
+    public static Block myceliumSlab;
+
     public static BWPRegistry instance;
 
 
@@ -109,7 +110,7 @@ public class BWPRegistry {
         dredgeHeavyLeggings = registerItem("dredgeHeavyLeggings", new ItemDredgeHeavyArmor(2));
         dredgeHeavyBoots = registerItem("dredgeHeavyBoots", new ItemDredgeHeavyArmor(3));
         itemShaft = registerItem("shaft", new ItemShaft());
-        pileOfDirt = registerItem("pileOfDirt", new PileOfDirt());
+        pileOfDirt = registerItem("pileOfDirt", new DirtPileItem());
         itemOakBark = registerItem("itemOakBark", new ItemOakBark());
         itemPointyStick = registerItem("ItemPointyStick", new ItemPointyStick());
         arcaneScroll = registerItem("ItemArcaneScroll", new ArcaneScrollItem());

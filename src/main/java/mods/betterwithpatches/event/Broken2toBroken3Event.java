@@ -20,11 +20,19 @@ public class Broken2toBroken3Event {
         int meta = event.blockMetadata;
         ItemStack log = new ItemStack(block, 1, meta);
 
+        ItemStack toremove = null;
+        boolean removeflag = false;
+
         for (ItemStack logStack : event.drops) {
             if(event.block == blocktreestage3){
                 event.drops.add(new ItemStack(itemShaft));
-                event.drops.remove(logStack);
+                removeflag = true;
+                toremove = logStack;
                 event.world.setBlock(event.x, event.y, event.z, blocktreestage4);
 
             }
-        }}}
+        }
+        if (removeflag == true) {
+            event.drops.remove(toremove);
+        }
+    }}

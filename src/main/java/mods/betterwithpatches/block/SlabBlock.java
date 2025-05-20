@@ -2,11 +2,13 @@ package mods.betterwithpatches.block;
 
 import betterwithmods.util.BlockPosition;
 import mods.betterwithpatches.BTWinfoBatch.BTWBlockadd;
+import mods.betterwithpatches.BTWinfoBatch.BTWMaterialAdd;
 import mods.betterwithpatches.util.BWPUtils;
 import mods.betterwithpatches.util.RenderUtils;
 import mods.betterwithpatches.util.WorldUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
@@ -167,9 +169,11 @@ public abstract class SlabBlock extends Block implements BTWBlockadd
     }
 
     @Override
-    public boolean canMobsSpawnOn(World world, int i, int j, int k)
+    public boolean canMobsSpawnOn( World world, int i, int j, int k)
     {
-        return blockMaterial.getMobsCanSpawnOn(world.provider.dimensionId);
+        Block block = world.getBlock(i,j,k);
+        BTWMaterialAdd materialAdd = (BTWMaterialAdd)block.getMaterial();
+        return materialAdd.getMobsCanSpawnOn(world.provider.dimensionId);
     }
 
     @Override
@@ -281,10 +285,10 @@ public abstract class SlabBlock extends Block implements BTWBlockadd
     {
         int iMetadata = world.getBlockMetadata( i, j, k );
 
-        return world.setBlock(i, j, k, getCombinedBlockID(iMetadata), getCombinedMetadata(iMetadata),2);
+        return world.setBlock(i, j, k, getCombinedBlock(iMetadata), getCombinedMetadata(iMetadata),2);
     }
 
-    public abstract int getCombinedBlockID(int iMetadata);
+    public abstract Block getCombinedBlock(int iMetadata);
 
     public int getCombinedMetadata(int iMetadata)
     {
