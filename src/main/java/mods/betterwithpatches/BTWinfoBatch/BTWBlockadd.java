@@ -1,10 +1,16 @@
 package mods.betterwithpatches.BTWinfoBatch;
 
 import betterwithmods.util.BlockPosition;
+import mods.betterwithpatches.util.BTWEffectManager;
 import mods.betterwithpatches.util.WorldUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.sound.SoundEvent;
@@ -119,6 +125,73 @@ default float mobSpawnOnVerticalOffset(World world, int i, int j, int k)
     {
         Block block = blockAccess.getBlock(i,j,k);
         return !block.isOpaqueCube();
+    }
+    default  float getMovementModifier(World world, int i, int j, int k)
+    {
+        float fModifier = 1.0F;
+        Block block = world.getBlock(i,j,k);
+        Material blockMaterial = block.getMaterial();
+
+        if ( blockMaterial != Material.ground && blockMaterial != Material.grass )
+        {
+            fModifier *= 1.2F;
+        }
+
+        return fModifier;
+    }
+    default  boolean dropComponentItemsOnBadBreak(World world, int i, int j, int k, int iMetadata, float fChanceOfDrop)
+    {
+        return false;
+    }
+    default  void dropItemsIndividually(World world, int i, int j, int k, Item iItemDropped, int iPileCount, int iDamageDropped, float fChanceOfPileDrop)
+    {
+        Block block = world.getBlock(i,j,k);
+        for ( int iTempCount = 0; iTempCount < iPileCount; iTempCount++ )
+        {
+            if ( world.rand.nextFloat() <= fChanceOfPileDrop )
+            {
+                ItemStack stack = new ItemStack(iItemDropped, 1, iDamageDropped );
+
+
+                block.dropBlockAsItem( world, i, j, k, stack );
+            }
+        }
+    }
+    default boolean canBePistonShoveled(World world, int i, int j, int k)
+    {
+        return areShovelsEffectiveOn();
+    }
+    default  boolean areShovelsEffectiveOn()
+    {
+        return false;
+    }
+    default boolean canBeGrazedOn(IBlockAccess blockAccess, int i, int j, int k,
+                                 EntityAnimal byAnimal)
+    {
+        return false;
+    }
+
+    default void onGrazed(World world, int i, int j, int k, EntityAnimal animal)
+    {
+        world.setBlockToAir( i, j, k );
+
+        Block blockBelow = world.getBlock( i, j - 1, k );
+
+        if ( blockBelow != null )
+        {
+            BTWBlockadd blockadd = (BTWBlockadd)blockBelow;
+            blockadd.onVegetationAboveGrazed(world, i, j - 1, k, animal);
+        }
+    }
+
+    default void onVegetationAboveGrazed(World world, int i, int j, int k, EntityAnimal animal)
+    {
+    }
+    default  void onBlockDestroyedWithImproperTool(World world, EntityPlayer player, int i, int j, int k, int iMetadata)
+    {
+        world.playAuxSFX( BTWEffectManager.BLOCK_DESTROYED_WITH_IMPROPER_TOOL_EFFECT_ID, i, j, k,   ( iMetadata << 12 ) );
+
+        dropComponentItemsOnBadBreak(world, i, j, k, iMetadata, 1F);
     }
 
 

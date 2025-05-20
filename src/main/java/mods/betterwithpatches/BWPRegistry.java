@@ -35,6 +35,7 @@ public class BWPRegistry {
     public static Block infernalEnchanter;
     public static Block arcanevessel;
     public static Block ashCoverBlock;
+
     public static Block looseSparseGrass;
     public static Block looseSparseGrassSlab;
     public static Block looseDirt;
@@ -42,7 +43,7 @@ public class BWPRegistry {
     public static Block aestheticEarth;
     public static Block grassSlab;
     public static Block dirtSlab;
-    public static Block myceliumSlab;
+    public static MyceliumSlabBlock myceliumSlab;
 
     public static BWPRegistry instance;
 
@@ -84,6 +85,8 @@ public class BWPRegistry {
         GameRegistry.registerTileEntity(TileEntityCampfire.class, "bwm.campfire");
         infernalEnchanter = GameRegistry.registerBlock(new InfernalEnchanterBlock().setCreativeTab(BWPRegistry.bwpTab), ItemBlock.class,"infernalenchanter");
         GameRegistry.registerTileEntity(InfernalEnchanterTileEntity.class,"bwm.infernalenchanter");
+
+        grassSlab = GameRegistry.registerBlock(new GrassSlabBlock(),ItemBlock.class, "fcBlockGrassSlab");
 
 
         unlitCampfire = (CampfireBlock)GameRegistry.registerBlock(new CampfireBlock( 0).setCreativeTab((BWPRegistry.bwpTab)), ItemBlock.class, "unlitcampfire");
